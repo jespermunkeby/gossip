@@ -1,2 +1,2 @@
 # gossip
-![alt text](https://github.com/jespermunkeby/gossip)
+![logo](https://github.com/jespermunkeby/gossip)
