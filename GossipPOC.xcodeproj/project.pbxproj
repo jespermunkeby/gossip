@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA60C74D29ED849000BE0A95 /* GossipPOCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60C74C29ED849000BE0A95 /* GossipPOCApp.swift */; };
+		DA60C74F29ED849000BE0A95 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60C74E29ED849000BE0A95 /* ContentView.swift */; };
+		DA60C75129ED849200BE0A95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA60C75029ED849200BE0A95 /* Assets.xcassets */; };
+		DA60C75429ED849200BE0A95 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA60C75329ED849200BE0A95 /* Preview Assets.xcassets */; };
+		DA60C75E29ED849200BE0A95 /* GossipPOCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60C75D29ED849200BE0A95 /* GossipPOCTests.swift */; };
+		DA60C76829ED849200BE0A95 /* GossipPOCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60C76729ED849200BE0A95 /* GossipPOCUITests.swift */; };
+		DA60C76A29ED849200BE0A95 /* GossipPOCUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60C76929ED849200BE0A95 /* GossipPOCUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA60C75A29ED849200BE0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA60C74129ED849000BE0A95 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA60C74829ED849000BE0A95;
+			remoteInfo = GossipPOC;
+		};
+		DA60C76429ED849200BE0A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA60C74129ED849000BE0A95 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA60C74829ED849000BE0A95;
+			remoteInfo = GossipPOC;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DA60C74929ED849000BE0A95 /* GossipPOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GossipPOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA60C74C29ED849000BE0A95 /* GossipPOCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipPOCApp.swift; sourceTree = "<group>"; };
+		DA60C74E29ED849000BE0A95 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DA60C75029ED849200BE0A95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA60C75329ED849200BE0A95 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DA60C75929ED849200BE0A95 /* GossipPOCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GossipPOCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA60C75D29ED849200BE0A95 /* GossipPOCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipPOCTests.swift; sourceTree = "<group>"; };
+		DA60C76329ED849200BE0A95 /* GossipPOCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GossipPOCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA60C76729ED849200BE0A95 /* GossipPOCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipPOCUITests.swift; sourceTree = "<group>"; };
+		DA60C76929ED849200BE0A95 /* GossipPOCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipPOCUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA60C74629ED849000BE0A95 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C75629ED849200BE0A95 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C76029ED849200BE0A95 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA60C74029ED849000BE0A95 = {
+			isa = PBXGroup;
+			children = (
+				DA60C74B29ED849000BE0A95 /* GossipPOC */,
+				DA60C75C29ED849200BE0A95 /* GossipPOCTests */,
+				DA60C76629ED849200BE0A95 /* GossipPOCUITests */,
+				DA60C74A29ED849000BE0A95 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA60C74A29ED849000BE0A95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA60C74929ED849000BE0A95 /* GossipPOC.app */,
+				DA60C75929ED849200BE0A95 /* GossipPOCTests.xctest */,
+				DA60C76329ED849200BE0A95 /* GossipPOCUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA60C74B29ED849000BE0A95 /* GossipPOC */ = {
+			isa = PBXGroup;
+			children = (
+				DA60C74C29ED849000BE0A95 /* GossipPOCApp.swift */,
+				DA60C74E29ED849000BE0A95 /* ContentView.swift */,
+				DA60C75029ED849200BE0A95 /* Assets.xcassets */,
+				DA60C75229ED849200BE0A95 /* Preview Content */,
+			);
+			path = GossipPOC;
+			sourceTree = "<group>";
+		};
+		DA60C75229ED849200BE0A95 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				DA60C75329ED849200BE0A95 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DA60C75C29ED849200BE0A95 /* GossipPOCTests */ = {
+			isa = PBXGroup;
+			children = (
+				DA60C75D29ED849200BE0A95 /* GossipPOCTests.swift */,
+			);
+			path = GossipPOCTests;
+			sourceTree = "<group>";
+		};
+		DA60C76629ED849200BE0A95 /* GossipPOCUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DA60C76729ED849200BE0A95 /* GossipPOCUITests.swift */,
+				DA60C76929ED849200BE0A95 /* GossipPOCUITestsLaunchTests.swift */,
+			);
+			path = GossipPOCUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA60C74829ED849000BE0A95 /* GossipPOC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA60C76D29ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOC" */;
+			buildPhases = (
+				DA60C74529ED849000BE0A95 /* Sources */,
+				DA60C74629ED849000BE0A95 /* Frameworks */,
+				DA60C74729ED849000BE0A95 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GossipPOC;
+			productName = GossipPOC;
+			productReference = DA60C74929ED849000BE0A95 /* GossipPOC.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA60C75829ED849200BE0A95 /* GossipPOCTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA60C77029ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOCTests" */;
+			buildPhases = (
+				DA60C75529ED849200BE0A95 /* Sources */,
+				DA60C75629ED849200BE0A95 /* Frameworks */,
+				DA60C75729ED849200BE0A95 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA60C75B29ED849200BE0A95 /* PBXTargetDependency */,
+			);
+			name = GossipPOCTests;
+			productName = GossipPOCTests;
+			productReference = DA60C75929ED849200BE0A95 /* GossipPOCTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DA60C76229ED849200BE0A95 /* GossipPOCUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA60C77329ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOCUITests" */;
+			buildPhases = (
+				DA60C75F29ED849200BE0A95 /* Sources */,
+				DA60C76029ED849200BE0A95 /* Frameworks */,
+				DA60C76129ED849200BE0A95 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA60C76529ED849200BE0A95 /* PBXTargetDependency */,
+			);
+			name = GossipPOCUITests;
+			productName = GossipPOCUITests;
+			productReference = DA60C76329ED849200BE0A95 /* GossipPOCUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA60C74129ED849000BE0A95 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					DA60C74829ED849000BE0A95 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					DA60C75829ED849200BE0A95 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = DA60C74829ED849000BE0A95;
+					};
+					DA60C76229ED849200BE0A95 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = DA60C74829ED849000BE0A95;
+					};
+				};
+			};
+			buildConfigurationList = DA60C74429ED849000BE0A95 /* Build configuration list for PBXProject "GossipPOC" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DA60C74029ED849000BE0A95;
+			productRefGroup = DA60C74A29ED849000BE0A95 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA60C74829ED849000BE0A95 /* GossipPOC */,
+				DA60C75829ED849200BE0A95 /* GossipPOCTests */,
+				DA60C76229ED849200BE0A95 /* GossipPOCUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA60C74729ED849000BE0A95 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA60C75429ED849200BE0A95 /* Preview Assets.xcassets in Resources */,
+				DA60C75129ED849200BE0A95 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C75729ED849200BE0A95 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C76129ED849200BE0A95 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA60C74529ED849000BE0A95 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA60C74F29ED849000BE0A95 /* ContentView.swift in Sources */,
+				DA60C74D29ED849000BE0A95 /* GossipPOCApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C75529ED849200BE0A95 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA60C75E29ED849200BE0A95 /* GossipPOCTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA60C75F29ED849200BE0A95 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA60C76A29ED849200BE0A95 /* GossipPOCUITestsLaunchTests.swift in Sources */,
+				DA60C76829ED849200BE0A95 /* GossipPOCUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA60C75B29ED849200BE0A95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA60C74829ED849000BE0A95 /* GossipPOC */;
+			targetProxy = DA60C75A29ED849200BE0A95 /* PBXContainerItemProxy */;
+		};
+		DA60C76529ED849200BE0A95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA60C74829ED849000BE0A95 /* GossipPOC */;
+			targetProxy = DA60C76429ED849200BE0A95 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DA60C76B29ED849200BE0A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA60C76C29ED849200BE0A95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA60C76E29ED849200BE0A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"GossipPOC/Preview Content\"";
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow Bluetooh usage";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow bluetooth for discovering peripherals";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DA60C76F29ED849200BE0A95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"GossipPOC/Preview Content\"";
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow Bluetooh usage";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow bluetooth for discovering peripherals";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DA60C77129ED849200BE0A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GossipPOC.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GossipPOC";
+			};
+			name = Debug;
+		};
+		DA60C77229ED849200BE0A95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GossipPOC.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GossipPOC";
+			};
+			name = Release;
+		};
+		DA60C77429ED849200BE0A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = GossipPOC;
+			};
+			name = Debug;
+		};
+		DA60C77529ED849200BE0A95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = test.GossipPOCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = GossipPOC;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA60C74429ED849000BE0A95 /* Build configuration list for PBXProject "GossipPOC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA60C76B29ED849200BE0A95 /* Debug */,
+				DA60C76C29ED849200BE0A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA60C76D29ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA60C76E29ED849200BE0A95 /* Debug */,
+				DA60C76F29ED849200BE0A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA60C77029ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOCTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA60C77129ED849200BE0A95 /* Debug */,
+				DA60C77229ED849200BE0A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA60C77329ED849200BE0A95 /* Build configuration list for PBXNativeTarget "GossipPOCUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA60C77429ED849200BE0A95 /* Debug */,
+				DA60C77529ED849200BE0A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA60C74129ED849000BE0A95 /* Project object */;
+}
