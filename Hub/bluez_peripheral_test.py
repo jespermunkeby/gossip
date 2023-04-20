@@ -2,12 +2,11 @@
 
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
-from bluez_peripheral.agent import NoIoAgent
+#from bluez_peripheral.agent import TestAgent
+#from bluez_peripheral.agent import AgentCapability
 from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
 import asyncio
-import time
-
 import struct
 
 UUID = "E20A39F4-73F5-4BC4-A12F-17D1AD07A961"
@@ -34,9 +33,8 @@ class HeartRateService(Service):
         # flags = 0
 
         # Bluetooth data is little endian.
-        rate = struct.pack("<512s", new_rate)
+        rate = struct.pack("<11s", new_rate)
         self.heart_rate_measurement.changed(rate)
-        time.sleep(5)
 
     def end_of_msg(self):
         rate = struct.pack("<3s", "EOM".encode())
@@ -50,9 +48,9 @@ async def main():
     await service.register(bus)
 
     # An agent is required to handle pairing
-    agent = NoIoAgent()
+  #  agent = TestAgent(AgentCapability.NO_INPUT_NO_OUTPUT)
     # This script needs superuser for this to work.
-    await agent.register(bus)
+  #  await agent.register(bus)
 
     adapter = await Adapter.get_first(bus)
 
@@ -62,12 +60,12 @@ async def main():
 
     while True:
         # Update the heart rate.
-        service.update_heart_rate(("H"*500 + "a"*12).encode())
+        service.update_heart_rate(("Hello World!").encode())
         # Handle dbus requests..
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
         service.end_of_msg()
         # Handle dbus requests..
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
 
 
     await bus.wait_for_disconnect()
