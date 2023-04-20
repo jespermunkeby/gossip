@@ -12,14 +12,14 @@ import struct
 UUID = "E20A39F4-73F5-4BC4-A12F-17D1AD07A961"
 CHARACTERISTIC_UUID = "08590F7E-DB05-467E-8757-72F6FAEB13D4"
 
-class HeartRateService(Service):
+class MessageService(Service):
     def __init__(self):
         # Base 16 service UUID, This should be a primary service.
         # super().__init__("180D", True)
         super().__init__(UUID, True)
 
     @characteristic(CHARACTERISTIC_UUID, CharFlags.NOTIFY)
-    def heart_rate_measurement(self, options):
+    def post(self, options):
         # This function is called when the characteristic is read.
         # Since this characteristic is notify only this function is a placeholder.
         # You don't need this function Python 3.9+ (See PEP 614).
@@ -27,24 +27,25 @@ class HeartRateService(Service):
         # (see Advanced Characteristics and Descriptors Documentation).
         pass
 
-    def update_heart_rate(self, new_rate):
+    def send_message(self, new_message):
         # Call this when you get a new heartrate reading.
         # Note that notification is asynchronous (you must await something at some point after calling this).
         # flags = 0
+        length = len(new_message)
 
         # Bluetooth data is little endian.
-        rate = struct.pack("<11s", new_rate)
-        self.heart_rate_measurement.changed(rate)
+        message = struct.pack("<" + str(length) + "s", new_message.encode())
+        self.post.changed(message)
 
     def end_of_msg(self):
         rate = struct.pack("<3s", "EOM".encode())
-        self.heart_rate_measurement.changed(rate)
+        self.post.changed(rate)
 
 async def main():
     # Alternativly you can request this bus directly from dbus_next.
     bus = await get_message_bus()
 
-    service = HeartRateService()
+    service = MessageService()
     await service.register(bus)
 
     # An agent is required to handle pairing
@@ -60,7 +61,7 @@ async def main():
 
     while True:
         # Update the heart rate.
-        service.update_heart_rate(("Hello World!").encode())
+        service.send_message("Hello everyone at the presentation, I hope you are all doing fine!")
         # Handle dbus requests..
         await asyncio.sleep(1)
         service.end_of_msg()
