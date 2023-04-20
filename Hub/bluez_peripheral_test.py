@@ -1,9 +1,12 @@
+#!/usr/bin/python3
+
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
 from bluez_peripheral.agent import NoIoAgent
 from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
 import asyncio
+import time
 
 import struct
 
@@ -21,17 +24,22 @@ class HeartRateService(Service):
         # This function is called when the characteristic is read.
         # Since this characteristic is notify only this function is a placeholder.
         # You don't need this function Python 3.9+ (See PEP 614).
-        # You can generally ignore the options argument 
+        # You can generally ignore the options argument
         # (see Advanced Characteristics and Descriptors Documentation).
         pass
 
     def update_heart_rate(self, new_rate):
         # Call this when you get a new heartrate reading.
         # Note that notification is asynchronous (you must await something at some point after calling this).
-        flags = 0
+        # flags = 0
 
         # Bluetooth data is little endian.
-        rate = struct.pack("<BB", flags, new_rate)
+        rate = struct.pack("<512s", new_rate)
+        self.heart_rate_measurement.changed(rate)
+        time.sleep(5)
+
+    def end_of_msg(self):
+        rate = struct.pack("<3s", "EOM".encode())
         self.heart_rate_measurement.changed(rate)
 
 async def main():
@@ -41,7 +49,7 @@ async def main():
     service = HeartRateService()
     await service.register(bus)
 
-    # An agent is required to handle pairing 
+    # An agent is required to handle pairing
     agent = NoIoAgent()
     # This script needs superuser for this to work.
     await agent.register(bus)
@@ -49,14 +57,18 @@ async def main():
     adapter = await Adapter.get_first(bus)
 
     # Start an advert that will last for 60 seconds.
-    advert = Advertisement("P2P GOSSIP", [CHARACTERISTIC_UUID], 0x0, 60*120)
+    advert = Advertisement("P2P GOSSIP", [UUID], 0x0, 60*120)
     await advert.register(bus, adapter)
 
     while True:
         # Update the heart rate.
-        service.update_heart_rate(120)
-        # Handle dbus requests.
+        service.update_heart_rate(("H"*500 + "a"*12).encode())
+        # Handle dbus requests..
         await asyncio.sleep(5)
+        service.end_of_msg()
+        # Handle dbus requests..
+        await asyncio.sleep(5)
+
 
     await bus.wait_for_disconnect()
 
