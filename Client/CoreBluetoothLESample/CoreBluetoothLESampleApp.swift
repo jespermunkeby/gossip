@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import SwiftUI
+
+@main
+struct CoreBluetoothLESampleApp: App {
+    var body: some Scene {
+        WindowGroup {
+            let viewModel = BLEViewModel()
+            ContentView(viewModel: viewModel)
+        }
+    }
+}
