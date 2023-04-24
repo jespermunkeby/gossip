@@ -131,4 +131,3 @@ extension BLEViewModel: CBPeripheralDelegate {
         centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
     }
 }
-
