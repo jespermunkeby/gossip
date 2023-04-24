@@ -31,11 +31,11 @@ class Peripheral:
         """ Set the posts being sent out over BLE. """
         self.posts = posts
 
-    def advertise(self, quit):
+    def advertise(self, quit_event, new_posts_event):
         """ Start advertising the posts. """
-        asyncio.run(self.__run(quit))
+        asyncio.run(self.__run(quit_event, new_posts_event))
 
-    async def __run(self, quit):
+    async def __run(self, quit_event, new_posts_event):
         bus = await get_message_bus()
 
         service = MessageService()
@@ -51,5 +51,8 @@ class Peripheral:
             for message in self.posts:
                 service.send_message(message) # Send a message
                 await asyncio.sleep(DOWN_TIME)
-            if(quit.is_set()):
+                if(new_posts_event.is_set()):
+                    new_posts_event.clear()
                     break
+            if(quit_event.is_set()):
+                break
