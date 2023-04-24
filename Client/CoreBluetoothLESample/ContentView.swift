@@ -37,17 +37,28 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                ForEach(messages.indices, id: \.self) { index in
-                    MessageCard(title: "Message \(index + 1) from hub", content: messages[index])
+                if (messages.isEmpty) {
+                    // Show a loading screen until at least one message is received
+                    Text("Looking for posts...🤔")
+                        .font(.title2)
+                        .foregroundColor(.gray)
+                }else {
+                    ForEach(messages.indices, id: \.self) { index in
+                        MessageCard(title: "Message \(index + 1) from hub", content: messages[index])
+                    }
                 }
             }
         }
         .padding()
         .onReceive(viewModel.$receivedText) { newText in
-            messages.append(newText)
+            if !newText.isEmpty {
+                messages.append(newText)
+            }
         }
+
     }
 }
+
 
 
 struct ContentView_Previews: PreviewProvider {
