@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		012C3068226FD13B00BADEF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C3067226FD13B00BADEF9 /* AppDelegate.swift */; };
 		012C306F226FD13B00BADEF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 012C306E226FD13B00BADEF9 /* Assets.xcassets */; };
 		012C3072226FD13B00BADEF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 012C3070226FD13B00BADEF9 /* LaunchScreen.storyboard */; };
-		012C307A226FD27600BADEF9 /* CentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C3079226FD27600BADEF9 /* CentralViewController.swift */; };
-		012C307C226FD28C00BADEF9 /* PeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C307B226FD28C00BADEF9 /* PeripheralViewController.swift */; };
 		012C307E226FD59500BADEF9 /* TransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C307D226FD59500BADEF9 /* TransferService.swift */; };
+		0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */; };
 		2895BABC29F14094001AD11B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABB29F14094001AD11B /* ContentView.swift */; };
 		2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABD29F141FA001AD11B /* BLEViewModel.swift */; };
 		A9A7C756227E1D6200F2CC59 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9A7C755227E1D6200F2CC59 /* README.md */; };
@@ -20,13 +18,11 @@
 
 /* Begin PBXFileReference section */
 		012C3064226FD13B00BADEF9 /* CoreBluetoothLESample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreBluetoothLESample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		012C3067226FD13B00BADEF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		012C306E226FD13B00BADEF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		012C3071226FD13B00BADEF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		012C3073226FD13B00BADEF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		012C3079226FD27600BADEF9 /* CentralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralViewController.swift; sourceTree = "<group>"; };
-		012C307B226FD28C00BADEF9 /* PeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewController.swift; sourceTree = "<group>"; };
 		012C307D226FD59500BADEF9 /* TransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferService.swift; sourceTree = "<group>"; };
+		0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothLESampleApp.swift; sourceTree = "<group>"; };
 		2895BABB29F14094001AD11B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2895BABD29F141FA001AD11B /* BLEViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewModel.swift; sourceTree = "<group>"; };
 		53F76A1B5D2A119C156B3CA9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -69,15 +65,13 @@
 		012C3066226FD13B00BADEF9 /* CoreBluetoothLESample */ = {
 			isa = PBXGroup;
 			children = (
-				012C3067226FD13B00BADEF9 /* AppDelegate.swift */,
 				012C307D226FD59500BADEF9 /* TransferService.swift */,
-				012C3079226FD27600BADEF9 /* CentralViewController.swift */,
-				012C307B226FD28C00BADEF9 /* PeripheralViewController.swift */,
 				2895BABB29F14094001AD11B /* ContentView.swift */,
 				2895BABD29F141FA001AD11B /* BLEViewModel.swift */,
 				012C306E226FD13B00BADEF9 /* Assets.xcassets */,
 				012C3070226FD13B00BADEF9 /* LaunchScreen.storyboard */,
 				012C3073226FD13B00BADEF9 /* Info.plist */,
+				0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */,
 			);
 			path = CoreBluetoothLESample;
 			sourceTree = "<group>";
@@ -180,10 +174,8 @@
 			files = (
 				012C307E226FD59500BADEF9 /* TransferService.swift in Sources */,
 				2895BABC29F14094001AD11B /* ContentView.swift in Sources */,
-				012C307A226FD27600BADEF9 /* CentralViewController.swift in Sources */,
-				012C3068226FD13B00BADEF9 /* AppDelegate.swift in Sources */,
 				2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */,
-				012C307C226FD28C00BADEF9 /* PeripheralViewController.swift in Sources */,
+				0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,14 +318,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				DEVELOPMENT_TEAM = G682378MDS;
 				INFOPLIST_FILE = CoreBluetoothLESample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.CoreBluetoothLESample${SAMPLE_CODE_DISAMBIGUATOR}";
+				PRODUCT_BUNDLE_IDENTIFIER = "toturial.dev.ios-dev-tutorial";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -348,14 +340,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				DEVELOPMENT_TEAM = G682378MDS;
 				INFOPLIST_FILE = CoreBluetoothLESample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.CoreBluetoothLESample${SAMPLE_CODE_DISAMBIGUATOR}";
+				PRODUCT_BUNDLE_IDENTIFIER = "toturial.dev.ios-dev-tutorial";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
