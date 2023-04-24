@@ -2,7 +2,6 @@
 import ble_peripheral
 import post_database
 import threading
-import time
 
 database = post_database.PostDatabase()
 posts = database.get_posts()
