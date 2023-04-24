@@ -1,42 +1,54 @@
 import SwiftUI
 
-struct ContentView: View {
-    @ObservedObject var viewModel: BLEViewModel
-    @State private var receivedText: String = ""
-
+struct MessageCard: View {
+    let title: String
+    let content: String
+    @State private var isShowingContent = false
+    
     var body: some View {
         VStack {
-            Text("Received Text")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.top)
-
-            TextEditor(text: $receivedText)
-                .padding()
-                .frame(height: 300)
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-
             Button(action: {
-                viewModel.connect()
+                isShowingContent.toggle()
             }, label: {
-                Text("Connect")
+                Text(title)
                     .font(.title2)
-                    .fontWeight(.bold)
-                    .padding()
-                    .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .padding()
+                    .background(Color.green.opacity(0.7))
+                    .cornerRadius(8)
             })
-            .padding(.bottom)
+            
+            if isShowingContent {
+                Text(content)
+                    .padding()
+            }
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(12)
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct ContentView: View {
+    @ObservedObject var viewModel: BLEViewModel
+    @State private var messages: [String] = []
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                ForEach(messages.indices, id: \.self) { index in
+                    MessageCard(title: "Message \(index + 1) from hub", content: messages[index])
+                }
+            }
         }
         .padding()
         .onReceive(viewModel.$receivedText) { newText in
-            receivedText = newText
+            messages.append(newText)
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
