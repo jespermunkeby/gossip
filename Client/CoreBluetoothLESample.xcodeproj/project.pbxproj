@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		012C306F226FD13B00BADEF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 012C306E226FD13B00BADEF9 /* Assets.xcassets */; };
-		012C307E226FD59500BADEF9 /* TransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C307D226FD59500BADEF9 /* TransferService.swift */; };
 		0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */; };
 		2895BABC29F14094001AD11B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABB29F14094001AD11B /* ContentView.swift */; };
 		2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABD29F141FA001AD11B /* BLEViewModel.swift */; };
@@ -19,7 +18,6 @@
 		012C3064226FD13B00BADEF9 /* CoreBluetoothLESample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreBluetoothLESample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		012C306E226FD13B00BADEF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		012C3073226FD13B00BADEF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		012C307D226FD59500BADEF9 /* TransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferService.swift; sourceTree = "<group>"; };
 		0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothLESampleApp.swift; sourceTree = "<group>"; };
 		2895BABB29F14094001AD11B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2895BABD29F141FA001AD11B /* BLEViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewModel.swift; sourceTree = "<group>"; };
@@ -63,7 +61,6 @@
 		012C3066226FD13B00BADEF9 /* CoreBluetoothLESample */ = {
 			isa = PBXGroup;
 			children = (
-				012C307D226FD59500BADEF9 /* TransferService.swift */,
 				2895BABB29F14094001AD11B /* ContentView.swift */,
 				2895BABD29F141FA001AD11B /* BLEViewModel.swift */,
 				012C306E226FD13B00BADEF9 /* Assets.xcassets */,
@@ -168,7 +165,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				012C307E226FD59500BADEF9 /* TransferService.swift in Sources */,
 				2895BABC29F14094001AD11B /* ContentView.swift in Sources */,
 				2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */,
 				0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */,

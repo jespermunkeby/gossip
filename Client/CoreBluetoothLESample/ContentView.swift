@@ -35,27 +35,40 @@ struct ContentView: View {
     @State private var messages: [String] = []
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                if (messages.isEmpty) {
-                    // Show a loading screen until at least one message is received
-                    Text("Looking for posts...🤔")
-                        .font(.title2)
-                        .foregroundColor(.gray)
-                }else {
-                    ForEach(messages.indices, id: \.self) { index in
-                        MessageCard(title: "Message \(index + 1) from hub", content: messages[index])
+        GeometryReader { geometry in
+            ZStack {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        ForEach(messages.indices, id: \.self) { index in
+                            MessageCard(title: "Message \(index + 1) from hub", content: messages[index])
+                        }
                     }
+                    .padding()
+                }
+                .padding()
+                
+                if (messages.isEmpty) {
+                    VStack {
+                        ProgressView()
+                            .scaleEffect(2.5)
+                            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                        Text("Looking for gossip 🤔")
+                            .font(.title)
+                            .foregroundColor(.green)
+                            .padding()
+                    }
+                    .padding()
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                    .frame(width: min(geometry.size.width, geometry.size.height))
                 }
             }
         }
-        .padding()
         .onReceive(viewModel.$receivedText) { newText in
             if !newText.isEmpty {
                 messages.append(newText)
             }
         }
-
     }
 }
 
@@ -63,6 +76,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: BLEViewModel())
+        ContentView(viewModel: BLEViewModel()
+            )
     }
 }
