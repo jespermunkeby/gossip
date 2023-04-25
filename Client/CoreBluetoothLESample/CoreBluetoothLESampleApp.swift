@@ -11,10 +11,13 @@ import SwiftUI
 
 @main
 struct CoreBluetoothLESampleApp: App {
+    @StateObject var coreDataViewModel = CoreDataViewModel()
+    
     var body: some Scene {
         WindowGroup {
             let viewModel = BLEViewModel()
             ContentView(viewModel: viewModel)
+                .environmentObject(coreDataViewModel)
         }
     }
 }
