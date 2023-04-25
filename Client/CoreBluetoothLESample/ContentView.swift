@@ -3,14 +3,13 @@ import SwiftUI
 struct MessageCard: View {
     let title: String
     let content: String
-    let action: () -> Void
+    let action: (() -> Void)?
     @State private var isShowingContent = false
-    
+
     var body: some View {
         VStack {
             Button(action: {
                 isShowingContent.toggle()
-                action()
             }, label: {
                 Text(title)
                     .font(.title2)
@@ -19,10 +18,20 @@ struct MessageCard: View {
                     .background(Color.green.opacity(0.7))
                     .cornerRadius(8)
             })
-            
+
             if isShowingContent {
                 Text(content)
                     .padding()
+
+                if let action = action {
+                    Button(action: action) {
+                        Text("Save")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
             }
         }
         .padding()
@@ -54,12 +63,11 @@ struct ContentView: View {
                     SavedMessagesView()
                         .environmentObject(coreDataViewModel)
                 }
-
                 ForEach(messages.indices, id: \.self) { index in
-                    MessageCard(title: "Message \(index + 1) from hub", content: messages[index]) {
-                        // Save the message when it's tapped
+                    MessageCard(title: "Message \(index + 1) from hub", content: messages[index], action: {
+                        // Save the message when the "Save" button is tapped
                         coreDataViewModel.saveMessage(title: "Message \(index + 1) from hub", content: messages[index])
-                    }
+                    })
                 }
             }
         }
@@ -78,11 +86,7 @@ struct SavedMessagesView: View {
         NavigationView {
             List {
                 ForEach(coreDataViewModel.fetchMessages(), id: \.self) { message in
-                    VStack(alignment: .leading) {
-                        Text(message.title ?? "")
-                            .font(.headline)
-                        Text(message.content ?? "")
-                    }
+                    MessageCard(title: message.title ?? "", content: message.content ?? "", action: nil)
                 }
                 .onDelete { indexSet in
                     indexSet.forEach { index in
@@ -91,13 +95,14 @@ struct SavedMessagesView: View {
                 }
             }
             .navigationTitle("Saved Messages")
-            .navigationBarItems(trailing: EditButton())
+            .navigationBarItems(leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Back")
+            }, trailing: EditButton())
         }
     }
 }
-
-    
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
