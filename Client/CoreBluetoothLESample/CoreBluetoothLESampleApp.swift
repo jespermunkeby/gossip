@@ -9,6 +9,8 @@
 import Foundation
 import SwiftUI
 
+
+
 @main
 struct CoreBluetoothLESampleApp: App {
     @StateObject var coreDataViewModel = CoreDataViewModel()
