@@ -7,6 +7,7 @@ from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicF
 import asyncio
 import struct
 
+
 class MessageService(Service):
     """ Service for sending messages """
 
@@ -23,10 +24,13 @@ class MessageService(Service):
         length = len(new_message)
         message = struct.pack("<" + str(length) + "s", new_message.encode())
         self.post.changed(message)
-        
+
 
 class Peripheral:
     """ Handles BLE communication as a peripheral. """
+
+    def __init__(self):
+        self.posts = None
 
     def set_posts(self, posts):
         """ Set the posts being sent out over BLE. """
@@ -53,10 +57,10 @@ class Peripheral:
             while True:
                 service.send_message(self.posts[index])
                 await asyncio.sleep(DOWN_TIME)
-                if(quit_event.is_set()):
+                if quit_event.is_set():
                     break
-                if(new_posts_event.is_set()):
+                if new_posts_event.is_set():
                     new_posts_event.clear()
                     break
-            if(quit_event.is_set()):
+            if quit_event.is_set():
                 break

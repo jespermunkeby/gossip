@@ -1,6 +1,7 @@
 import sqlite3
 from util import DATABASE_FILE
 
+
 class PostDatabase:
     """ Handles communication with post database. """
 
@@ -12,7 +13,7 @@ class PostDatabase:
 
     def __create_table(self):
         res = self.cursor.execute("SELECT name FROM sqlite_master WHERE name='post'")
-        if(res.fetchone() is None):
+        if res.fetchone() is None:
             self.cursor.execute("CREATE TABLE post(content PRIMARY KEY)")
 
     def add_post(self, new_post):
@@ -22,7 +23,7 @@ class PostDatabase:
     def get_posts(self):
         """ Get all posts in the database as a list. """
         return self.cursor.execute("SELECT content FROM post").fetchall()
-    
+
     def clear(self):
         self.cursor.execute("DELETE FROM post")
         self.connection.commit()
