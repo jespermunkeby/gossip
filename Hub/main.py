@@ -8,13 +8,16 @@ def update_posts():
     print("* broadcasting: " + str(posts))
     peripheral.set_posts(posts)
 
+def add_post(post):
+    database.add_post(post)
+    new_posts_event.set()
 
 print("q: quit, c: clear database, write anything else to add message")
 
 quit_event = threading.Event()
 new_posts_event = threading.Event()
 
-database = post_database.PostDatabase(new_posts_event)
+database = post_database.PostDatabase()
 
 peripheral =  ble_peripheral.Peripheral()
 update_posts()
@@ -33,6 +36,6 @@ while(True):
         print("* cleared database")
         database.clear()
     elif(i != ''):
-        database.add_post(i)
+        add_post(i)
         update_posts()
 

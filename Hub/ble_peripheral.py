@@ -1,3 +1,4 @@
+import random
 from util import CHARACTERISTIC_UUID, UUID, HUB_NAME, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
@@ -48,9 +49,12 @@ class Peripheral:
         await advert.register(bus, adapter)
 
         while True:
-            for message in self.posts:
-                service.send_message(message) # Send a message
+            index = random.randrange(0, len(self.posts))
+            while True:
+                service.send_message(self.posts[index])
                 await asyncio.sleep(DOWN_TIME)
+                if(quit_event.is_set()):
+                    break
                 if(new_posts_event.is_set()):
                     new_posts_event.clear()
                     break
