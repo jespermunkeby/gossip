@@ -1,8 +1,15 @@
 #!/usr/bin/python3
-#import ble_peripheral
+import ble_peripheral
+import logging
 import post_database
 import threading
-from logging_config import init_log
+import logging.config
+
+
+def init_log():
+    logging.basicConfig(level=logging.DEBUG,
+                        filename='log.log',
+                        format='[%(levelname)s:%(asctime)s] %(message)s')
 
 
 def update_posts():
