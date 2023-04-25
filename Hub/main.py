@@ -11,6 +11,7 @@ def update_posts():
 def add_post(post):
     database.add_post(post)
     new_posts_event.set()
+    update_posts()
 
 print("q: quit, c: clear database, write anything else to add message")
 
@@ -37,5 +38,4 @@ while(True):
         database.clear()
     elif(i != ''):
         add_post(i)
-        update_posts()
 
