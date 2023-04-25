@@ -1,10 +1,11 @@
 import sqlite3
+from util import DATABASE_FILE
 
 class PostDatabase:
     """ Handles communication with post database. """
 
     def __init__(self):
-        self.connection = sqlite3.connect("posts.db")
+        self.connection = sqlite3.connect(DATABASE_FILE)
         self.connection.row_factory = lambda cursor, row: row[0]
         self.cursor = self.connection.cursor()
         self.__create_table()
@@ -24,3 +25,4 @@ class PostDatabase:
     
     def clear(self):
         self.cursor.execute("DELETE FROM post")
+        self.connection.commit()
