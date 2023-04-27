@@ -11,11 +11,12 @@ import sys
 sys.path.insert(0, '.')
 
 class Central:
-    def __init__(self):
+    def __init__(self, store_message_cb):
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
         self.device_interface = None
         self.device_path = None
+        self.store_message_cb = store_message_cb
     # end __init__
         
     # -- Methods for discovering -- #
@@ -159,6 +160,7 @@ class Central:
 
     # -- Methods for receiving notifications -- #
     def listen_for_notifications(self, timeout):
+        self.char_interface = None
         print("Listening for notifications...")
         pc_path = self.get_char_address()
         if pc_path:
@@ -167,6 +169,7 @@ class Central:
             self.bus.add_signal_receiver(self.char_interfaces_added,
                                 dbus_interface = bc.DBUS_OM_IFACE,
                                 signal_name = "InterfacesAdded")
+            self.listening_for_characteristic = True
         self.timer_id = GLib.timeout_add(timeout, self.notifications_cleanup)
         self.mainloop.run()
     # end listen_for_notifications
@@ -188,14 +191,13 @@ class Central:
             if 'UUID' in properties:
                 if properties['UUID'] == util.CHARACTERISTIC_UUID.casefold():
                     print("P2P Gossip characteristic found")
-                    self.bus.remove_signal_receiver(self.char_interfaces_added, "InterfacesAdded")
                     self.start_notifications(path)
     # end char_interfaces_added
 
     def start_notifications(self, pc_path):
         print ("P2P Gossip characteristic path:", pc_path)
         char_proxy = self.bus.get_object(bc.BLUEZ_SERVICE_NAME, pc_path)
-        char_interface = dbus.Interface(char_proxy, bc.GATT_CHARACTERISTIC_INTERFACE)
+        self.char_interface = dbus.Interface(char_proxy, bc.GATT_CHARACTERISTIC_INTERFACE)
         self.bus.add_signal_receiver(self.post_rcvd,
                 dbus_interface = bc.DBUS_PROPERTIES,
                 signal_name = "PropertiesChanged",
@@ -204,7 +206,7 @@ class Central:
 
         try:
             print("Start notifications")
-            char_interface.StartNotify()
+            self.char_interface.StartNotify()
             print("Done starting notifications")
         except Exception as e:
             print("Failed to start notifications")
@@ -219,25 +221,34 @@ class Central:
         if 'Value' in changed:
             message = butil.dbus_to_string(changed['Value'])
             print("Message: " + str(message))
+            self.store_message_cb(message)
     # end post_rcvd
 
     def notifications_cleanup(self):
         GLib.source_remove(self.timer_id)
         self.mainloop.quit()
         self.bus.remove_signal_receiver(self.properties_changed, "PropertiesChanged")
+        if self.listening_for_characteristic:
+            self.bus.remove_signal_receiver(self.char_interfaces_added, "InterfacesAdded")
+        if self.char_interface:
+            self.char_interface.StopNotify()
     # end notifications_cleanup
 
+    # -- loop for running the program -- #
+    def run(self):
+        while True:
+            print("Scanning for devices...")
+            if (central.scan()):
+                central.select_random_device()
+                print("Connecting")
+                if central.connect() == bc.RESULT_OK:
+                    central.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
+                    print("Disconnecting")
+                    central.disconnect()
+            time.sleep(util.CENTRAL_IDLE_TIME)
+    # end run
 
 
 if __name__ == "__main__":
-    central = Central()
-    print("Scanning for devices...")
-    if (central.scan()):
-        central.select_random_device()
-        print("Connecting")
-        for i in range(4):
-            if central.connect() == bc.RESULT_OK:
-                break
-        central.listen_for_notifications(12_000)
-        print("Disconnecting")
-        central.disconnect()
+    central = Central(print)
+    central.run()
