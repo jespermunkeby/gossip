@@ -8,6 +8,7 @@ from logging.handlers import RotatingFileHandler
 
 
 def init_log():  # adapted from https://stackoverflow.com/a/56369583
+    """ Initializes logging. Should only be called once. """
     logging.basicConfig(
         handlers=[RotatingFileHandler('.hub_log.log', maxBytes=100000, backupCount=1)],
         level=logging.DEBUG,
@@ -16,44 +17,49 @@ def init_log():  # adapted from https://stackoverflow.com/a/56369583
 
 
 def update_posts():
+    """ Reads posts from the database, and updates peripheral to broadcast those posts. """
     posts = database.get_posts()
     print("* broadcasting: " + str(posts))
     peripheral.set_posts(posts)
-
-
-def add_post(post):
-    database.add_post(post)
     new_posts_event.set()
+
+
+def add_posts(posts):
+    """ Adds posts to database and calls update_posts(). """
+    database.add_posts(posts)
     update_posts()
 
 
 print("q: quit, c: clear database, write anything else to add message")
 init_log()
 
-quit_event = threading.Event()
-new_posts_event = threading.Event()
+quit_event = threading.Event()              # event telling threads to finish up to exit program
+new_posts_event = threading.Event()         # event telling peripheral to load new posts to advertise
 database = post_database.PostDatabase()
 
 peripheral = ble_peripheral.Peripheral()
 #central = ...
-update_posts()
+update_posts()              # add posts to peripheral to broadcast
+new_posts_event.clear()     # clear event, no need for it at start
 
+# create and run thread for peripheral
 peripheral_thread = threading.Thread(target=peripheral.advertise, args=(quit_event, new_posts_event))
 # central_thread = threading.Thread(target=central.<central run function>, args=(<central run function args>))
 peripheral_thread.start()
 # central_thread.start()
 
+# user input loop
 while True:
     user_input = input()
-    if user_input == 'q':
+    if user_input == 'q':           # temporary (?), user enters q to quit
         print("exiting...")
-        quit_event.set()
-        peripheral_thread.join()
-        #central_thread.join()
+        quit_event.set()            # set quit event, should get threads to finish
+        peripheral_thread.join()    # wait for peripheral thread to finish
+        # central_thread.join()
         break
-    elif user_input == 'c':
+    elif user_input == 'c':         # temporary (?), user enters c to clear database
         print("* cleared database")
         database.clear()
-    elif user_input != '':
-        add_post(user_input)
+    elif user_input != '':          # temporary (?), user enters post to add
+        add_posts([user_input])
 

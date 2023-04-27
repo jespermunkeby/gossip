@@ -53,14 +53,15 @@ class Peripheral:
         await advert.register(bus, adapter)
 
         while True:
-            index = random.randrange(0, len(self.posts))
+            index = random.randrange(0, len(self.posts))    # start broadcast at random post
             while True:
-                service.send_message(self.posts[index])
+                service.send_message(self.posts[index])     # broadcast post
+                index = (index + 1) if (index < len(self.posts)-1) else 0  # increment index within range
                 await asyncio.sleep(DOWN_TIME)
-                if quit_event.is_set():
+                if quit_event.is_set():         # break out of post loop if quit event
                     break
                 if new_posts_event.is_set():
-                    new_posts_event.clear()
-                    break
-            if quit_event.is_set():
+                    new_posts_event.clear()     # clear new post event when handled
+                    break                       # break out of post loop if new posts
+            if quit_event.is_set():             # exit outer loop to end thread if quit event
                 break
