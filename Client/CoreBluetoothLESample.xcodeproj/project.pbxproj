@@ -3,24 +3,34 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		012C306F226FD13B00BADEF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 012C306E226FD13B00BADEF9 /* Assets.xcassets */; };
+		012C3072226FD13B00BADEF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 012C3070226FD13B00BADEF9 /* LaunchScreen.storyboard */; };
 		0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */; };
+		2881B6E629F6B4B80073E206 /* MessageModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2881B6E429F6B4B80073E206 /* MessageModel.xcdatamodeld */; };
+		2881B6E829F6B5E50073E206 /* CoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2881B6E729F6B5E50073E206 /* CoreDataViewModel.swift */; };
 		2895BABC29F14094001AD11B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABB29F14094001AD11B /* ContentView.swift */; };
 		2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2895BABD29F141FA001AD11B /* BLEViewModel.swift */; };
+		28B2342A29F7F96A0087A792 /* MessageModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2342829F7F96A0087A792 /* MessageModel+CoreDataClass.swift */; };
+		28B2342B29F7F96A0087A792 /* MessageModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2342929F7F96A0087A792 /* MessageModel+CoreDataProperties.swift */; };
 		A9A7C756227E1D6200F2CC59 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9A7C755227E1D6200F2CC59 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		012C3064226FD13B00BADEF9 /* CoreBluetoothLESample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreBluetoothLESample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		012C306E226FD13B00BADEF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		012C3071226FD13B00BADEF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		012C3073226FD13B00BADEF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothLESampleApp.swift; sourceTree = "<group>"; };
+		2881B6E529F6B4B80073E206 /* MessageModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MessageModel.xcdatamodel; sourceTree = "<group>"; };
+		2881B6E729F6B5E50073E206 /* CoreDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataViewModel.swift; sourceTree = "<group>"; };
 		2895BABB29F14094001AD11B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2895BABD29F141FA001AD11B /* BLEViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewModel.swift; sourceTree = "<group>"; };
+		28B2342829F7F96A0087A792 /* MessageModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		28B2342929F7F96A0087A792 /* MessageModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		53F76A1B5D2A119C156B3CA9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		940DB595832554E780C12D56 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		A9A7C755227E1D6200F2CC59 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -41,6 +51,9 @@
 		012C305B226FD13B00BADEF9 = {
 			isa = PBXGroup;
 			children = (
+				28B2342829F7F96A0087A792 /* MessageModel+CoreDataClass.swift */,
+				28B2342929F7F96A0087A792 /* MessageModel+CoreDataProperties.swift */,
+				2881B6E429F6B4B80073E206 /* MessageModel.xcdatamodeld */,
 				A9A7C755227E1D6200F2CC59 /* README.md */,
 				012C3066226FD13B00BADEF9 /* CoreBluetoothLESample */,
 				012C3065226FD13B00BADEF9 /* Products */,
@@ -61,9 +74,11 @@
 		012C3066226FD13B00BADEF9 /* CoreBluetoothLESample */ = {
 			isa = PBXGroup;
 			children = (
+				2881B6E729F6B5E50073E206 /* CoreDataViewModel.swift */,
 				2895BABB29F14094001AD11B /* ContentView.swift */,
 				2895BABD29F141FA001AD11B /* BLEViewModel.swift */,
 				012C306E226FD13B00BADEF9 /* Assets.xcassets */,
+				012C3070226FD13B00BADEF9 /* LaunchScreen.storyboard */,
 				012C3073226FD13B00BADEF9 /* Info.plist */,
 				0537A24F29F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift */,
 			);
@@ -120,8 +135,9 @@
 		012C305C226FD13B00BADEF9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					012C3063226FD13B00BADEF9 = {
@@ -153,6 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				012C3072226FD13B00BADEF9 /* LaunchScreen.storyboard in Resources */,
 				012C306F226FD13B00BADEF9 /* Assets.xcassets in Resources */,
 				A9A7C756227E1D6200F2CC59 /* README.md in Resources */,
 			);
@@ -165,6 +182,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28B2342A29F7F96A0087A792 /* MessageModel+CoreDataClass.swift in Sources */,
+				28B2342B29F7F96A0087A792 /* MessageModel+CoreDataProperties.swift in Sources */,
+				2881B6E629F6B4B80073E206 /* MessageModel.xcdatamodeld in Sources */,
+				2881B6E829F6B5E50073E206 /* CoreDataViewModel.swift in Sources */,
 				2895BABC29F14094001AD11B /* ContentView.swift in Sources */,
 				2895BABE29F141FA001AD11B /* BLEViewModel.swift in Sources */,
 				0537A25029F6A7A100596FE6 /* CoreBluetoothLESampleApp.swift in Sources */,
@@ -172,6 +193,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		012C3070226FD13B00BADEF9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				012C3071226FD13B00BADEF9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		012C3074226FD13B00BADEF9 /* Debug */ = {
@@ -201,6 +233,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -263,6 +296,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -297,16 +331,16 @@
 			baseConfigurationReference = 940DB595832554E780C12D56 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				INFOPLIST_FILE = CoreBluetoothLESample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "toturial.dev.ios-dev-tutorial";
+				PRODUCT_BUNDLE_IDENTIFIER = test.CoreBluetoothLESample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -319,16 +353,16 @@
 			baseConfigurationReference = 940DB595832554E780C12D56 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				INFOPLIST_FILE = CoreBluetoothLESample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "toturial.dev.ios-dev-tutorial";
+				PRODUCT_BUNDLE_IDENTIFIER = test.CoreBluetoothLESample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -358,6 +392,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2881B6E429F6B4B80073E206 /* MessageModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2881B6E529F6B4B80073E206 /* MessageModel.xcdatamodel */,
+			);
+			currentVersion = 2881B6E529F6B4B80073E206 /* MessageModel.xcdatamodel */;
+			path = MessageModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 012C305C226FD13B00BADEF9 /* Project object */;
 }
