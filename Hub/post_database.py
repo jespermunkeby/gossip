@@ -17,8 +17,14 @@ class PostDatabase:
             self.cursor.execute("CREATE TABLE post(content PRIMARY KEY)")
 
     def add_post(self, new_post):
+        """ Add a post to the database. """
         self.cursor.execute("INSERT OR REPLACE INTO post VALUES ('" + new_post + "') ")
         self.connection.commit()
+
+    def add_posts(self, posts):
+        """ Add several posts to the database. """
+        for post in posts:
+            self.add_post(post)
 
     def get_posts(self):
         """ Get all posts in the database as a list. """
