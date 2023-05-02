@@ -25,9 +25,9 @@ def update_posts():
     new_posts_event.set()
 
 
-def add_posts(posts):
-    """ Adds posts to database and calls update_posts(). """
-    database.add_posts(posts)
+def add_post(post):
+    """ Adds post to database and calls update_posts(). """
+    database.add_post(post)
     update_posts()
 
 
@@ -39,7 +39,7 @@ new_posts_event = threading.Event()         # event telling peripheral to load n
 database = post_database.PostDatabase()
 
 peripheral = ble_peripheral.Peripheral()
-central = ble_central.Central()
+#central = ble_central.Central()
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
@@ -62,5 +62,5 @@ while True:
         print("* cleared database")
         database.clear()
     elif user_input != '':          # temporary (?), user enters post to add
-        add_posts([user_input])
+        add_post(user_input)
 
