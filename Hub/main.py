@@ -39,7 +39,7 @@ new_posts_event = threading.Event()         # event telling peripheral to load n
 database = post_database.PostDatabase()
 
 peripheral = ble_peripheral.Peripheral()
-central = ble_central.Central()
+#central = ble_central.Central()
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
