@@ -70,14 +70,18 @@ struct ContentView: View {
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
-            .onReceive(viewModel.$receivedText) { content in
-                if !content.isEmpty {
-                    let newFeedCard = FeedCard(
-                        title: "Message \(messages.count + 1) from hub",
-                        content: content,
+            .onReceive(BluetoothManager.shared.$sharedData) { sharedData in
+                messages = sharedData.enumerated().map { index, data in
+                    FeedCard(
+                        title: "Message \(index + 1) from hub",
+                        content: String(data: data, encoding: .utf8)!,
                         saveButtonViewModel: SaveButtonViewModel()
                     )
-                    messages.append(newFeedCard)
+                }
+            }
+            .onReceive(BluetoothManager.shared.$initialized) { ready in
+                if ready{
+                    BluetoothManager.shared.cycle(30)
                 }
             }
         }

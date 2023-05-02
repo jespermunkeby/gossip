@@ -116,6 +116,8 @@ class BluetoothManager: NSObject, ObservableObject {
     var messageSchedule: Timer!
     
     @Published private(set) var sharedData: [Data] = []
+    @Published private(set) var initialized = false
+    
     
     //override the init of NSObject
     private override init() {
@@ -152,18 +154,12 @@ class BluetoothManager: NSObject, ObservableObject {
             centralManager.cancelPeripheralConnection(targetPeripheral)
         }
     }
-    
-    func readyToCycle() -> Bool{
-        if centralManager==nil || peripheralManager==nil {
-            return false
-        }
-        
-        return (centralManager.state == .poweredOn) && (peripheralManager.state == .poweredOn)
-    }
 }
 
 extension BluetoothManager {
     func cycle(_ time: TimeInterval){
+        //TODO: remove later if scanning works, just for mocking data now
+        sharedData.append("Hello, world!".data(using: .utf8)!)
         
         //central
         startCentral()
@@ -262,6 +258,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         if peripheral.state == .poweredOn {
             print("Peripheral Manager powered on")
             initPeripheral()
+            initialized = true
             print("Peripheral initialization complete")
         } else {
             print("Peripheral Manager powered off")
