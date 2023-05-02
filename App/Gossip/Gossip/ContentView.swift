@@ -7,83 +7,93 @@ struct ContentView: View {
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
     
+    // This new State variable will hold the status of whether the SettingsView should be presented or not.
+    @State private var isSettingsNavigationActive = false
+    
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ScrollView {
-                    VStack(spacing: 20) {
-                        Button(action: {
-                            isShowingSavedMessages.toggle()
-                        }) {
-                            Text("View Saved Messages")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+        // NavigationView should be placed here, in the ContentView, not inside the HeaderView.
+        NavigationView {
+            GeometryReader { geometry in
+                ZStack {
+                    VStack{
+                        // Pass the isSettingsNavigationActive State variable to the HeaderView.
+                        HeaderView(isSettingsNavigationActive: $isSettingsNavigationActive)
+                            .frame(height: 40)
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            Button(action: {
+                                isShowingSavedMessages.toggle()
+                            }) {
+                                Text("View Saved Messages")
+                                    .padding()
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                            .sheet(isPresented: $isShowingSavedMessages) {
+                                SavedMessagesView()
+                                    .environmentObject(coreDataViewModel)
+                            }
+                            ForEach(messages.indices, id: \.self) { index in
+                                let post = FeedCard(
+                                    title: "Message \(index + 1) from hub",
+                                    content: messages[index].content,
+                                    saveButtonViewModel: SaveButtonViewModel()
+                                )
+                                FeedCardView(post: post, onSaveAction: {
+                                    coreDataViewModel.saveMessage(title: post.title, content: post.content)
+                                })
+                            }
                         }
-                        .sheet(isPresented: $isShowingSavedMessages) {
-                            SavedMessagesView()
-                                .environmentObject(coreDataViewModel)
-                        }
-                        ForEach(messages.indices, id: \.self) { index in
-                            let post = FeedCard(
-                                title: "Message \(index + 1) from hub",
-                                content: messages[index].content,
-                                saveButtonViewModel: SaveButtonViewModel()
-                            )
-                            FeedCardView(post: post, onSaveAction: {
-                                coreDataViewModel.saveMessage(title: post.title, content: post.content)
-                            })
+                        .padding(.horizontal, min(geometry.safeAreaInsets.leading, geometry.safeAreaInsets.trailing) + 20)
+                        .padding(.vertical, 20)
+                        
+                        if messages.isEmpty {
+                            VStack {
+                                ProgressView()
+                                    .scaleEffect(2.5)
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                Text("Looking for gossip 🤔")
+                                    .font(.title)
+                                    .foregroundColor(.green)
+                                    .padding()
+                            }
+                            .padding()
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .frame(width: min(geometry.size.width, geometry.size.height))
                         }
                     }
-                    .padding(.horizontal, min(geometry.safeAreaInsets.leading, geometry.safeAreaInsets.trailing) + 20)
-                    .padding(.vertical, 20)
-                    
-                    if messages.isEmpty {
-                        VStack {
-                            ProgressView()
-                                .scaleEffect(2.5)
-                                .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                            Text("Looking for gossip 🤔")
-                                .font(.title)
-                                .foregroundColor(.green)
-                                .padding()
-                        }
-                        .padding()
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
-                        .frame(width: min(geometry.size.width, geometry.size.height))
+                }
+                    Button(action: {
+                        isShowingAddPostView.toggle()
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                            .foregroundColor(.blue)
                     }
+                    .sheet(isPresented: $isShowingAddPostView) {
+                        AddPostView()
+                            .environmentObject(coreDataViewModel)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 }
-                Button(action: {
-                    isShowingAddPostView.toggle()
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.blue)
-                }
-                .sheet(isPresented: $isShowingAddPostView) {
-                    AddPostView()
-                        .environmentObject(coreDataViewModel)
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            }
-            .onReceive(viewModel.$receivedText) { content in
-                if !content.isEmpty {
-                    let newFeedCard = FeedCard(
-                        title: "Message \(messages.count + 1) from hub",
-                        content: content,
-                        saveButtonViewModel: SaveButtonViewModel()
-                    )
-                    messages.append(newFeedCard)
+                .onReceive(viewModel.$receivedText) { content in
+                    if !content.isEmpty {
+                        let newFeedCard = FeedCard(
+                            title: "Message \(messages.count + 1) from hub",
+                            content: content,
+                            saveButtonViewModel: SaveButtonViewModel()
+                        )
+                        messages.append(newFeedCard)
+                    }
                 }
             }
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
