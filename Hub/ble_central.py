@@ -14,14 +14,15 @@ class Central:
     def __init__(self, store_message_cb):
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
-        self.device_interface = None
-        self.device_path = None
         self.store_message_cb = store_message_cb
     # end __init__
         
     # -- Methods for discovering -- #
     def scan(self, scantime=util.DEFAULT_SCANTIME_MS):
         self.devices = {}
+        self.device_interface = None
+        self.device_path = None
+
         self.scantime = scantime
         self.get_known_devices(self.bus)
         self.discover_devices(self.bus, scantime)
@@ -135,7 +136,7 @@ class Central:
 
     def disconnect(self):
         if not self.device_interface:
-            return
+            return bc.RESULT_ERR_NOT_FOUND
         try:
             self.device_interface.Disconnect()
         except Exception as e:
@@ -161,10 +162,13 @@ class Central:
     # -- Methods for receiving notifications -- #
     def listen_for_notifications(self, timeout):
         self.char_interface = None
+        self.signal_receiver = None
         print("Listening for notifications...")
-        pc_path = self.get_char_address()
-        if pc_path:
-            self.start_notifications(pc_path)
+
+        self.pc_path = self.get_char_address()
+        if self.pc_path:
+            self.listening_for_characteristic = False
+            self.start_notifications()
         else:
             self.bus.add_signal_receiver(self.char_interfaces_added,
                                 dbus_interface = bc.DBUS_OM_IFACE,
@@ -191,17 +195,18 @@ class Central:
             if 'UUID' in properties:
                 if properties['UUID'] == util.CHARACTERISTIC_UUID.casefold():
                     print("P2P Gossip characteristic found")
-                    self.start_notifications(path)
+                    self.pc_path = path
+                    self.start_notifications()
     # end char_interfaces_added
 
-    def start_notifications(self, pc_path):
-        print ("P2P Gossip characteristic path:", pc_path)
-        char_proxy = self.bus.get_object(bc.BLUEZ_SERVICE_NAME, pc_path)
+    def start_notifications(self):
+        print ("P2P Gossip characteristic path:", self.pc_path)
+        char_proxy = self.bus.get_object(bc.BLUEZ_SERVICE_NAME, self.pc_path)
         self.char_interface = dbus.Interface(char_proxy, bc.GATT_CHARACTERISTIC_INTERFACE)
-        self.bus.add_signal_receiver(self.post_rcvd,
+        self.signal_receiver = self.bus.add_signal_receiver(self.post_rcvd,
                 dbus_interface = bc.DBUS_PROPERTIES,
                 signal_name = "PropertiesChanged",
-                path = pc_path,
+                path = self.pc_path,
                 path_keyword = "path")
 
         try:
@@ -227,7 +232,14 @@ class Central:
     def notifications_cleanup(self):
         GLib.source_remove(self.timer_id)
         self.mainloop.quit()
-        self.bus.remove_signal_receiver(self.properties_changed, "PropertiesChanged")
+        #self.bus.remove_signal_receiver(self.post_rcvd,
+        #        dbus_interface = bc.DBUS_PROPERTIES,
+        #        signal_name = "PropertiesChanged",
+        #        path = self.pc_path,
+        #        path_keyword = "path")
+        self.signal_receiver.remove()
+
+        #self.bus.remove_signal_receiver(self.post_rcvd, "PropertiesChanged")
         if self.listening_for_characteristic:
             self.bus.remove_signal_receiver(self.char_interfaces_added, "InterfacesAdded")
         if self.char_interface:
@@ -238,13 +250,13 @@ class Central:
     def run(self):
         while True:
             print("Scanning for devices...")
-            if (central.scan()):
-                central.select_random_device()
+            if (self.scan()):
+                self.select_random_device()
                 print("Connecting")
-                if central.connect() == bc.RESULT_OK:
-                    central.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
+                if self.connect() == bc.RESULT_OK:
+                    self.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                     print("Disconnecting")
-                    central.disconnect()
+                    self.disconnect()
             time.sleep(util.CENTRAL_IDLE_TIME)
     # end run
 
