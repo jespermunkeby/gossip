@@ -29,18 +29,20 @@ class MessageService(Service):
 class Peripheral:
     """ Handles BLE communication as a peripheral. """
 
-    def __init__(self):
+    def __init__(self, quit_event, new_posts_event):
         self.posts = None
+        self.quit_event = quit_event
+        self.new_posts_event = new_posts_event
 
     def set_posts(self, posts):
         """ Set the posts being sent out over BLE. """
         self.posts = posts
 
-    def advertise(self, quit_event, new_posts_event):
+    def advertise(self):
         """ Start advertising the posts. """
-        asyncio.run(self.__run(quit_event, new_posts_event))
+        asyncio.run(self.__run())
 
-    async def __run(self, quit_event, new_posts_event):
+    async def __run(self):
         bus = await get_message_bus()
 
         service = MessageService()
@@ -58,10 +60,10 @@ class Peripheral:
                 service.send_message(self.posts[index])     # broadcast post
                 index = (index + 1) if (index < len(self.posts)-1) else 0  # increment index within range
                 await asyncio.sleep(DOWN_TIME)
-                if quit_event.is_set():         # break out of post loop if quit event
+                if self.quit_event.is_set():         # break out of post loop if quit event
                     break
-                if new_posts_event.is_set():
-                    new_posts_event.clear()     # clear new post event when handled
+                if self.new_posts_event.is_set():
+                    self.new_posts_event.clear()     # clear new post event when handled
                     break                       # break out of post loop if new posts
-            if quit_event.is_set():             # exit outer loop to end thread if quit event
+            if self.quit_event.is_set():             # exit outer loop to end thread if quit event
                 break

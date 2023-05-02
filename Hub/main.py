@@ -38,13 +38,13 @@ quit_event = threading.Event()              # event telling threads to finish up
 new_posts_event = threading.Event()         # event telling peripheral to load new posts to advertise
 database = post_database.PostDatabase()
 
-peripheral = ble_peripheral.Peripheral()
+peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event)
 #central = ble_central.Central()
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
 # create and run thread for peripheral
-peripheral_thread = threading.Thread(target=peripheral.advertise, args=(quit_event, new_posts_event))
+peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
 # central_thread = threading.Thread(target=central.<central run function>, args=(<central run function args>))
 peripheral_thread.start()
 # central_thread.start()
