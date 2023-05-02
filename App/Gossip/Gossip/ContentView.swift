@@ -6,7 +6,6 @@ struct ContentView: View {
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
-
     
     var body: some View {
         GeometryReader { geometry in
@@ -56,24 +55,6 @@ struct ContentView: View {
                         .frame(width: min(geometry.size.width, geometry.size.height))
                     }
                 }
-            }
-            .onReceive(viewModel.$receivedText) { content in
-                if !content.isEmpty {
-                    let newFeedCard = FeedCard(
-                        title: "Message \(messages.count + 1) from hub",
-                        content: content,
-                        saveButtonViewModel: SaveButtonViewModel()
-                    )
-                    messages.append(newFeedCard)
-                }
-            }
-        }
-        VStack {
-            Spacer()
-
-            HStack {
-                Spacer()
-
                 Button(action: {
                     isShowingAddPostView.toggle()
                 }) {
@@ -87,6 +68,17 @@ struct ContentView: View {
                         .environmentObject(coreDataViewModel)
                 }
                 .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            }
+            .onReceive(viewModel.$receivedText) { content in
+                if !content.isEmpty {
+                    let newFeedCard = FeedCard(
+                        title: "Message \(messages.count + 1) from hub",
+                        content: content,
+                        saveButtonViewModel: SaveButtonViewModel()
+                    )
+                    messages.append(newFeedCard)
+                }
             }
         }
     }
@@ -98,6 +90,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(viewModel: BLEViewModel())
     }
 }
+
 
 //Uncomment this block to test how the feed looks.
 /*struct ContentView: View {
