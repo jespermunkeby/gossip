@@ -59,7 +59,7 @@ class Central:
                 connection = Connection(path, interface)
 
                 if connection.connect() == bc.RESULT_OK:
-                    nh = NotificationHandler(self.bus, path)
+                    nh = NotificationHandler(self.bus, path, self.store_message_cb)
                     nh.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                 
                 print("Disconnecting")
@@ -248,12 +248,15 @@ class NotificationHandler:
     """
     Methods for receiving notifications
     """
-    def __init__(self, bus, device_path):
+    def __init__(self, bus, device_path, store_message_cb):
         self.bus = bus
+        self.device_path = device_path
+        self.store_message_cb = store_message_cb
+        self.mainloop = GLib.MainLoop()
+
         self.char_interface = None
         self.signal_receiver = None
         self.timer_id = None
-        self.device_path = device_path
         self.pc_path = self.get_char_address()
 
     def listen_for_notifications(self, timeout):
