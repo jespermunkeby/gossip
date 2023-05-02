@@ -19,7 +19,7 @@ def init_log():  # adapted from https://stackoverflow.com/a/56369583
 
 def update_posts():
     """ Reads posts from the database, and updates peripheral to broadcast those posts. """
-    posts = database.get_posts()
+    posts = database.get_posts(content_only=True)
     print("* broadcasting: " + str(posts))
     peripheral.set_posts(posts)
     new_posts_event.set()
