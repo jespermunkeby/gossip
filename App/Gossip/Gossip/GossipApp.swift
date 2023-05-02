@@ -14,8 +14,7 @@ struct GossipApp: App {
     
     var body: some Scene {
         WindowGroup {
-            let viewModel = BLEViewModel()
-            ContentView(viewModel: viewModel)
+            ContentView()
                 .environmentObject(coreDataViewModel)
         }
     }

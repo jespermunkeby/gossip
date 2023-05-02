@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: BLEViewModel
     @EnvironmentObject var coreDataViewModel: CoreDataViewModel
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
@@ -27,7 +26,7 @@ struct ContentView: View {
                         }
                         ForEach(messages.indices, id: \.self) { index in
                             let post = FeedCard(
-                                title: "Message \(index + 1) from hub",
+                                title: "Message \(index + 1)",
                                 content: messages[index].content,
                                 saveButtonViewModel: SaveButtonViewModel()
                             )
@@ -72,16 +71,17 @@ struct ContentView: View {
             }
             .onReceive(BluetoothManager.shared.$sharedData) { sharedData in
                 messages = sharedData.enumerated().map { index, data in
-                    FeedCard(
+                    let content = String(decoding: data, as: UTF8.self)
+                    return FeedCard(
                         title: "Message \(index + 1) from hub",
-                        content: String(data: data, encoding: .utf8)!,
+                        content: content,
                         saveButtonViewModel: SaveButtonViewModel()
                     )
                 }
             }
             .onReceive(BluetoothManager.shared.$initialized) { ready in
                 if ready{
-                    BluetoothManager.shared.cycle(30)
+                    BluetoothManager.shared.cycle(scanDuration: 10, messageInterval: 0.1, cycleDuration: 15)
                 }
             }
         }
@@ -91,7 +91,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: BLEViewModel())
+        ContentView()
     }
 }
 

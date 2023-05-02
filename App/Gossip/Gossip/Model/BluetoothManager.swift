@@ -114,8 +114,8 @@ class BluetoothManager: NSObject, ObservableObject {
     //Peripheral scedulers
     var cycleSchedule: Timer!
     var messageSchedule: Timer!
-    
-    @Published private(set) var sharedData: [Data] = []
+    var scanSchedule: Timer!
+    @Published private(set) var sharedData: Set<Data> = ["3".data(using: .utf8)!, "4".data(using: .utf8)!]
     @Published private(set) var initialized = false
     
     
@@ -146,9 +146,18 @@ class BluetoothManager: NSObject, ObservableObject {
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
     }
     
-    private func startCentral(){
+    private func startCentral(scanDuration: TimeInterval){
         centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
+        // if scanSchedule != nil {scanSchedule.invalidate()} ????
+        scanSchedule = Timer.scheduledTimer(withTimeInterval: scanDuration, repeats: false) { _ in
+            if self.targetPeripheral == nil {
+                print("Target peripheral not found. Starting another scan.")
+                self.centralManager.stopScan()
+                self.startCentral(scanDuration: scanDuration)
+            }
+        }
     }
+
     private func stopCentral(){
         if targetPeripheral != nil{
             centralManager.cancelPeripheralConnection(targetPeripheral)
@@ -157,16 +166,13 @@ class BluetoothManager: NSObject, ObservableObject {
 }
 
 extension BluetoothManager {
-    func cycle(_ time: TimeInterval){
-        //TODO: remove later if scanning works, just for mocking data now
-        sharedData.append("Hello, world!".data(using: .utf8)!)
-        
+    func cycle(scanDuration: TimeInterval, messageInterval: TimeInterval, cycleDuration: TimeInterval){
         //central
-        startCentral()
+        startCentral(scanDuration: scanDuration)
         
         //peripheral
         cycleSchedule = Timer.scheduledTimer(
-            timeInterval: time,
+            timeInterval: cycleDuration,
             target: self,
             selector: #selector(self.finish),
             userInfo: nil,
@@ -185,12 +191,15 @@ extension BluetoothManager {
     @objc private func finish(){
         cycleSchedule.invalidate()
         messageSchedule.invalidate()
+        if scanSchedule != nil {scanSchedule.invalidate()}
         stopCentral()
+        print("cycle complete")
     }
     
     @objc private func changeCharacteristic(){
-        //TODO: Take from shared data
-        peripheralManager.updateValue("hello\(Int.random(in: 1..<100))".data(using: .utf8)!, for: peripheralCharacteristic, onSubscribedCentrals: nil)
+        //TODO: Not random elem, handle empty
+        peripheralManager.updateValue(sharedData.randomElement()!, for: peripheralCharacteristic, onSubscribedCentrals: nil)
+        
         print("changed characteristic")
     }
 }
@@ -201,7 +210,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
             print("Central Manager powered on")
-            startCentral()
+            startCentral(scanDuration: 10)
         } else {
             print("Central Manager powered off")
         }
@@ -209,10 +218,20 @@ extension BluetoothManager: CBCentralManagerDelegate {
     
     //When a peripheral is discovered, stop scanning, store a reference to it, and connect
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        targetPeripheral = peripheral
-        centralManager.stopScan()
-        centralManager.connect(peripheral, options: nil)
+        // Check the RSSI value of the discovered peripheral
+        let rssiThreshold: NSNumber = -70 // set your desired threshold value here
+        if RSSI.intValue > rssiThreshold.intValue {
+            // Connect to the peripheral if its RSSI value is greater than the threshold
+            targetPeripheral = peripheral
+            centralManager.stopScan()
+            centralManager.connect(peripheral, options: nil)
+        } else {
+            // Otherwise, continue scanning for other peripherals
+            print("Peripheral with weak signal ignored: \(peripheral)")
+        }
     }
+
+
     
     //When the peripheral is connected, set its delegate and discover services
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -246,7 +265,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                sharedData.append(data)
+                sharedData.insert(data)
                 print(data)
             }
         }
