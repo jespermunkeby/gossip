@@ -30,10 +30,18 @@ struct ContentView: View {
                                 content: messages[index].content,
                                 saveButtonViewModel: SaveButtonViewModel()
                             )
-                            FeedCardView(post: post, onSaveAction: {
-                                coreDataViewModel.saveMessage(title: post.title, content: post.content)
+                            FeedCardView(post: post, onSaveAction: { isSaved in
+                                if isSaved {
+                                    coreDataViewModel.saveMessage(title: post.title, content: post.content)
+                                } else {
+                                    // Find the corresponding saved message and remove it
+                                    if let message = coreDataViewModel.fetchMessages().first(where: { $0.title == post.title && $0.content == post.content }) {
+                                        coreDataViewModel.deleteMessage(message)
+                                    }
+                                }
                             })
                         }
+
                     }
                     .padding(.horizontal, min(geometry.safeAreaInsets.leading, geometry.safeAreaInsets.trailing) + 20)
                     .padding(.vertical, 20)

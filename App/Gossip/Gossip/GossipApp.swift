@@ -1,12 +1,5 @@
-//
-//  CoreBluetoothLESampleApp.swift
-//  CoreBluetoothLESample
-//
-
 import Foundation
 import SwiftUI
-
-
 
 @main
 struct GossipApp: App {
