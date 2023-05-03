@@ -47,9 +47,7 @@ struct SettingsView: View {
                 .padding(.top)
             }
             .navigationBarBackButtonHidden(true)
-            
-            Spacer()
-            
+
             HStack {
                 Spacer()
                 Button(action: {
@@ -67,8 +65,10 @@ struct SettingsView: View {
                 }
                 .padding()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         }
     }
 }
+
 
 
