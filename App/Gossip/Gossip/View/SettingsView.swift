@@ -23,13 +23,11 @@ struct SettingsView: View {
                         Text("1. Connect to the Hub wifi.")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(Color.black)
                             .padding(.horizontal)
                         
                         Text("2. After connecting, click the link below to authenticate.")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(Color.black)
                             .padding(.horizontal)
                         
                         Link(destination: URL(string: "https://www.example.com")!) {
@@ -39,7 +37,6 @@ struct SettingsView: View {
                                     .foregroundColor(.blue)
                             }
                             .font(.title2)
-                            .foregroundColor(.black)
                             .padding(.horizontal)
                         }
                     }
@@ -55,13 +52,17 @@ struct SettingsView: View {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }) {
-                        Text("Back")
-                            .font(.title)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        HStack {
+                            Image(systemName: "arrow.uturn.left")
+                                .imageScale(.large)
+                                .scaleEffect(1.5, anchor: .center)
+                        }
+                        .padding(25)
+                        .background(Color(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039))
+                        .foregroundColor(.black)
+                        .clipShape(Circle())
                     }
+
                     .padding()
                 }
             }
