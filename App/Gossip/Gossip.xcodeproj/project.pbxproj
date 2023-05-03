@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05DD955D2A0137A4007E87BA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DD955C2A0137A4007E87BA /* SettingsView.swift */; };
+		05DD955F2A0148BB007E87BA /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DD955E2A0148BA007E87BA /* HeaderView.swift */; };
 		733A627429FAA58000EB7DE0 /* GossipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A627329FAA58000EB7DE0 /* GossipApp.swift */; };
 		733A627629FAA58000EB7DE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A627529FAA58000EB7DE0 /* ContentView.swift */; };
 		733A627829FAA58000EB7DE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 733A627729FAA58000EB7DE0 /* Assets.xcassets */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05DD955C2A0137A4007E87BA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		05DD955E2A0148BA007E87BA /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		733A627029FAA58000EB7DE0 /* Gossip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gossip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		733A627329FAA58000EB7DE0 /* GossipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GossipApp.swift; sourceTree = "<group>"; };
 		733A627529FAA58000EB7DE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				733A62B629FFC6F400EB7DE0 /* saveButtonView.swift */,
 				733A62B82A00F59200EB7DE0 /* savedMessagesView.swift */,
 				733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */,
+				05DD955C2A0137A4007E87BA /* SettingsView.swift */,
+				05DD955E2A0148BA007E87BA /* HeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -328,9 +334,11 @@
 				733A62A729FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift in Sources */,
 				733A62BD2A00FC9D00EB7DE0 /* BluetoothManager.swift in Sources */,
 				733A62AE29FAAE0500EB7DE0 /* feedCard.swift in Sources */,
+				05DD955F2A0148BB007E87BA /* HeaderView.swift in Sources */,
 				733A62A329FAA74700EB7DE0 /* MessageModel.xcdatamodeld in Sources */,
 				733A62B92A00F59200EB7DE0 /* savedMessagesView.swift in Sources */,
 				733A62AB29FAA95300EB7DE0 /* BLEViewModel.swift in Sources */,
+				05DD955D2A0137A4007E87BA /* SettingsView.swift in Sources */,
 				733A62B129FAB10D00EB7DE0 /* feedCardView.swift in Sources */,
 				733A62B529FFC6E200EB7DE0 /* saveButtonViewModel.swift in Sources */,
 				733A62BB2A00FAA700EB7DE0 /* AddPostView.swift in Sources */,
