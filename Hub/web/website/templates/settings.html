@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} - Settings{% endblock %}
+
+{% block content %}
+
+<!--Build form from config file-->
+<form class="settings" method="POST">
+  {% with conf = get_config() %}
+  {% set section = namespace(prefix = '', cond=false) %}
+  
+    {% for key, value in conf.items() %}
+      {% with k = key.replace('_g_', '_game_').replace('_b_', '_bomb_').split('_') %}
+        
+        <!--Section title and section divider-->
+        {% if section.prefix != k[0] %}
+          {% if section.cond %}
+            <hr class="divider" />
+          {% endif %}
+          {% set title = get_abbr()[k[0]] %}
+          <h4 class="form-section-title">{{ title.upper() }}</h4>
+        {% endif %}
+        {% set section.prefix = k[0] %}
+        {% set section.cond = true %}
+        
+        <!--Form control-->
+        <div class="form-group {{ bg }}">
+          <label for={{ key }}>
+            {{ ' '.join(k[1:]).capitalize() }} {{ prefix }}
+          </label>
+          <input type="text" class="form-control" id={{ key }} name={{ key }} placeholder= {{ "Enter " + key }} value={{ value }}>
+        </div>
+      {% endwith %}
+    {% endfor %}
+  {% endwith %}
+  <div class="form-group"><br /></div>
+  <button type="submit" class="btn">Apply</button>
+</form>
+{% endblock %}
