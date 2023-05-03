@@ -6,15 +6,13 @@ struct ContentView: View {
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
-    @State private var isSettingsNavigationActive = false
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 ZStack {
                     VStack{
-                        HeaderView(isSettingsNavigationActive: $isSettingsNavigationActive)
-                            .frame(height: 40)
+                        HeaderView(showSettings: .constant(true))
                     ScrollView {
                         VStack(spacing: 20) {
                             Button(action: {

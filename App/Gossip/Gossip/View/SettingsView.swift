@@ -12,7 +12,9 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack {
-            NavigationView {
+            VStack {
+                HeaderView(showSettings: .constant(false))
+
                 VStack(alignment: .leading, spacing: 30) {
                     Group {
                         Text("To authenticate yourself, please follow the steps below:")
@@ -43,36 +45,30 @@ struct SettingsView: View {
                     Spacer()
                 }
                 .padding(.top)
-                
-            }.navigationBarBackButtonHidden(true) 
-            VStack {
+            }
+            .navigationBarBackButtonHidden(true)
+            
+            Spacer()
+            
+            HStack {
                 Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        HStack {
-                            Image(systemName: "arrow.uturn.left")
-                                .imageScale(.large)
-                                .scaleEffect(1.5, anchor: .center)
-                        }
-                        .padding(25)
-                        .background(Color(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039))
-                        .foregroundColor(.black)
-                        .clipShape(Circle())
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.uturn.left")
+                            .imageScale(.large)
+                            .scaleEffect(1.5, anchor: .center)
                     }
-
-                    .padding()
+                    .padding(25)
+                    .background(Color(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039))
+                    .foregroundColor(.black)
+                    .clipShape(Circle())
                 }
+                .padding()
             }
         }
     }
 }
 
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}
