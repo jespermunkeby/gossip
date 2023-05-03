@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask
 from website.settings.settings import BbSettings
 import post_database
 import sys
+from .settings.settings import BbSettings
+from views import define_views
 sys.path.insert(0, '..')
 
 def list_gen():
@@ -33,16 +35,17 @@ def create_app(update_posts):
             in the format {'key': 1, 'content': 'post'} """
         return database.get_posts()
 
+    def add_post(post):
+        database.add_post(post)
+        update_posts()
+
     app.jinja_env.globals.update(list_gen=list_gen)
     app.jinja_env.globals.update(get_config=get_config)
     app.jinja_env.globals.update(get_abbr=get_abbr)
     app.jinja_env.globals.update(get_posts=get_posts)
     app.jinja_env.globals.update(delete_post=delete_post)
-    
-    from .views import views
+
+    views = define_views(add_post, delete_post)
     app.register_blueprint(views, url_prfefix='/')
     
     return app
-
-
-
