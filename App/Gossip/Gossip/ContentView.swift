@@ -84,9 +84,9 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onReceive(BluetoothManager.shared.$sharedData) { sharedData in
-                    messages = sharedData.enumerated().map { index, data in
-                        let content = String(decoding: data, as: UTF8.self)
+                .onReceive(BluetoothManager.shared.$messages) { msgs in
+                    messages = msgs.enumerated().map { index, msg in
+                        let content = String(decoding: msg.content, as: UTF8.self)
                         return FeedCard(
                             title: "Message \(index + 1) from hub",
                             content: content,
@@ -94,9 +94,10 @@ struct ContentView: View {
                         )
                     }
                 }
-                .onReceive(BluetoothManager.shared.$initialized) { ready in
+                //TODO: chaeck both init
+                .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
                     if ready{
-                        BluetoothManager.shared.cycle(scanDuration: 10, messageInterval: 0.1, cycleDuration: 15)
+                        BluetoothManager.shared.cycle(cycleDuration: 30)
                     }
                 }
             }

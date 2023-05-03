@@ -3,7 +3,7 @@ import CoreBluetooth
 
 let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
 let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
-let messageInterval: TimeInterval = 1
+let messageInterval: TimeInterval = 0.2
 
 /*
 //OLD STUFF, might come in handy if down the line
@@ -114,11 +114,10 @@ class BluetoothManager: NSObject, ObservableObject {
     //Peripheral scedulers
     var cycleSchedule: Timer!
     var messageSchedule: Timer!
-    var scanSchedule: Timer!
-    @Published private(set) var sharedData: Set<Data> = ["3".data(using: .utf8)!, "4".data(using: .utf8)!]
-    @Published private(set) var initialized = false
-    
-    
+    @Published private(set) var messages: Set<Message> = [Message(data:"Hello, world!".data(using: .utf8)!)]
+    @Published private(set) var initialized_peripheral = false
+    @Published private(set) var initialized_central = false
+
     //override the init of NSObject
     private override init() {
         //init NSObject
@@ -145,30 +144,13 @@ class BluetoothManager: NSObject, ObservableObject {
         peripheralManager.add(service)
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
     }
-    
-    private func startCentral(scanDuration: TimeInterval){
-        centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
-        // if scanSchedule != nil {scanSchedule.invalidate()} ????
-        scanSchedule = Timer.scheduledTimer(withTimeInterval: scanDuration, repeats: false) { _ in
-            if self.targetPeripheral == nil {
-                print("Target peripheral not found. Starting another scan.")
-                self.centralManager.stopScan()
-                self.startCentral(scanDuration: scanDuration)
-            }
-        }
-    }
-
-    private func stopCentral(){
-        if targetPeripheral != nil{
-            centralManager.cancelPeripheralConnection(targetPeripheral)
-        }
-    }
 }
 
 extension BluetoothManager {
-    func cycle(scanDuration: TimeInterval, messageInterval: TimeInterval, cycleDuration: TimeInterval){
-        //central
-        startCentral(scanDuration: scanDuration)
+    func cycle(cycleDuration: TimeInterval){
+        
+        //scan
+        centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
         
         //peripheral
         cycleSchedule = Timer.scheduledTimer(
@@ -188,18 +170,25 @@ extension BluetoothManager {
         )
     }
     
+    func cycleRepeating(){
+        //cycle forever
+    }
+    
     @objc private func finish(){
         cycleSchedule.invalidate()
         messageSchedule.invalidate()
-        if scanSchedule != nil {scanSchedule.invalidate()}
-        stopCentral()
-        print("cycle complete")
+
+        if targetPeripheral != nil{
+            centralManager.cancelPeripheralConnection(targetPeripheral)
+            targetPeripheral = nil
+        }
+        
+        print("cycle finished")
     }
     
     @objc private func changeCharacteristic(){
         //TODO: Not random elem, handle empty
-        peripheralManager.updateValue(sharedData.randomElement()!, for: peripheralCharacteristic, onSubscribedCentrals: nil)
-        
+        peripheralManager.updateValue(messages.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
         print("changed characteristic")
     }
 }
@@ -210,7 +199,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
             print("Central Manager powered on")
-            startCentral(scanDuration: 10)
+            initialized_central = true
         } else {
             print("Central Manager powered off")
         }
@@ -265,7 +254,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                sharedData.insert(data)
+                messages.insert(Message(data: data))
                 print(data)
             }
         }
@@ -277,7 +266,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         if peripheral.state == .poweredOn {
             print("Peripheral Manager powered on")
             initPeripheral()
-            initialized = true
+            initialized_peripheral = true
             print("Peripheral initialization complete")
         } else {
             print("Peripheral Manager powered off")
