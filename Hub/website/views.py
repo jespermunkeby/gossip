@@ -18,6 +18,12 @@ def settings():
         
     return render_template("settings.html")
 
-@views.route("/posts")
+@views.route("/posts", methods=["GET", "POST"])
 def status():
+    if request.method == "POST":
+        keys = list(request.form.to_dict().keys())
+        if len(keys) < 0:
+            return
+        elif keys[0].startswith("delete"):
+            print("delete: " + str(keys[0]))
     return render_template("posts.html")

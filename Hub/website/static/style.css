@@ -198,3 +198,7 @@ form > .btn:hover {
 }
 /* Content - Settings end */
 
+.posts_container {
+    display: grid;
+    grid-template-columns:1fr 1fr;
+}

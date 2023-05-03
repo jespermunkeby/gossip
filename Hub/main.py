@@ -7,6 +7,7 @@ import threading
 import logging.config
 from logging.handlers import RotatingFileHandler
 from website import create_app
+from util import WEB_APP_IP, WEB_APP_PORT
 
 
 def init_log():  # adapted from https://stackoverflow.com/a/56369583
@@ -35,7 +36,7 @@ def add_post(post):
 
 def run_web_config():
     app = create_app(update_posts)
-    app.run(host="192.168.1.4", port=5000, debug=True, use_reloader=False)
+    app.run(host=WEB_APP_IP, port=WEB_APP_PORT, debug=True, use_reloader=False)
    
 
 print("q: quit, c: clear database, write anything else to add message")
@@ -66,7 +67,6 @@ while True:
         quit_event.set()            # set quit event, should get threads to finish
         #peripheral_thread.join()    # wait for peripheral thread to finish
         # central_thread.join()
-        app.shutdown()
         break
     elif user_input == 'c':         # temporary (?), user enters c to clear database
         print("* cleared database")
