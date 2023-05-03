@@ -6,17 +6,13 @@ struct ContentView: View {
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
-    
-    // This new State variable will hold the status of whether the SettingsView should be presented or not.
     @State private var isSettingsNavigationActive = false
     
     var body: some View {
-        // NavigationView should be placed here, in the ContentView, not inside the HeaderView.
         NavigationView {
             GeometryReader { geometry in
                 ZStack {
                     VStack{
-                        // Pass the isSettingsNavigationActive State variable to the HeaderView.
                         HeaderView(isSettingsNavigationActive: $isSettingsNavigationActive)
                             .frame(height: 40)
                     ScrollView {
