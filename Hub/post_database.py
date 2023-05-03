@@ -14,7 +14,8 @@ class PostDatabase:
     """ Handles communication with post database. """
 
     def __init__(self):
-        self.connection = sqlite3.connect(DATABASE_FILE)
+        sqlite3.threadsafety = 3
+        self.connection = sqlite3.connect(DATABASE_FILE, check_same_thread=False)
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
         self.__startup__()
