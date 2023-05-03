@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HeaderView: View {
     @Binding var showSettings: Bool
+    @Binding var isContentView: Bool
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         ZStack {
@@ -18,6 +20,11 @@ struct HeaderView: View {
                 Image("logo_black")
                     .resizable()
                     .frame(width: 40, height: 40)
+                    .onTapGesture {
+                   if !isContentView {
+                       presentationMode.wrappedValue.dismiss()
+                   }
+               }
                 
                 Spacer()
 
@@ -41,6 +48,7 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(showSettings: .constant(true))
+        HeaderView(showSettings: .constant(true), isContentView: .constant(true))
+
     }
 }

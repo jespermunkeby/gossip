@@ -11,7 +11,8 @@ struct ContentView: View {
             GeometryReader { geometry in
                 ZStack {
                     VStack{
-                        HeaderView(showSettings: .constant(true))
+                        HeaderView(showSettings: .constant(true), isContentView: .constant(true))
+
                         ScrollView {
                             VStack(spacing: 20) {
                                 ForEach(messages.indices, id: \.self) { index in

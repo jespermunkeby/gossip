@@ -13,7 +13,8 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             VStack {
-                HeaderView(showSettings: .constant(false))
+                HeaderView(showSettings: .constant(false), isContentView: .constant(false))
+
 
                 VStack(alignment: .leading, spacing: 30) {
                     Group {
@@ -66,6 +67,6 @@ struct SettingsView: View {
                 .padding()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-        }
+        } .background() 
     }
 }

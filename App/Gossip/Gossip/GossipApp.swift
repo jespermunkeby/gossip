@@ -9,6 +9,8 @@ struct GossipApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(coreDataViewModel)
+                .preferredColorScheme(.light)
         }
+        
     }
 }
