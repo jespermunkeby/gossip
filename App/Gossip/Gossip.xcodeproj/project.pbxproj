@@ -18,10 +18,8 @@
 		733A62A629FAA8AF00EB7DE0 /* MessageModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62A429FAA8AF00EB7DE0 /* MessageModel+CoreDataClass.swift */; };
 		733A62A729FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62A529FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift */; };
 		733A62A929FAA91400EB7DE0 /* CoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62A829FAA91400EB7DE0 /* CoreDataViewModel.swift */; };
-		733A62AB29FAA95300EB7DE0 /* BLEViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62AA29FAA95300EB7DE0 /* BLEViewModel.swift */; };
 		733A62AE29FAAE0500EB7DE0 /* feedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62AD29FAAE0500EB7DE0 /* feedCard.swift */; };
 		733A62B129FAB10D00EB7DE0 /* feedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B029FAB10D00EB7DE0 /* feedCardView.swift */; };
-		733A62B329FAB45900EB7DE0 /* feedCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B229FAB45900EB7DE0 /* feedCardViewModel.swift */; };
 		733A62B529FFC6E200EB7DE0 /* saveButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B429FFC6E200EB7DE0 /* saveButtonViewModel.swift */; };
 		733A62B729FFC6F400EB7DE0 /* saveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B629FFC6F400EB7DE0 /* saveButtonView.swift */; };
 		733A62B92A00F59200EB7DE0 /* savedMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B82A00F59200EB7DE0 /* savedMessagesView.swift */; };
@@ -61,11 +59,9 @@
 		733A62A429FAA8AF00EB7DE0 /* MessageModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MessageModel+CoreDataClass.swift"; path = "Gossip/Model/MessageModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		733A62A529FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MessageModel+CoreDataProperties.swift"; path = "Gossip/Model/MessageModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		733A62A829FAA91400EB7DE0 /* CoreDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataViewModel.swift; sourceTree = "<group>"; };
-		733A62AA29FAA95300EB7DE0 /* BLEViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewModel.swift; sourceTree = "<group>"; };
 		733A62AC29FAABA000EB7DE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		733A62AD29FAAE0500EB7DE0 /* feedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedCard.swift; sourceTree = "<group>"; };
 		733A62B029FAB10D00EB7DE0 /* feedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedCardView.swift; sourceTree = "<group>"; };
-		733A62B229FAB45900EB7DE0 /* feedCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedCardViewModel.swift; sourceTree = "<group>"; };
 		733A62B429FFC6E200EB7DE0 /* saveButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveButtonViewModel.swift; sourceTree = "<group>"; };
 		733A62B629FFC6F400EB7DE0 /* saveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveButtonView.swift; sourceTree = "<group>"; };
 		733A62B82A00F59200EB7DE0 /* savedMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savedMessagesView.swift; sourceTree = "<group>"; };
@@ -185,8 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				733A62A829FAA91400EB7DE0 /* CoreDataViewModel.swift */,
-				733A62AA29FAA95300EB7DE0 /* BLEViewModel.swift */,
-				733A62B229FAB45900EB7DE0 /* feedCardViewModel.swift */,
 				733A62B429FFC6E200EB7DE0 /* saveButtonViewModel.swift */,
 			);
 			path = ViewModel;
@@ -330,12 +324,10 @@
 				733A62AE29FAAE0500EB7DE0 /* feedCard.swift in Sources */,
 				733A62A329FAA74700EB7DE0 /* MessageModel.xcdatamodeld in Sources */,
 				733A62B92A00F59200EB7DE0 /* savedMessagesView.swift in Sources */,
-				733A62AB29FAA95300EB7DE0 /* BLEViewModel.swift in Sources */,
 				733A62B129FAB10D00EB7DE0 /* feedCardView.swift in Sources */,
 				733A62B529FFC6E200EB7DE0 /* saveButtonViewModel.swift in Sources */,
 				733A62BB2A00FAA700EB7DE0 /* AddPostView.swift in Sources */,
 				733A62A629FAA8AF00EB7DE0 /* MessageModel+CoreDataClass.swift in Sources */,
-				733A62B329FAB45900EB7DE0 /* feedCardViewModel.swift in Sources */,
 				733A627429FAA58000EB7DE0 /* GossipApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

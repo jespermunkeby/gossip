@@ -1,14 +1,10 @@
-//
-//  feedCardView.swift
-//  Gossip
-//
 import SwiftUI
 
 struct FeedCardView: View {
     let post: FeedCard
     var screenSize: CGRect = UIScreen.main.bounds
     @ObservedObject var saveButtonViewModel = SaveButtonViewModel()
-    var onSaveAction: (() -> Void)? // Add this line
+    var onSaveAction: ((Bool) -> Void)? // Update this line
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -24,8 +20,8 @@ struct FeedCardView: View {
                     .foregroundColor(.black)
 
                 SaveButtonView(isFilled: saveButtonViewModel.isSaved, saveButtonAction: {
-                    onSaveAction?() // Use the onSaveAction closure here
                     saveButtonViewModel.toggleSaved(for: post)
+                    onSaveAction?(saveButtonViewModel.isSaved) // Use the onSaveAction closure here
                 })
             }
         }
@@ -35,10 +31,11 @@ struct FeedCardView: View {
                 .fill(Color.white)
                 .shadow(radius: 10)
         )
-        //.frame(maxWidth: screenSize.width - 50)// Change the width of the card here
         .scenePadding()
     }
 }
+
+
 
 struct FeedCardView_Previews: PreviewProvider {
     static var post = FeedCard.sampleData[1]

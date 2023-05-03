@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: BLEViewModel
     @EnvironmentObject var coreDataViewModel: CoreDataViewModel
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
@@ -12,72 +11,88 @@ struct ContentView: View {
             ZStack {
                 ScrollView {
                     VStack(spacing: 20) {
-                        Button(action: {
-                            isShowingSavedMessages.toggle()
-                        }) {
-                            Text("View Saved Messages")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                        ForEach(messages.indices, id: \.self) { index in
+                            let post = FeedCard(
+                                title: "Message \(index + 1)",
+                                content: messages[index].content,
+                                saveButtonViewModel: SaveButtonViewModel()
+                            )
+                            FeedCardView(post: post, onSaveAction: { isSaved in
+                                if isSaved {
+                                    coreDataViewModel.saveMessage(title: post.title, content: post.content)
+                                } else {
+                                    // Find the corresponding saved message and remove it
+                                    if let message = coreDataViewModel.fetchMessages().first(where: { $0.title == post.title && $0.content == post.content }) {
+                                        coreDataViewModel.deleteMessage(message)
+                                    }
+                                }
+                            })
                         }
+
+                    }
+                    .padding(.horizontal, min(geometry.safeAreaInsets.leading, geometry.safeAreaInsets.trailing) + 20)
+                    .padding(.vertical, 20)
+                }
+                
+                VStack {
+                    Spacer()
+
+                    HStack(spacing: -20) {
+                        Spacer()
+
+                        Button(action: {
+                            isShowingSavedMessages = true
+                        }) {
+                            ZStack {
+                                Circle()
+                                    .foregroundColor(Color(#colorLiteral(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039, alpha: 1)))
+                                    .frame(width: 50, height: 50)
+
+                                Image(systemName: "heart")
+                                    .foregroundColor(.black)
+                                    .frame(width: 20, height: 20)
+                            }
+                        }
+                        .padding()
                         .sheet(isPresented: $isShowingSavedMessages) {
                             SavedMessagesView()
                                 .environmentObject(coreDataViewModel)
                         }
-                        ForEach(messages.indices, id: \.self) { index in
-                            let post = FeedCard(
-                                title: "Message \(index + 1) from hub",
-                                content: messages[index].content,
-                                saveButtonViewModel: SaveButtonViewModel()
-                            )
-                            FeedCardView(post: post, onSaveAction: {
-                                coreDataViewModel.saveMessage(title: post.title, content: post.content)
-                            })
-                        }
-                    }
-                    .padding(.horizontal, min(geometry.safeAreaInsets.leading, geometry.safeAreaInsets.trailing) + 20)
-                    .padding(.vertical, 20)
-                    
-                    if messages.isEmpty {
-                        VStack {
-                            ProgressView()
-                                .scaleEffect(2.5)
-                                .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                            Text("Looking for gossip 🤔")
-                                .font(.title)
-                                .foregroundColor(.green)
-                                .padding()
+
+                        Button(action: {
+                            isShowingAddPostView = true
+                        }) {
+                            ZStack {
+                                Circle()
+                                    .foregroundColor(Color(#colorLiteral(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039, alpha: 1)))
+                                    .frame(width: 60, height: 60)
+
+                                Image(systemName: "plus")
+                                    .foregroundColor(.black)
+                                    .frame(width: 50, height: 50)
+                            }
                         }
                         .padding()
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
-                        .frame(width: min(geometry.size.width, geometry.size.height))
+                        .sheet(isPresented: $isShowingAddPostView) {
+                            AddPostView()
+                                .environmentObject(coreDataViewModel)
+                        }
                     }
                 }
-                Button(action: {
-                    isShowingAddPostView.toggle()
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.blue)
-                }
-                .sheet(isPresented: $isShowingAddPostView) {
-                    AddPostView()
-                        .environmentObject(coreDataViewModel)
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
-            .onReceive(viewModel.$receivedText) { content in
-                if !content.isEmpty {
-                    let newFeedCard = FeedCard(
-                        title: "Message \(messages.count + 1) from hub",
+            .onReceive(BluetoothManager.shared.$sharedData) { sharedData in
+                messages = sharedData.enumerated().map { index, data in
+                    let content = String(decoding: data, as: UTF8.self)
+                    return FeedCard(
+                        title: "Message \(index + 1) from hub",
                         content: content,
                         saveButtonViewModel: SaveButtonViewModel()
                     )
-                    messages.append(newFeedCard)
+                }
+            }
+            .onReceive(BluetoothManager.shared.$initialized) { ready in
+                if ready{
+                    BluetoothManager.shared.cycle(scanDuration: 10, messageInterval: 0.1, cycleDuration: 15)
                 }
             }
         }
@@ -87,9 +102,11 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: BLEViewModel())
+        ContentView()
     }
 }
+
+
 
 
 //Uncomment this block to test how the feed looks.

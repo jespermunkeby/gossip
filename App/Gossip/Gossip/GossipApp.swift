@@ -1,12 +1,5 @@
-//
-//  CoreBluetoothLESampleApp.swift
-//  CoreBluetoothLESample
-//
-
 import Foundation
 import SwiftUI
-
-
 
 @main
 struct GossipApp: App {
@@ -14,8 +7,7 @@ struct GossipApp: App {
     
     var body: some Scene {
         WindowGroup {
-            let viewModel = BLEViewModel()
-            ContentView(viewModel: viewModel)
+            ContentView()
                 .environmentObject(coreDataViewModel)
         }
     }
