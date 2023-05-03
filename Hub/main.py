@@ -31,6 +31,18 @@ def add_post(post):
     update_posts()
 
 
+def delete_post(key):
+    """ Deletes post in database and calls update_posts(). """
+    database.delete_post(key)
+    update_posts()
+
+
+def get_posts():
+    """ Returns all the posts in the database as an array of dictionaries
+        in the format {'key': 1, 'content': 'post'} """
+    return database.get_posts()
+
+
 print("q: quit, c: clear database, write anything else to add message")
 init_log()
 
