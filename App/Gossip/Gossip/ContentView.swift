@@ -86,16 +86,18 @@ struct ContentView: View {
                     }
                 }
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
-                    messages = msgs.enumerated().map { index, msg in
+                    let sortedArray = Array(msgs).sorted { $0.pickupTime > $1.pickupTime }
+                    messages = sortedArray.enumerated().map { index, msg in
                         let content = String(decoding: msg.content, as: UTF8.self)
                         return FeedCard(
                             title: "Message \(index + 1) from hub",
                             content: content,
-                            receivedDate: Date(),
+                            receivedDate: msg.pickupTime,
                             saveButtonViewModel: SaveButtonViewModel()
                         )
                     }
                 }
+
 
                 //TODO: chaeck both init
                 .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
