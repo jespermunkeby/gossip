@@ -27,6 +27,7 @@
 		733A62B92A00F59200EB7DE0 /* savedMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62B82A00F59200EB7DE0 /* savedMessagesView.swift */; };
 		733A62BB2A00FAA700EB7DE0 /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */; };
 		733A62BD2A00FC9D00EB7DE0 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */; };
+		DA209CF52A028B2E007B68D1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA209CF42A028B2E007B68D1 /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		733A62B82A00F59200EB7DE0 /* savedMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savedMessagesView.swift; sourceTree = "<group>"; };
 		733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
 		733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		DA209CF42A028B2E007B68D1 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				733A629F29FAA67000EB7DE0 /* View */,
 				733A629D29FAA64F00EB7DE0 /* Model */,
 				733A627329FAA58000EB7DE0 /* GossipApp.swift */,
+				DA209CF42A028B2E007B68D1 /* Message.swift */,
 				733A627529FAA58000EB7DE0 /* ContentView.swift */,
 				733A627729FAA58000EB7DE0 /* Assets.xcassets */,
 				733A627929FAA58000EB7DE0 /* Preview Content */,
@@ -335,6 +338,7 @@
 				733A62B529FFC6E200EB7DE0 /* saveButtonViewModel.swift in Sources */,
 				733A62BB2A00FAA700EB7DE0 /* AddPostView.swift in Sources */,
 				733A62A629FAA8AF00EB7DE0 /* MessageModel+CoreDataClass.swift in Sources */,
+				DA209CF52A028B2E007B68D1 /* Message.swift in Sources */,
 				733A627429FAA58000EB7DE0 /* GossipApp.swift in Sources */,
 				05DD95632A026BA2007E87BA /* HeaderView.swift in Sources */,
 			);
@@ -496,7 +500,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
@@ -513,7 +517,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -531,7 +535,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
@@ -548,7 +552,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
