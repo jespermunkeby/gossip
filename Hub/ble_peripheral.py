@@ -50,7 +50,7 @@ class Peripheral:
 
         adapter = await Adapter.get_first(bus)
 
-        # Start an advert that will last for 60 seconds.
+        # Start an advert.
         advert = Advertisement(HUB_NAME, [UUID], APPEARANCE, ADVERTISEMENT_TIME)
         await advert.register(bus, adapter)
 

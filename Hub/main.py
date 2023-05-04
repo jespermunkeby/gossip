@@ -6,6 +6,7 @@ import post_database
 import threading
 import logging.config
 from logging.handlers import RotatingFileHandler
+import os
 
 
 def init_log():  # adapted from https://stackoverflow.com/a/56369583
@@ -31,6 +32,11 @@ def add_post(post):
     update_posts()
 
 
+os.system("sudo systemctl restart bluetooth")
+# https://man.archlinux.org/man/bt-agent.1.en
+#os.system("bt-agent --capability=NoInputNoOutput -d") #new pairing agent with NoInputNoOutput set
+os.system("bt-adapter --set Pairable off")
+
 print("q: quit, c: clear database, write anything else to add message")
 init_log()
 
@@ -39,15 +45,15 @@ new_posts_event = threading.Event()         # event telling peripheral to load n
 database = post_database.PostDatabase()
 
 peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event)
-#central = ble_central.Central()
+central = ble_central.Central(add_post)
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
 # create and run thread for peripheral
 peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
-# central_thread = threading.Thread(target=central.<central run function>, args=(<central run function args>))
+central_thread = threading.Thread(target=central.run, args=())
 peripheral_thread.start()
-# central_thread.start()
+central_thread.start()
 
 # user input loop
 while True:
@@ -56,7 +62,7 @@ while True:
         print("exiting...")
         quit_event.set()            # set quit event, should get threads to finish
         peripheral_thread.join()    # wait for peripheral thread to finish
-        # central_thread.join()
+        central_thread.join()
         break
     elif user_input == 'c':         # temporary (?), user enters c to clear database
         print("* cleared database")
