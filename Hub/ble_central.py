@@ -343,7 +343,8 @@ class NotificationHandler:
         """
         GLib.source_remove(self.timer_id)
         self.mainloop.quit()
-        self.signal_receiver.remove()
+        if self.signal_receiver:
+            self.signal_receiver.remove()
         if self.char_interface:
             self.char_interface.StopNotify()
     # end notifications_cleanup
