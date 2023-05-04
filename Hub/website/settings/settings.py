@@ -7,7 +7,7 @@ FILE_NAME = "config.json"
 FILE_PATH = '/'.join((ROOT_DIR, FILE_NAME))
 DEFAULT_CONFIG = {
         "hub_name": { "name": "Hub name", "value": "Gossip Hub", "type": "text" },
-        "rcv_posts": { "name": "Receive posts", "value": True, "type": "checkbox" }
+        "rcv_posts": { "name": "Receive posts", "value": False, "type": "checkbox" }
 }
 
 def read_config():

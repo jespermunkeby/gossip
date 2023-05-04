@@ -23,11 +23,11 @@ class Central:
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
         self.store_message_cb = store_message_cb
-        self.central_active = central_active
+        self.central_active = False
     # end __init__
 
-    def toggle_central_active(self):
-        self.central_active = not self.central_active
+    def toggle_central_active(self, active):
+        self.central_active = active
     
     def select_random_device(self, devices):
         """
@@ -68,7 +68,6 @@ class Central:
                 
                 print("Disconnecting")
                 connection.disconnect()
-
             time.sleep(util.CENTRAL_IDLE_TIME)
     # end run
 

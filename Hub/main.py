@@ -45,12 +45,11 @@ init_log()
 quit_event = threading.Event()              # event telling threads to finish up to exit program
 new_posts_event = threading.Event()         # event telling peripheral to load new posts to advertise
 database = post_database.PostDatabase()
-#settings = read_config()
-settings = {"hub_name" : "Gray Hub", "rcv_posts" : False}
+settings = read_config()
 
 """Initialize peripheral and central with current settings"""
-peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event, hub_name = settings["hub_name"])
-central = ble_central.Central(add_post, central_active = settings["rcv_posts"])
+peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event, hub_name = settings["hub_name"]["value"])
+central = ble_central.Central(add_post, central_active = settings["rcv_posts"]["value"])
 
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
