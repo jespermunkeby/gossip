@@ -99,7 +99,7 @@ struct ContentView: View {
                 //TODO: chaeck both init
                 .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
                     if ready{
-                        BluetoothManager.shared.cycle(cycleDuration: 30)
+                        BluetoothManager.shared.cycle()
                     }
                 }
             }

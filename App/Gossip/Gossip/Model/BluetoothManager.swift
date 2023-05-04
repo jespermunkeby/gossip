@@ -3,7 +3,11 @@ import CoreBluetooth
 
 let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
 let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
+
+//TODO: try these out
 let messageInterval: TimeInterval = 5
+let cycleDuration: TimeInterval = 15
+let maxRandomDurationDeviation: TimeInterval = 5
 
 /*
 //OLD STUFF, might come in handy if down the line
@@ -114,7 +118,7 @@ class BluetoothManager: NSObject, ObservableObject {
     //Peripheral scedulers
     var cycleSchedule: Timer!
     var messageSchedule: Timer!
-    @Published private(set) var messages: Set<Message> = [Message(data:"Hello, world!".data(using: .utf8)!)]
+    @Published private(set) var messages: Set<Message> = [Message(data:"1".data(using: .utf8)!), Message(data:"2".data(using: .utf8)!), Message(data:"3".data(using: .utf8)!)]
     @Published private(set) var initialized_peripheral = false
     @Published private(set) var initialized_central = false
 
@@ -147,14 +151,14 @@ class BluetoothManager: NSObject, ObservableObject {
 }
 
 extension BluetoothManager {
-    func cycle(cycleDuration: TimeInterval){
-        
+    func cycle(){
+        print("starting new cycle...")
         //scan
         centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
         
         //peripheral
         cycleSchedule = Timer.scheduledTimer(
-            timeInterval: cycleDuration,
+            timeInterval: cycleDuration + TimeInterval.random(in: (-maxRandomDurationDeviation...maxRandomDurationDeviation) ),
             target: self,
             selector: #selector(self.finish),
             userInfo: nil,
@@ -170,10 +174,6 @@ extension BluetoothManager {
         )
     }
     
-    func cycleRepeating(){
-        //cycle forever
-    }
-    
     @objc private func finish(){
         cycleSchedule.invalidate()
         messageSchedule.invalidate()
@@ -183,7 +183,11 @@ extension BluetoothManager {
             targetPeripheral = nil
         }
         
+        if centralManager.isScanning {
+            centralManager.stopScan()
+        }
         print("cycle finished")
+        cycle()
     }
     
     @objc private func changeCharacteristic(){
@@ -207,7 +211,13 @@ extension BluetoothManager: CBCentralManagerDelegate {
     
     //When a peripheral is discovered, stop scanning, store a reference to it, and connect
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        print("discovered hub!!!!!!!!!!!")
+        
+        print("Discovered peripheral:")
+                print("Name: \(peripheral.name ?? "Unknown")")
+                print("Identifier (UUID): \(peripheral.identifier)")
+                print("Advertisement data: \(advertisementData)")
+                print("RSSI: \(RSSI)")
+        
         targetPeripheral = peripheral
         centralManager.stopScan()
         centralManager.connect(peripheral, options: nil)
