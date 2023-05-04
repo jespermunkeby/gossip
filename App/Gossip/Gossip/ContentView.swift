@@ -11,9 +11,8 @@ struct ContentView: View {
         NavigationView {
             GeometryReader { geometry in
                 ZStack {
-                    VStack {
+                    VStack{
                         HeaderView(showSettings: .constant(true), isContentView: .constant(true))
-                        
                         ScrollView {
                             VStack(spacing: 20) {
                                 ForEach(messages, id: \.id) { postModel in
@@ -34,13 +33,12 @@ struct ContentView: View {
                             .padding(.vertical, 20)
                         }
                     }
-                    
                     VStack {
                         Spacer()
-                        
+
                         HStack(spacing: -20) {
                             Spacer()
-                            
+
                             Button(action: {
                                 isShowingSavedMessages = true
                             }) {
@@ -48,7 +46,7 @@ struct ContentView: View {
                                     Circle()
                                         .foregroundColor(Color(#colorLiteral(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039, alpha: 1)))
                                         .frame(width: 50, height: 50)
-                                    
+
                                     Image(systemName: "heart")
                                         .foregroundColor(.black)
                                         .frame(width: 20, height: 20)
@@ -59,7 +57,7 @@ struct ContentView: View {
                                 SavedMessagesView()
                                     .environmentObject(coreDataViewModel)
                             }
-                            
+
                             Button(action: {
                                 isShowingAddPostView = true
                             }) {
@@ -67,7 +65,7 @@ struct ContentView: View {
                                     Circle()
                                         .foregroundColor(Color(#colorLiteral(red: 0.7960784314, green: 0.8980392157, blue: 0.8745098039, alpha: 1)))
                                         .frame(width: 60, height: 60)
-                                    
+
                                     Image(systemName: "plus")
                                         .foregroundColor(.black)
                                         .frame(width: 50, height: 50)
@@ -84,22 +82,24 @@ struct ContentView: View {
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
                     messages = msgs.enumerated().map { index, msg in
                         let content = String(decoding: msg.content, as: UTF8.self)
-                        return FeedCardModel(
-                            id: UUID(),
+                        return FeedCard(
                             title: "Message \(index + 1) from hub",
-                            content: content
+                            content: content,
+                            saveButtonViewModel: SaveButtonViewModel()
                         )
                     }
                 }
+                //TODO: chaeck both init
                 .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
-                    if ready {
-                        BluetoothManager.shared.cycle(cycleDuration: 30)
+                    if ready{
+                        BluetoothManager.shared.cycle()
                     }
                 }
             }
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
