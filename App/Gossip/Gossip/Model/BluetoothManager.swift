@@ -3,7 +3,7 @@ import CoreBluetooth
 
 let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
 let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
-let messageInterval: TimeInterval = 0.2
+let messageInterval: TimeInterval = 5
 
 /*
 //OLD STUFF, might come in handy if down the line
@@ -207,17 +207,10 @@ extension BluetoothManager: CBCentralManagerDelegate {
     
     //When a peripheral is discovered, stop scanning, store a reference to it, and connect
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        // Check the RSSI value of the discovered peripheral
-        let rssiThreshold: NSNumber = -70 // set your desired threshold value here
-        if RSSI.intValue > rssiThreshold.intValue {
-            // Connect to the peripheral if its RSSI value is greater than the threshold
-            targetPeripheral = peripheral
-            centralManager.stopScan()
-            centralManager.connect(peripheral, options: nil)
-        } else {
-            // Otherwise, continue scanning for other peripherals
-            print("Peripheral with weak signal ignored: \(peripheral)")
-        }
+        print("discovered hub!!!!!!!!!!!")
+        targetPeripheral = peripheral
+        centralManager.stopScan()
+        centralManager.connect(peripheral, options: nil)
     }
 
 
