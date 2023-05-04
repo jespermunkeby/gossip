@@ -1,0 +1,244 @@
+:root {
+  --background:     #33403a;
+  --text-box-bg:    #fefefe;
+  --accent:         #58b386;
+  --text-color:     #000000;
+}
+
+/*
+ * R:  51, G:  64, B:  58 | Hex: #33403A
+ * R: 254, G: 254, B: 254 | Hex: #FEFEFE
+ * R:  88, G: 179, B: 134 | Hex: #58B386
+ * R:   0, G:   0, B:   0 | Hex: #000000
+ */
+
+body {
+    background: var(--text-box-bg);
+    margin: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+                 "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+                 "Noto Color Emoji";
+
+    /*height: 100%;*/
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 100px;
+    grid-gap: 0px;
+    height: inherit;
+    margin: 0px;
+}
+
+
+/* Page header - base */
+.head {
+    grid-row: 1;
+    background: var(--background);
+    font-weight: bold;
+}
+
+.logo {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-self: center;
+}
+
+/*.logo > img {
+    grid-column: 2;
+    z-index: 1;
+}*/
+
+.navbar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: inherit;
+    width: inherit;
+}
+
+.nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a.nav-link {
+  display: flex;
+  font-size: 24px;
+  text-decoration: none;
+  color: var(--accent);
+}
+
+a.nav-link:hover {
+  color: var(--accent);
+  padding: 2px;
+}
+/* Page header end */
+
+
+/* Flash message - base */
+.alert {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    position: relative;
+    background: var(--text-bg-color);
+    padding: .75rem 1.25rem .75rem 25%;
+    border: 1px solid transparent;
+    /* 0 opacity is used for fade in effect: fadeIn in animation.js sets this to 1 */
+    opacity: 0;
+/*
+    border-radius: .25rem;
+*/
+}
+
+.alert-success {
+  color: var(--text-color);
+  background: var(--accent);
+  border-color: none;
+}
+
+button.close {
+    float: right;
+    border: none;
+    background: none;
+    opacity: 0.5;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.fade {
+    transition: opacity .25s linear;
+}
+/* Flash message end */
+
+
+/* Page content - base */
+.grid-content {
+    grid-column: 2 / -2;
+    grid-row: 3;
+}
+/* Page content end */
+
+
+/* Content - Settings */
+form.settings {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-gap: 1em 1em;
+}
+
+form > h3 {
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form-section-title {
+  justify-self: center;
+  margin: 5px 0 2px 0;
+}
+
+.form-control {
+    margin-right: 0px;
+    background: var(--text-box-bg);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-top: 4px;
+}
+
+.form-control:focus {
+    background: var(--text-box-bg);
+    outline: none;
+    border: 2px solid var(--accent);
+    margin: -2px 0;
+    /*box-shadow: 0 0 3px 0 #141414;*/
+}
+
+.divider {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  height: 1px;
+  margin: 1px 0px;
+  opacity: 0.1;
+}
+
+form > .btn {
+    min-width: 75px;
+    max-width: 25%;
+    min-height: 30px;
+    justify-self: end;
+    align-self: end;
+    background: var(--accent);
+    border: 0px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form > .btn:hover {
+    background: var(--background);
+}
+/* Content - Settings end */
+
+.posts_container {
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    grid-gap:10px;
+}
+
+.posts_container button, .posts_container input[type=submit] {
+    border: 0px;
+    background: var(--accent);
+    border-radius:5px;
+}
+
+.posts_container input[type=submit] {
+    padding:3px 5px;
+}
+
+.post {
+    padding:10px;
+    border-radius:10px;
+    margin:10px 0;
+    border:1px solid var(--accent);
+}
+
+.post form {
+    float:right;
+}
+
+#new_post_form textarea {
+    width:100%;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height:100px;
+	border:1px solid var(--accent);
+	border-radius:5px;
+	padding: 10px;
+	margin-bottom:10px;
+}
+
+@media screen and (max-width: 480px) {
+    .posts_container {
+        grid-template-columns:1fr;
+    }
+}

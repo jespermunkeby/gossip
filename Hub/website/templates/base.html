@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./static/style.css" />
+    <script src="./static/animation.js"></script>
+    <title>P2P Gossip Hub config{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class="grid-container">
+      <!--div class="logo head">
+        <img src="./static/img/bmb_vertical.png" width="96" height="148">
+      </div-->
+      <nav class="navbar head">
+        <div class="nav-item">
+          <a class="nav-link" id="home" href="/">
+            Home
+          </a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" id="posts" href="/posts">
+            Posts
+          </a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" id="settings" href="/settings">
+            Settings
+          </a>
+        </div>
+      </nav>
+      
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == "success" %}
+            <div id="flash-mess" class="alert alert-success fade" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" onclick="fadeOut(this.parentElement)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <script>fadeIn(document.getElementById("flash-mess"))</script>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      
+      <div class="grid-content">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>
