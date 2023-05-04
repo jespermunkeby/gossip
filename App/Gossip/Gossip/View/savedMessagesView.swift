@@ -14,7 +14,14 @@ struct SavedMessagesView: View {
                         content: message.content ?? "",
                         saveButtonViewModel: SaveButtonViewModel()
                     )
-                    FeedCardView(post: post)
+
+                    FeedCardView(post: post, isSaved: .constant(true)) { isSaved in
+                        if !isSaved {
+                            if let index = messages.firstIndex(where: { $0.id == message.id }) {
+                                deleteMessages(at: [index])
+                            }
+                        }
+                    }
                 }
                 .onDelete(perform: deleteMessages)
             }
@@ -38,4 +45,3 @@ struct SavedMessagesView: View {
         messages = coreDataViewModel.fetchMessages()
     }
 }
-

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SaveButtonView: View {
-    @State var isFilled = false
+    @Binding var isFilled: Bool
     var saveButtonAction: () -> Void
     
     var body: some View {
@@ -16,3 +16,4 @@ struct SaveButtonView: View {
         }
     }
 }
+

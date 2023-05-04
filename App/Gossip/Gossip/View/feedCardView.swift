@@ -3,7 +3,7 @@ import SwiftUI
 struct FeedCardView: View {
     let post: FeedCard
     var screenSize: CGRect = UIScreen.main.bounds
-    @ObservedObject var saveButtonViewModel = SaveButtonViewModel()
+    @Binding var isSaved: Bool
     var onSaveAction: ((Bool) -> Void)? // Update this line
     
     var body: some View {
@@ -19,9 +19,8 @@ struct FeedCardView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.black)
 
-                SaveButtonView(isFilled: saveButtonViewModel.isSaved, saveButtonAction: {
-                    saveButtonViewModel.toggleSaved(for: post)
-                    onSaveAction?(saveButtonViewModel.isSaved) // Use the onSaveAction closure here
+                SaveButtonView(isFilled: $isSaved, saveButtonAction: {
+                    onSaveAction?(isSaved)
                 })
             }
         }
@@ -34,8 +33,6 @@ struct FeedCardView: View {
         .scenePadding()
     }
 }
-
-
 
 struct FeedCardView_Previews: PreviewProvider {
     static var post = FeedCard.sampleData[1]

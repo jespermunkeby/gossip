@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var messages: [FeedCard] = FeedCard.sampleData
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
+    @State private var savedPosts: [FeedCard: Bool] = [:]
     
     var body: some View {
         NavigationView {
@@ -21,7 +22,8 @@ struct ContentView: View {
                                         content: messages[index].content,
                                         saveButtonViewModel: SaveButtonViewModel()
                                     )
-                                    FeedCardView(post: post, onSaveAction: { isSaved in
+                                    FeedCardView(post: post, isSaved: $savedPosts[post, default: false]) { isSaved in
+                                        savedPosts[post] = isSaved
                                         if isSaved {
                                             coreDataViewModel.saveMessage(title: post.title, content: post.content)
                                         } else {
@@ -30,7 +32,9 @@ struct ContentView: View {
                                                 coreDataViewModel.deleteMessage(message)
                                             }
                                         }
-                                    })
+                                    }
+                                }
+
                                 }
                                 
                             }
@@ -103,7 +107,6 @@ struct ContentView: View {
             }
         }
     }
-}
 
 
 struct ContentView_Previews: PreviewProvider {
