@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var coreDataViewModel: CoreDataViewModel
-    @State private var messages: [FeedCard] = FeedCard.sampleData
+    @State private var messages: [FeedCard] = []
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
     
@@ -86,7 +86,7 @@ struct ContentView: View {
                     }
                 }
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
-                    messages = msgs.enumerated().map { index, msg in
+                    let newMessages = msgs.enumerated().map { index, msg in
                         let content = String(decoding: msg.content, as: UTF8.self)
                         return FeedCard(
                             title: "Message \(index + 1) from hub",
@@ -95,7 +95,9 @@ struct ContentView: View {
                             saveButtonViewModel: SaveButtonViewModel()
                         )
                     }
+                    messages.append(contentsOf: newMessages)
                 }
+
                 //TODO: chaeck both init
                 .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
                     if ready{
