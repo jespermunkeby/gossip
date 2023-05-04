@@ -14,10 +14,15 @@ struct FeedCardView: View {
                 .foregroundColor(.black)
             
             HStack {
-                Text(post.content)
-                    .font(.subheadline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(.black)
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(post.content)
+                        .font(.subheadline)
+                        .foregroundColor(.black)
+
+                    Text("Received: \(post.receivedDate.formatted(.dateTime.year().month().day().hour().minute()))") // Add this line to display the received date
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
 
                 SaveButtonView(isFilled: saveButtonViewModel.isSaved, saveButtonAction: {
                     saveButtonViewModel.toggleSaved(for: post)

@@ -19,6 +19,7 @@ struct ContentView: View {
                                     let post = FeedCard(
                                         title: "Message \(index + 1)",
                                         content: messages[index].content,
+                                        receivedDate: messages[index].receivedDate,
                                         saveButtonViewModel: SaveButtonViewModel()
                                     )
                                     FeedCardView(post: post, onSaveAction: { isSaved in
@@ -90,6 +91,7 @@ struct ContentView: View {
                         return FeedCard(
                             title: "Message \(index + 1) from hub",
                             content: content,
+                            receivedDate: Date(),
                             saveButtonViewModel: SaveButtonViewModel()
                         )
                     }

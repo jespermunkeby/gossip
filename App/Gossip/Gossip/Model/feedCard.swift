@@ -3,6 +3,7 @@ import SwiftUI
 struct FeedCard: View {
     let title: String
     let content: String
+    let receivedDate: Date
     @ObservedObject var saveButtonViewModel: SaveButtonViewModel
     @State private var isShowingContent = false
     
@@ -40,16 +41,19 @@ extension FeedCard {
         FeedCard(
             title: "First Post",
             content: "This is the first post. Here is some more test just to test how stuff looks.",
+            receivedDate: Date(),
             saveButtonViewModel: SaveButtonViewModel()
         ),
         FeedCard(
             title: "Second Post",
             content: "This is the second post",
+            receivedDate: Date(),
             saveButtonViewModel: SaveButtonViewModel()
         ),
         FeedCard(
             title: "Third Post",
             content: "This is the third post",
+            receivedDate: Date(),
             saveButtonViewModel: SaveButtonViewModel()
         )
     ]

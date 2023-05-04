@@ -12,6 +12,7 @@ struct SavedMessagesView: View {
                     let post = FeedCard(
                         title: message.title ?? "",
                         content: message.content ?? "",
+                        receivedDate: message.timestamp ?? Date(),
                         saveButtonViewModel: SaveButtonViewModel()
                     )
                     FeedCardView(post: post)
