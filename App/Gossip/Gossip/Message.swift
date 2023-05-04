@@ -16,6 +16,12 @@ struct Message {
         self.pickupTime = Date()
     }
     
+    init(messageModel: MessageModel){
+        //deserialize
+        self.content = messageModel.content!.data(using: .utf8)!
+        self.pickupTime = messageModel.timestamp!
+    }
+    
     
 }
 
