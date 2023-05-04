@@ -14,7 +14,7 @@ struct ContentView: View {
                         HeaderView(showSettings: .constant(true), isContentView: .constant(true))
 
                         ScrollView {
-                            VStack(spacing: 20) {
+                            VStack() {
                                 ForEach(messages.indices, id: \.self) { index in
                                     let post = FeedCard(
                                         title: "Message \(index + 1)",
