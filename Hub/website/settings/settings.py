@@ -1,63 +1,48 @@
-import csv
+"""Functions for reading and writing the config.json file"""
+import json
+import os
 
-class BbSettings:
-    def __init__(self, file_name="config"):
-        self.file_name = file_name
-        self.config = {"gbl_led_brightness"   : 100,
-                       "gbl_volume"       : 100,
-                       "sad_g_time"       : 600,
-                       "sad_b_time"       : 180,
-                       "dom_g_time"       : 600,
-                       "dom_points"       : 100,
-                       "demo_g_time"      : 180,
-                       "ext_easter_eggs"  : 4}
-                       
-        self.abbr = {"gbl"  :  "Global Settings",
-                     "sad"  :  "Search and Destroy",
-                     "dom"  :  "Domination",
-                     "demo" : "Demolition",
-                     "ext"  : "Extra"}
-    
-    
-    def __str__(self):
-        return str(self.config)
-    
-    
-    def read(self):
-        '''Read settings from CSV file into dictionary self.config'''
-        try:
-            with open(self.file_name, 'r') as f:
-                csv_reader = csv.reader(f, delimiter=',')
-                
-                # Read file
-                for line in csv_reader:
-                    self.config[line[0]] = line[1]
-        except FileNotFoundError:
-            print('No config file found, using defaults')
-    
-    
-    def write(self):
-        '''Write settings to file using the CSV format'''
-        with open(self.file_name, 'w') as f:
-            csv_writer = csv.writer(f, delimiter=',')
-            
-            # Write file
-            for key, value in self.config.items():
-                csv_writer.writerow([key, value])
-    
-    
-    def get(self):
-        return self.config
-    
-    
-    def set(self, key, value):
-        self.config[key] = value
-    
-    
-    def set_all(self, d):
-        for key, value in d.items():
-            self.config[key] = value
-    
-    
-    def get_abbr(self):
-        return self.abbr
+ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '../..'))
+FILE_NAME = "config.json"
+FILE_PATH = '/'.join((ROOT_DIR, FILE_NAME))
+DEFAULT_CONFIG = {
+        "hub_name": { "name": "Hub name", "value": "Gossip Hub", "type": "text" },
+        "rcv_posts": { "name": "Receive posts", "value": True, "type": "checkbox" }
+}
+
+def read_config():
+    '''Read settings from JSON file into list of 
+       dictionaries self.config'''
+    try:
+        with open(FILE_PATH, 'r') as f:
+            config = DEFAULT_CONFIG.copy()
+            config.update(json.loads(f.read()))
+            print(config)
+            return config
+    except FileNotFoundError:
+        print('No config file found, using defaults')
+        print(ROOT_DIR)
+        return DEFAULT_CONFIG
+
+
+## TODO: change this
+def _write(config):
+    '''Write settings to a JSON file'''
+    with open(FILE_PATH, 'w') as f:
+        f.write(json.dumps(config))
+
+
+def set_config(config):
+    current_config = read_config()
+    bool_config = {k: v == 'True' for k, v in config.items() if current_config[k]['type'] == 'radio'}
+    config.update(bool_config)
+    for key, value in config.items():
+        current_config[key]['value'] = value
+
+    _write(current_config)
+    #update_settings(config)
+
+
+if __name__ == "__main__":
+    settings = Settings()
+    print(settings.get())

@@ -1,0 +1,4 @@
+{
+    "hub_name": { "name": "Hub name", "value": "Gossip Hub", "type": "text" },
+    "rcv_posts": { "name": "Receive posts", "value": true, "type": "radio" }
+}
