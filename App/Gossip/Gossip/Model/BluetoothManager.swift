@@ -52,7 +52,7 @@ class BluetoothManager: NSObject, ObservableObject {
     //Peripheral scedulers
     var cycleSchedule: Timer!
     var messageSchedule: Timer!
-    @Published private(set) var messages: Set<Message> = [Message(data:"1".data(using: .utf8)!), Message(data:"2".data(using: .utf8)!), Message(data:"3".data(using: .utf8)!)]
+    @Published private(set) var messages: Set<Message> = []
     @Published private(set) var initialized_peripheral = false
     @Published private(set) var initialized_central = false
 
@@ -135,8 +135,10 @@ extension BluetoothManager {
     @objc private func changeCharacteristic(){
         //TODO: Not random elem, handle empty
         let set = messages.union(savedMessages)
-        peripheralManager.updateValue(set.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
-        print("changed characteristic")
+        if (set.count != 0){
+            peripheralManager.updateValue(set.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
+            print("changed characteristic")
+        }
     }
 }
 
