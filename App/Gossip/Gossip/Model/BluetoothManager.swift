@@ -200,7 +200,10 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                messages.insert(Message(data: data))
+                let message = Message(data: data)
+                if !savedMessages.contains(message) && !messages.contains(message){
+                    messages.insert(Message(data: data))
+                }
                 print(data)
             }
         }
