@@ -86,7 +86,7 @@ struct ContentView: View {
                     }
                 }
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
-                    let newMessages = msgs.enumerated().map { index, msg in
+                    messages = msgs.enumerated().map { index, msg in
                         let content = String(decoding: msg.content, as: UTF8.self)
                         return FeedCard(
                             title: "Message \(index + 1) from hub",
@@ -95,7 +95,6 @@ struct ContentView: View {
                             saveButtonViewModel: SaveButtonViewModel()
                         )
                     }
-                    messages.append(contentsOf: newMessages)
                 }
 
                 //TODO: chaeck both init
