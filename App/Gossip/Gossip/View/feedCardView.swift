@@ -7,13 +7,14 @@ struct FeedCardView: View {
     var onSaveAction: ((Bool) -> Void)? // Update this line
     
     var body: some View {
+        HStack {
         VStack(alignment: .leading, spacing: 15) {
             Label(post.title, systemImage: "arrowshape.right.fill")
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundColor(.black)
             
-            HStack {
+ 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(post.content)
                         .font(.subheadline)
@@ -24,11 +25,12 @@ struct FeedCardView: View {
                         .foregroundColor(.gray)
                 }
 
-                SaveButtonView(isFilled: saveButtonViewModel.isSaved, saveButtonAction: {
-                    saveButtonViewModel.toggleSaved(for: post)
-                    onSaveAction?(saveButtonViewModel.isSaved) // Use the onSaveAction closure here
-                })
+
             }
+            SaveButtonView(isFilled: saveButtonViewModel.isSaved, saveButtonAction: {
+                saveButtonViewModel.toggleSaved(for: post)
+                onSaveAction?(saveButtonViewModel.isSaved) // Use the onSaveAction closure here
+            })
         }
         .padding()
         .background(
