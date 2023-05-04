@@ -6,30 +6,26 @@
 <!--Build form from config file-->
 <form class="settings" method="POST">
   {% with conf = get_config() %}
-  {% set section = namespace(prefix = '', cond=false) %}
   
-    {% for key, value in conf.items() %}
-      {% with k = key.replace('_g_', '_game_').replace('_b_', '_bomb_').split('_') %}
-        
-        <!--Section title and section divider-->
-        {% if section.prefix != k[0] %}
-          {% if section.cond %}
-            <hr class="divider" />
-          {% endif %}
-          {% set title = get_abbr()[k[0]] %}
-          <h4 class="form-section-title">{{ title.upper() }}</h4>
-        {% endif %}
-        {% set section.prefix = k[0] %}
-        {% set section.cond = true %}
-        
+    {% for key, setting in conf.items() %}
         <!--Form control-->
         <div class="form-group {{ bg }}">
           <label for={{ key }}>
-            {{ ' '.join(k[1:]).capitalize() }} {{ prefix }}
+            {{ setting['name']}}
           </label>
-          <input type="text" class="form-control" id={{ key }} name={{ key }} placeholder= {{ "Enter " + key }} value={{ value }}>
+          {% if setting['type'] == 'radio' %}
+            <div class="form-radio-button">
+              <input type="radio" class="form-control" id={{ key }} name={{ key }} value={{ True }}
+                                {% if setting['value'] %} checked {% endif %}>
+              On
+              <input type="radio" class="form-control" id={{ key }} name={{ key }} value={{ False }}
+                                {% if not setting['value'] %} checked {% endif %}>
+              Off
+            </div>
+          {% else %}
+            <input type="{{ setting['type'] }}" class="form-control" id={{ key }} name={{ key }} placeholder= {{ "Enter " + setting['name'] }} value={{ setting['value'] }}>
+          {% endif %}
         </div>
-      {% endwith %}
     {% endfor %}
   {% endwith %}
   <div class="form-group"><br /></div>

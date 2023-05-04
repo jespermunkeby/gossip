@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash
-from .settings.settings import BbSettings
+from .settings.settings import set_config
 
 
 def define_views(add_post, delete_post):
@@ -13,9 +13,7 @@ def define_views(add_post, delete_post):
     def settings():
         if request.method == "POST":
             data = request.form.to_dict()
-            config = BbSettings()
-            config.set_all(data)
-            config.write()
+            set_config(data)
             flash("Settings updated!", category="success")
 
         return render_template("settings.html")

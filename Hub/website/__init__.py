@@ -1,23 +1,12 @@
 from flask import Flask
-from website.settings.settings import BbSettings
+from website.settings.settings import read_config
 import post_database
 import sys
-from .settings.settings import BbSettings
-from views import define_views
+from website.views import define_views
 sys.path.insert(0, '..')
 
-def list_gen():
-    l = ["Time", "Points", "Other"]
-    return l
-
 def get_config():
-    config = BbSettings()
-    config.read()
-    return config.get()
-
-def get_abbr():
-    config = BbSettings()
-    return config.get_abbr()
+    return read_config()
 
 def create_app(update_posts):
     app = Flask(__name__)
@@ -39,9 +28,7 @@ def create_app(update_posts):
         database.add_post(post)
         update_posts()
 
-    app.jinja_env.globals.update(list_gen=list_gen)
     app.jinja_env.globals.update(get_config=get_config)
-    app.jinja_env.globals.update(get_abbr=get_abbr)
     app.jinja_env.globals.update(get_posts=get_posts)
     app.jinja_env.globals.update(delete_post=delete_post)
 
