@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct FeedCardView: View {
-    let post: FeedCard
+    let post: FeedCardModel
     var screenSize: CGRect = UIScreen.main.bounds
     @Binding var isSaved: Bool
     var onSaveAction: ((Bool) -> Void)? // Update this line
@@ -35,8 +35,8 @@ struct FeedCardView: View {
 }
 
 struct FeedCardView_Previews: PreviewProvider {
-    static var post = FeedCard.sampleData[1]
+    static var post = FeedCardModel.sampleData[1]
     static var previews: some View {
-        FeedCardView(post: post)
+        FeedCardView(post: post, isSaved: .constant(false))
     }
 }
