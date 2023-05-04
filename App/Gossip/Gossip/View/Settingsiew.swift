@@ -33,7 +33,7 @@ struct SettingsView: View {
                             .fontWeight(.bold)
                             .padding(.horizontal)
                         
-                        Link(destination: URL(string: "https://www.example.com")!) {
+                        Link(destination: URL(string: "http://hub.config:5000")!) {
                             HStack {
                                 Text("Authenticate")
                                     .underline()
