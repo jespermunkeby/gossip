@@ -1,5 +1,6 @@
 import Foundation
 import CoreBluetooth
+import CoreData
 
 let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
 let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
@@ -8,6 +9,29 @@ let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
 let messageInterval: TimeInterval = 1
 let cycleDuration: TimeInterval = 15
 let maxRandomDurationDeviation: TimeInterval = 5
+
+
+//TODO: refactor to model with both these?
+class CoreDataHandler {
+    private let persistentContainer: NSPersistentContainer
+    
+    init(persistentContainer: NSPersistentContainer) {
+        self.persistentContainer = persistentContainer
+    }
+    
+    func fetchMessages() -> [MessageModel] {
+        let fetchRequest: NSFetchRequest<MessageModel> = MessageModel.fetchRequest()
+        
+        do {
+            let messages = try persistentContainer.viewContext.fetch(fetchRequest)
+            return messages
+        } catch {
+            print("Error fetching messages: \(error)")
+            return []
+        }
+    }
+}
+
 
 //Singleton class to manage bluetooth stuff
 class BluetoothManager: NSObject, ObservableObject {
@@ -20,6 +44,10 @@ class BluetoothManager: NSObject, ObservableObject {
     private var peripheralManager: CBPeripheralManager!
     private var targetPeripheral: CBPeripheral!
     private var peripheralCharacteristic: CBMutableCharacteristic!
+    
+    private var coreDataViewModel: CoreDataViewModel!
+    
+    private var savedMessages : Set<Message> = []
     
     //Peripheral scedulers
     var cycleSchedule: Timer!
@@ -35,6 +63,8 @@ class BluetoothManager: NSObject, ObservableObject {
         //init managers
         centralManager = CBCentralManager(delegate: self, queue: nil)
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        
+        coreDataViewModel = CoreDataViewModel()
     }
     
     private func initPeripheral() {
@@ -54,10 +84,16 @@ class BluetoothManager: NSObject, ObservableObject {
         peripheralManager.add(service)
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
     }
+
 }
 
 extension BluetoothManager {
     func cycle(){
+        //TODO: do saved message loading in a more energy efficient way
+        savedMessages = Set(coreDataViewModel.fetchMessages().enumerated().map {_,message in
+            return Message(messageModel: message)
+        })
+        
         print("starting new cycle...")
         //scan
         centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
@@ -98,7 +134,8 @@ extension BluetoothManager {
     
     @objc private func changeCharacteristic(){
         //TODO: Not random elem, handle empty
-        peripheralManager.updateValue(messages.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
+        let set = messages.union(savedMessages)
+        peripheralManager.updateValue(set.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
         print("changed characteristic")
     }
 }
@@ -163,7 +200,10 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                messages.insert(Message(data: data))
+                let message = Message(data: data)
+                if !savedMessages.contains(message) && !messages.contains(message){
+                    messages.insert(Message(data: data))
+                }
                 print(data)
             }
         }
