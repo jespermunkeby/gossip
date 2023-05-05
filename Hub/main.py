@@ -8,6 +8,7 @@ import logging.config
 from logging.handlers import RotatingFileHandler
 from website import create_app
 from util import WEB_APP_IP, WEB_APP_PORT
+from website.settings.settings import read_config
 
 
 def init_log():  # adapted from https://stackoverflow.com/a/56369583
@@ -33,11 +34,10 @@ def add_post(post):
     update_posts()
 
 
-
 def run_web_config():
     app = create_app(update_posts)
     app.run(host=WEB_APP_IP, port=WEB_APP_PORT, debug=True, use_reloader=False)
-   
+
 
 print("q: quit, c: clear database, write anything else to add message")
 init_log()
@@ -45,9 +45,12 @@ init_log()
 quit_event = threading.Event()              # event telling threads to finish up to exit program
 new_posts_event = threading.Event()         # event telling peripheral to load new posts to advertise
 database = post_database.PostDatabase()
+settings = read_config()
 
-peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event)
-#central = ble_central.Central()
+"""Initialize peripheral and central with current settings"""
+peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event, hub_name = settings["hub_name"]["value"])
+central = ble_central.Central(add_post, central_active = settings["rcv_posts"]["value"])
+
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
