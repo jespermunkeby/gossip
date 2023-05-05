@@ -25,7 +25,7 @@ def define_views(add_post, delete_post):
             if form['form'] == 'delete':
                 delete_post(form['post_id'])
             elif form['form'] == 'new_post':
-                add_post(form['post_content'])
+                add_post(form['post_content'] + '  ')
         return render_template("posts.html")
 
     return views

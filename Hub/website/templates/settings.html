@@ -2,33 +2,34 @@
 {% block title %} - Settings{% endblock %}
 
 {% block content %}
+  <h2 class="page-title">Hub settings</h2>
 
-<!--Build form from config file-->
-<form class="settings" method="POST">
-  {% with conf = get_config() %}
-  
-    {% for key, setting in conf.items() %}
-        <!--Form control-->
-        <div class="form-group {{ bg }}">
-          <label for={{ key }}>
-            {{ setting['name']}}
-          </label>
-          {% if setting['type'] == 'radio' %}
-            <div class="form-radio-button">
-              <input type="radio" class="form-control" id={{ key }} name={{ key }} value={{ True }}
-                                {% if setting['value'] %} checked {% endif %}>
-              On
-              <input type="radio" class="form-control" id={{ key }} name={{ key }} value={{ False }}
-                                {% if not setting['value'] %} checked {% endif %}>
-              Off
-            </div>
-          {% else %}
-            <input type="{{ setting['type'] }}" class="form-control" id={{ key }} name={{ key }} placeholder= {{ "Enter " + setting['name'] }} value={{ setting['value'] }}>
-          {% endif %}
-        </div>
-    {% endfor %}
-  {% endwith %}
-  <div class="form-group"><br /></div>
-  <button type="submit" class="btn">Apply</button>
-</form>
+  <!--Build form from config file-->
+  <form class="settings" method="POST">
+    {% with conf = get_config() %}
+    
+      {% for key, setting in conf.items() %}
+          <!--Form control-->
+          <div class="form-group {{ bg }}">
+            <label for={{ key }}>
+              {{ setting['name']}}
+            </label>
+            {% if setting['type'] == 'radio' %}
+              <div class="form-radio-group">
+                <input type="radio" class="form-radio-button" id={{ key }} name={{ key }} value={{ True }}
+                                  {% if setting['value'] %} checked {% endif %}>
+                On
+                <input type="radio" class="form-radio-button" id={{ key }} name={{ key }} value={{ False }}
+                                  {% if not setting['value'] %} checked {% endif %}>
+                Off
+              </div>
+            {% else %}
+              <input type="{{ setting['type'] }}" class="form-control" id={{ key }} name={{ key }} placeholder= {{ "Enter " + setting['name'] }} value={{ setting['value'] }}>
+            {% endif %}
+          </div>
+      {% endfor %}
+    {% endwith %}
+    <div class="form-group"><br /></div>
+    <button type="submit" class="btn">Apply</button>
+  </form>
 {% endblock %}

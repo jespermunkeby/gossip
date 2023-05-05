@@ -52,10 +52,10 @@ update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
 # create and run thread for peripheral
-#peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
+peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
 # central_thread = threading.Thread(target=central.<central run function>, args=(<central run function args>))
 web_thread = threading.Thread(target=run_web_config, args=())
-#peripheral_thread.start()
+peripheral_thread.start()
 # central_thread.start()
 web_thread.start()
 
@@ -65,7 +65,7 @@ while True:
     if user_input == 'q':           # temporary (?), user enters q to quit
         print("exiting...")
         quit_event.set()            # set quit event, should get threads to finish
-        #peripheral_thread.join()    # wait for peripheral thread to finish
+        peripheral_thread.join()    # wait for peripheral thread to finish
         # central_thread.join()
         break
     elif user_input == 'c':         # temporary (?), user enters c to clear database

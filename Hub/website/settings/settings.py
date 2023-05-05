@@ -25,7 +25,6 @@ def read_config():
         return DEFAULT_CONFIG
 
 
-## TODO: change this
 def _write(config):
     '''Write settings to a JSON file'''
     with open(FILE_PATH, 'w') as f:

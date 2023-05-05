@@ -25,7 +25,7 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 2fr 5fr 5fr 2fr;
     grid-template-rows: 100px;
     grid-gap: 0px;
     height: inherit;
@@ -105,7 +105,7 @@ a.nav-link:hover {
 }
 
 button.close {
-    float: right;
+    /*float: right;*/
     border: none;
     background: none;
     opacity: 0.5;
@@ -126,6 +126,11 @@ button.close {
     grid-column: 2 / -2;
     grid-row: 3;
 }
+
+h2.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
 /* Page content end */
 
 
@@ -145,6 +150,7 @@ form > h3 {
 }
 
 .form-group {
+    margin-bottom: 12px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -154,11 +160,11 @@ form > h3 {
   margin: 5px 0 2px 0;
 }
 
-.form-control {
+.form-control .form-radio-group {
     margin-right: 0px;
     background: var(--text-box-bg);
     border: 1px solid var(--accent);
-    border-radius: 3px;
+    border-radius: 5px;
     box-sizing: border-box;
     padding-left: 4px;
     padding-top: 4px;
@@ -189,7 +195,7 @@ form > .btn {
     align-self: end;
     background: var(--accent);
     border: 0px;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -219,10 +225,15 @@ form > .btn:hover {
     border-radius:10px;
     margin:10px 0;
     border:1px solid var(--accent);
+    display: grid;
+    grid-template-columns: 1fr 20px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
 }
 
-.post form {
-    float:right;
+.post > form {
+  /*float:right;*/
 }
 
 #new_post_form textarea {
@@ -241,4 +252,8 @@ form > .btn:hover {
     .posts_container {
         grid-template-columns:1fr;
     }
+  /*.post {
+    max-width: 6rem;
+  }*/
+
 }

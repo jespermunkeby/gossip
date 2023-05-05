@@ -1,6 +1,5 @@
 .DS_STORE
-Hub/__pycache__/*
-Hub/*/__pycache__/*
+Hub/**/__pycache__/
 Hub/*.log
 posts.db
 .idea/*
