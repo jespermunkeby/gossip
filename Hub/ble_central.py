@@ -23,7 +23,7 @@ class Central:
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
         self.store_message_cb = store_message_cb
-        self.central_active = False
+        self.central_active = central_active
     # end __init__
 
     def toggle_central_active(self, active):

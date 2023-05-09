@@ -56,10 +56,11 @@ new_posts_event.clear()     # clear event, no need for it at start
 
 # create and run thread for peripheral
 peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
-# central_thread = threading.Thread(target=central.<central run function>, args=(<central run function args>))
+central_thread = threading.Thread(target=central.run, args=())
 web_thread = threading.Thread(target=run_web_config, args=())
+
 peripheral_thread.start()
-# central_thread.start()
+central_thread.start()
 web_thread.start()
 
 # user input loop
@@ -69,11 +70,10 @@ while True:
         print("exiting...")
         quit_event.set()            # set quit event, should get threads to finish
         peripheral_thread.join()    # wait for peripheral thread to finish
-        # central_thread.join()
+        central_thread.join()
         break
     elif user_input == 'c':         # temporary (?), user enters c to clear database
         print("* cleared database")
         database.clear()
     elif user_input != '':          # temporary (?), user enters post to add
         add_post(user_input)
-
