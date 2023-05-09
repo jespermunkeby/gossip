@@ -35,10 +35,6 @@ class CoreDataHandler {
 
 //Singleton class to manage bluetooth stuff
 class BluetoothManager: NSObject, ObservableObject {
-    // singleton pattern
-    // makes this object accessible at BluetoothManager.shared
-    static let shared = BluetoothManager()
-    
     //managers
     private var centralManager: CBCentralManager!
     private var peripheralManager: CBPeripheralManager!
@@ -57,7 +53,7 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published private(set) var initialized_central = false
 
     //override the init of NSObject
-    private override init() {
+    override init() {
         //init NSObject
         super.init()
         //init managers

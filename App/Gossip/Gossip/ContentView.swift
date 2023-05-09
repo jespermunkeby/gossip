@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var coreDataViewModel: CoreDataViewModel
-    @State private var messages: [FeedCard] = []
-    @State private var isShowingSavedMessages = false
-    @State private var isShowingAddPostView = false
+    @ObservedObject var model = ContentViewModel()
+    @State var savedView = false
+    @State var createView = false
     
     var body: some View {
         NavigationView {
@@ -15,23 +14,14 @@ struct ContentView: View {
 
                         ScrollView {
                             VStack() {
-                                ForEach(messages.indices, id: \.self) { index in
-                                    let post = FeedCard(
-                                        title: "Message \(index + 1)",
-                                        content: messages[index].content,
-                                        receivedDate: messages[index].receivedDate,
-                                        saveButtonViewModel: SaveButtonViewModel()
+                                ForEach(model.feedMessages, id: \.self) { message in
+                                    FeedCard(
+                                        content: String(data: message.content, encoding: .utf8)!,
+                                        receivedDate: message.pickupTime,
+                                        isSaved: model.isSaved(message: message),
+                                        onSave: {model.saveMessage(message: message)},
+                                        onDelete: {model.deleteMessage(message: message)}
                                     )
-                                    FeedCardView(post: post, onSaveAction: { isSaved in
-                                        if isSaved {
-                                            coreDataViewModel.saveMessage(title: post.title, content: post.content)
-                                        } else {
-                                            // Find the corresponding saved message and remove it
-                                            if let message = coreDataViewModel.fetchMessages().first(where: { $0.title == post.title && $0.content == post.content }) {
-                                                coreDataViewModel.deleteMessage(message)
-                                            }
-                                        }
-                                    })
                                 }
                                 
                             }
@@ -46,7 +36,7 @@ struct ContentView: View {
                             Spacer()
 
                             Button(action: {
-                                isShowingSavedMessages = true
+                                model.setViewMode(viewMode: ViewMode.saved)
                             }) {
                                 ZStack {
                                     Circle()
@@ -59,13 +49,12 @@ struct ContentView: View {
                                 }
                             }
                             .padding()
-                            .sheet(isPresented: $isShowingSavedMessages) {
+                            .sheet(isPresented: $savedView) {
                                 SavedMessagesView()
-                                    .environmentObject(coreDataViewModel)
                             }
 
                             Button(action: {
-                                isShowingAddPostView = true
+                                model.setViewMode(viewMode: ViewMode.create)
                             }) {
                                 ZStack {
                                     Circle()
@@ -78,13 +67,23 @@ struct ContentView: View {
                                 }
                             }
                             .padding()
-                            .sheet(isPresented: $isShowingAddPostView) {
+                            .sheet(isPresented: $createView) {
                                 AddPostView()
-                                    .environmentObject(coreDataViewModel)
                             }
                         }
                     }
                 }
+                .onReceive(model.$viewMode) { viewMode in
+                    if(viewMode == ViewMode.create){
+                        savedView = false
+                        createView = true
+                    } else if (viewMode == ViewMode.saved){
+                        savedView = true
+                        createView = false
+                    }
+                }
+                
+                /*
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
                     let sortedArray = Array(msgs).sorted { $0.pickupTime > $1.pickupTime }
                     messages = sortedArray.enumerated().map { index, msg in
@@ -97,14 +96,17 @@ struct ContentView: View {
                         )
                     }
                 }
+                 */
 
 
-                //TODO: chaeck both init
+                /*
+                //TODO: Implement in model instead!!!!
                 .onReceive(BluetoothManager.shared.$initialized_peripheral) { ready in
                     if ready{
                         BluetoothManager.shared.cycle()
                     }
                 }
+                 */
             }
         }
     }

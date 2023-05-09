@@ -28,6 +28,7 @@
 		733A62BB2A00FAA700EB7DE0 /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */; };
 		733A62BD2A00FC9D00EB7DE0 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */; };
 		DA209CF52A028B2E007B68D1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA209CF42A028B2E007B68D1 /* Message.swift */; };
+		DA480B752A0A463F00D2C107 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA480B742A0A463F00D2C107 /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
 		733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		DA209CF42A028B2E007B68D1 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		DA480B742A0A463F00D2C107 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				733A62A129FAA74700EB7DE0 /* MessageModel.xcdatamodeld */,
 				733A62AD29FAAE0500EB7DE0 /* feedCard.swift */,
 				733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */,
+				DA480B742A0A463F00D2C107 /* ContentViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				733A627629FAA58000EB7DE0 /* ContentView.swift in Sources */,
 				733A62B729FFC6F400EB7DE0 /* saveButtonView.swift in Sources */,
 				733A62A929FAA91400EB7DE0 /* CoreDataViewModel.swift in Sources */,
+				DA480B752A0A463F00D2C107 /* ContentViewModel.swift in Sources */,
 				05DD95652A026BF8007E87BA /* Settingsiew.swift in Sources */,
 				733A62A729FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift in Sources */,
 				733A62BD2A00FC9D00EB7DE0 /* BluetoothManager.swift in Sources */,
@@ -500,7 +504,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
@@ -517,7 +521,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -535,7 +539,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
@@ -552,7 +556,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -2,18 +2,20 @@ import SwiftUI
 
 struct SavedMessagesView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var coreDataViewModel: CoreDataViewModel
+    var coreDataViewModel: CoreDataViewModel = CoreDataViewModel()
     @State private var messages: [MessageModel] = []
 
     var body: some View {
         NavigationView {
             List {
+                //TODO: refactor this to use model
                 ForEach(coreDataViewModel.fetchMessages(), id: \.self) { message in
                     let post = FeedCard(
-                        title: message.title ?? "",
                         content: message.content ?? "",
                         receivedDate: message.timestamp ?? Date(),
-                        saveButtonViewModel: SaveButtonViewModel()
+                        isSaved: true,
+                        onSave: {},
+                        onDelete: {}
                     )
                     FeedCardView(post: post)
                 }
