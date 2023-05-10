@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+from datetime import datetime
+
 import ble_peripheral
 import ble_central
 import fun_ble_central
@@ -27,6 +29,7 @@ class Main:
     def __init__(self):
         print("q: quit, c: clear database, write anything else to add message")
         init_log()
+        os.system("sudo systemctl restart bluetooth")
         self.quit_event = threading.Event()          # event telling threads to finish up to exit program
         self.new_posts_event = threading.Event()     # event telling peripheral to load new posts to advertise
         self.database = post_database.PostDatabase()
@@ -54,15 +57,18 @@ class Main:
         self.webb_app.run(host=WEB_APP_IP, port=WEB_APP_PORT, debug=False, use_reloader=False)
 
     def bluetooth_loop(self):
-        self.peripheral = ble_peripheral.Peripheral(self.new_posts_event,
+        self.peripheral = ble_peripheral.Peripheral(self.quit_event,
+                                                    self.new_posts_event,
                                                     hub_name=self.settings["hub_name"]["value"])
         self.update_posts()  # add posts to peripheral to broadcast
         self.new_posts_event.clear()  # clear event, no need for it at start
-        self.central = ble_central.Central(self.add_post)
+        self.central = ble_central.Central(self.quit_event, self.add_post)
 
         while not self.quit_event.is_set():
+            print("starting peripheral: " + datetime.now().strftime("%H:%M:%S"))
             self.peripheral.advertise()
-            if self.settings["rcv_posts"]["value"]:
+            if self.settings["rcv_posts"]["value"] and not self.quit_event.is_set():
+                print("starting central: " + datetime.now().strftime("%H:%M:%S"))
                 self.central.run()
 
     def input_loop(self):

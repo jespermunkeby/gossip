@@ -17,13 +17,14 @@ class Central:
     Handles BLE communication as central. 
     Discover, filter, connects and disconnects to devices 
     """
-    def __init__(self, store_message_cb):
+    def __init__(self, quit_event, store_message_cb):
         """
         Iniitialize class. Sets mainloop to Glib, 
         bus to SystemBus and sets event handler from argument
         """
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
+        self.quit_event = quit_event
         self.store_message_cb = store_message_cb
     # end __init__
 
@@ -53,19 +54,19 @@ class Central:
     # -- loop for running the program -- #
     def run(self):
         start = time.time()
-        while time.time() - start < 20:
-            print("Scanning for devices..." + " " + datetime.now().strftime("%H:%M:%S"))
+        while time.time() - start < util.CENTRAL_TIME and not self.quit_event.is_set():
+            print("Scanning for devices...")
             devices = self.scan()
             if (devices):
                 path, interface = self.select_random_device(devices)
-                print("Connecting" + " " + datetime.now().strftime("%H:%M:%S"))
+                print("Connecting")
                 connection = Connection(path, interface)
 
                 if connection.connect() == bc.RESULT_OK:
                     nh = NotificationHandler(self.bus, path, self.store_message_cb)
                     nh.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                 
-                print("Disconnecting" + " " + datetime.now().strftime("%H:%M:%S"))
+                print("Disconnecting")
                 connection.disconnect()
             time.sleep(util.CENTRAL_IDLE_TIME)
     # end run

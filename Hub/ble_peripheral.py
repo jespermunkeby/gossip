@@ -1,13 +1,11 @@
 import random
 import time
-from datetime import datetime
 
-from util import CHARACTERISTIC_UUID, UUID, HUB_NAME, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME
+from util import CHARACTERISTIC_UUID, UUID, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME, PERIPHERAL_TIME
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
 from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
-import os
 
 import asyncio
 import struct
@@ -35,8 +33,9 @@ class MessageService(Service):
 class Peripheral:
     """ Handles BLE communication as a peripheral. """
 
-    def __init__(self, new_posts_event, hub_name):
+    def __init__(self, quit_event, new_posts_event, hub_name):
         self.posts = None
+        self.quit_event = quit_event
         self.new_posts_event = new_posts_event
         self.hub_name = hub_name
         self.service = MessageService()
@@ -53,7 +52,6 @@ class Peripheral:
         # loop.run_until_complete(coroutine)
         loop = asyncio.new_event_loop()
         loop.run_until_complete(self.__run())
-        print("peripheral done" + " " + datetime.now().strftime("%H:%M:%S"))
 
     async def __run(self):
         bus = await get_message_bus()
@@ -62,13 +60,12 @@ class Peripheral:
         adapter = await Adapter.get_first(bus)
 
         # Start an advert.
-        advert = Advertisement(self.hub_name, [UUID], APPEARANCE, 15)
+        advert = Advertisement(self.hub_name, [UUID], APPEARANCE, ADVERTISEMENT_TIME)
         await advert.register(bus, adapter)
         start = time.time()
-        while time.time() - start < 20:
-            print("peripheral" + " " + datetime.now().strftime("%H:%M:%S"))
+        while time.time() - start < PERIPHERAL_TIME and not self.quit_event.is_set():
             index = 0 if not self.posts else random.randrange(0, len(self.posts))    # start broadcast at random post
-            while time.time() - start < 20:             # exit outer loop to end thread if quit event
+            while time.time() - start < PERIPHERAL_TIME and not self.quit_event.is_set():
                 if not self.posts:
                     continue
                 self.service.send_message(self.posts[index])     # broadcast post

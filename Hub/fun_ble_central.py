@@ -19,7 +19,6 @@ def run(store_message_cb, quit_event):
     initialize(props)
     scan(props)
     props['mainloop'].run()
-    #mainloop.quit()
 # end run
 
 def initialize(props):
@@ -37,6 +36,7 @@ def clear_device_cache():
 def scan(props):
     if props['quit_event'] != True and props['quit_event'].is_set():
         print('Central exited')
+        props['mainloop'].quit()
         return True
 
     props['devices'] = {}
