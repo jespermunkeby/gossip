@@ -500,12 +500,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow access to Bluetooth to receive messages";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Gossip needs access to Bluetooth to discover nearby devices and gather messages.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow Bluetooth access to look for devices";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Gossip needs access to your location to discover nearby devices and gather messages.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Gossip needs access to your location to discover nearby devices and gather messages.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -517,7 +519,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -535,12 +537,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = G682378MDS;
+				DEVELOPMENT_TEAM = GZTF9UHU9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow access to Bluetooth to receive messages";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Gossip needs access to Bluetooth to discover nearby devices and gather messages.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow Bluetooth access to look for devices";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Gossip needs access to your location to discover nearby devices and gather messages.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Gossip needs access to your location to discover nearby devices and gather messages.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -552,7 +556,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.Abbas;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

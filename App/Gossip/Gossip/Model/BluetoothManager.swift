@@ -1,6 +1,8 @@
 import Foundation
 import CoreBluetooth
 import CoreData
+import UIKit
+import SwiftUI
 
 let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
 let characteristicUUID = CBUUID(string: "08590F7E-DB05-467E-8757-72F6FAEB13D4")
@@ -46,6 +48,7 @@ class BluetoothManager: NSObject, ObservableObject {
     private var peripheralCharacteristic: CBMutableCharacteristic!
     
     private var coreDataViewModel: CoreDataViewModel!
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
     private var savedMessages : Set<Message> = []
     
@@ -84,11 +87,24 @@ class BluetoothManager: NSObject, ObservableObject {
         peripheralManager.add(service)
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
     }
+    
+    // startBackgroundTask method
+    private func startBackgroundTask() {
+        backgroundTask = UIApplication.shared.beginBackgroundTask {
+            self.endBackgroundTask()
+        }
+    }
 
+    // endBackgroundTask method
+    private func endBackgroundTask() {
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
+    }
 }
 
 extension BluetoothManager {
     func cycle(){
+        startBackgroundTask()
         //TODO: do saved message loading in a more energy efficient way
         savedMessages = Set(coreDataViewModel.fetchMessages().enumerated().map {_,message in
             return Message(messageModel: message)
@@ -129,6 +145,7 @@ extension BluetoothManager {
             centralManager.stopScan()
         }
         print("cycle finished")
+        endBackgroundTask()
         cycle()
     }
     
