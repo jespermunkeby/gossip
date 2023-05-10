@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 import CoreBluetooth
 import CoreData
@@ -49,6 +50,7 @@ class BluetoothManager: NSObject, ObservableObject {
     
     private var coreDataViewModel: CoreDataViewModel!
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+    private let encryptionKey = SymmetricKey(size: .bits256) // Example key, you should securely generate and store your key
     
     private var savedMessages : Set<Message> = []
     
@@ -149,12 +151,16 @@ extension BluetoothManager {
         cycle()
     }
     
-    @objc private func changeCharacteristic(){
+    @objc private func changeCharacteristic() {
         //TODO: Not random elem, handle empty
         let set = messages.union(savedMessages)
-        if (set.count != 0){
-            peripheralManager.updateValue(set.randomElement()!.serialize(), for: peripheralCharacteristic, onSubscribedCentrals: nil)
-            print("changed characteristic")
+        if (set.count != 0) {
+            let message = set.randomElement()!
+            if let messageContentString = String(data: message.content, encoding: .utf8),
+               let encryptedMessageData = try? EncryptionManager.encrypt(key: encryptionKey, plaintext: messageContentString) {
+                peripheralManager.updateValue(encryptedMessageData, for: peripheralCharacteristic, onSubscribedCentrals: nil)
+                print("Changed characteristic")
+            }
         }
     }
 }
@@ -218,12 +224,15 @@ extension BluetoothManager: CBCentralManagerDelegate {
     //Handle updates to the characteristic value
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
-            if let data = characteristic.value {
-                let message = Message(data: data)
-                if !savedMessages.contains(message) && !messages.contains(message){
-                    messages.insert(Message(data: data))
+            if let encryptedData = characteristic.value {
+                if let decryptedDataString = try? EncryptionManager.decrypt(key: encryptionKey, encryptedData: encryptedData),
+                   let decryptedData = decryptedDataString.data(using: .utf8) {
+                    let message = Message(data: decryptedData)
+                    if !savedMessages.contains(message) && !messages.contains(message) {
+                        messages.insert(message)
+                    }
+                    print("Received message: \(decryptedDataString)")
                 }
-                print(data)
             }
         }
     }
