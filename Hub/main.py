@@ -32,25 +32,9 @@ class Main:
         self.database = post_database.PostDatabase()
         self.settings = None
         self.peripheral = None
-        self.peripheral_thread = None
         self.central = None
-        self.central_thread = None
+        self.ble_thread = None
         self.webb_app = None
-        self.web_thread = None
-
-    def start_peripheral(self):
-        self.peripheral = ble_peripheral.Peripheral(self.quit_event, self.new_posts_event,
-                                                    hub_name=self.settings["hub_name"]["value"])
-        self.update_posts()  # add posts to peripheral to broadcast
-        self.new_posts_event.clear()  # clear event, no need for it at start
-        self.peripheral_thread = threading.Thread(target=self.peripheral.advertise, args=())
-        self.peripheral_thread.start()
-
-    def start_central(self):
-        #self.central = ble_central.Central(self.add_post, central_active=self.settings["rcv_posts"]["value"], quit_event=self.quit_event)
-        #self.central_thread = threading.Thread(target=self.central.run, args=())
-        self.central_thread = threading.Thread(target=fun_ble_central.run, args=(self.add_post, self.quit_event))
-        self.central_thread.start()
 
     def update_posts(self):
         """ Reads posts from the database, and updates peripheral to broadcast those posts. """
@@ -69,50 +53,55 @@ class Main:
         self.webb_app = create_app(self.update_posts, self.settings_updated)
         self.webb_app.run(host=WEB_APP_IP, port=WEB_APP_PORT, debug=False, use_reloader=False)
 
-    def start_web_thread(self):
-        self.web_thread = threading.Thread(target=self.run_web_config, args=())
-        self.web_thread.start()
+    def bluetooth_loop(self):
+        self.peripheral = ble_peripheral.Peripheral(self.new_posts_event,
+                                                    hub_name=self.settings["hub_name"]["value"])
+        self.update_posts()  # add posts to peripheral to broadcast
+        self.new_posts_event.clear()  # clear event, no need for it at start
+        self.central = ble_central.Central(self.add_post)
 
-    def settings_updated(self):
-        self.settings = read_config()
+        while not self.quit_event.is_set():
+            self.peripheral.advertise()
+            if self.settings["rcv_posts"]["value"]:
+                self.central.run()
 
-        # quit threads
-        self.quit_event.set()
-        self.peripheral_thread.join()
-        if self.central_thread:
-            self.central_thread.join()
-        self.quit_event.clear()
-
-        # restart threads
-        self.start_peripheral()
-        if self.settings["rcv_posts"]["value"]:
-            self.start_central()
-        else:
-            self.central = None
-            self.central_thread = None
-
-    def run(self):
-        self.settings = read_config()
-        self.start_peripheral()
-        if self.settings["rcv_posts"]["value"]:
-            self.start_central()
-        self.start_web_thread()
-        # user input loop
+    def input_loop(self):
         while True:
             user_input = input()
             if user_input == 'q':  # temporary (?), user enters q to quit
                 print("exiting...")
                 self.quit_event.set()  # set quit event, should get threads to finish
-                if self.peripheral_thread:
-                    self.peripheral_thread.join()  # wait for peripheral thread to finish
-                if self.central_thread:
-                    self.central_thread.join()
+                if self.ble_thread:
+                    self.ble_thread.join()  # wait for peripheral thread to finish
                 os._exit(1)
             elif user_input == 'c':  # temporary (?), user enters c to clear database
                 print("* cleared database")
                 self.database.clear()
             elif user_input != '':  # temporary (?), user enters post to add
                 self.add_post(user_input)
+
+    def settings_updated(self):
+        self.settings = read_config()
+
+        # quit threads
+        self.quit_event.set()
+        self.ble_thread.join()
+        self.quit_event.clear()
+
+        # restart thread
+        self.ble_thread = threading.Thread(target=self.bluetooth_loop)
+        self.ble_thread.start()
+
+    def run(self):
+        self.settings = read_config()
+
+        self.ble_thread = threading.Thread(target=self.bluetooth_loop)
+        self.ble_thread.start()
+
+        web_thread = threading.Thread(target=self.run_web_config)
+        web_thread.start()
+
+        self.input_loop()
 
 
 if __name__ == "__main__":

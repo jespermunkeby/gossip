@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+from datetime import datetime
+
 from gi.repository import GLib
 import bluetooth_constants as bc
 import bluetooth_utils as butil
@@ -15,7 +17,7 @@ class Central:
     Handles BLE communication as central. 
     Discover, filter, connects and disconnects to devices 
     """
-    def __init__(self, store_message_cb, central_active):
+    def __init__(self, store_message_cb):
         """
         Iniitialize class. Sets mainloop to Glib, 
         bus to SystemBus and sets event handler from argument
@@ -23,12 +25,8 @@ class Central:
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
         self.store_message_cb = store_message_cb
-        self.central_active = central_active
     # end __init__
 
-    def toggle_central_active(self, active):
-        self.central_active = active
-    
     def select_random_device(self, devices):
         """
         Selects a random device from the dictionary of found devices 
@@ -54,19 +52,20 @@ class Central:
 
     # -- loop for running the program -- #
     def run(self):
-        while self.central_active:
-            print("Scanning for devices...")
+        start = time.time()
+        while time.time() - start < 20:
+            print("Scanning for devices..." + " " + datetime.now().strftime("%H:%M:%S"))
             devices = self.scan()
             if (devices):
                 path, interface = self.select_random_device(devices)
-                print("Connecting")
+                print("Connecting" + " " + datetime.now().strftime("%H:%M:%S"))
                 connection = Connection(path, interface)
 
                 if connection.connect() == bc.RESULT_OK:
                     nh = NotificationHandler(self.bus, path, self.store_message_cb)
                     nh.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                 
-                print("Disconnecting")
+                print("Disconnecting" + " " + datetime.now().strftime("%H:%M:%S"))
                 connection.disconnect()
             time.sleep(util.CENTRAL_IDLE_TIME)
     # end run

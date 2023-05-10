@@ -1,4 +1,7 @@
 import random
+import time
+from datetime import datetime
+
 from util import CHARACTERISTIC_UUID, UUID, HUB_NAME, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
@@ -32,11 +35,11 @@ class MessageService(Service):
 class Peripheral:
     """ Handles BLE communication as a peripheral. """
 
-    def __init__(self, quit_event, new_posts_event, hub_name):
+    def __init__(self, new_posts_event, hub_name):
         self.posts = None
-        self.quit_event = quit_event
         self.new_posts_event = new_posts_event
         self.hub_name = hub_name
+        self.service = MessageService()
 
     def set_posts(self, posts):
         """ Set the posts being sent out over BLE. """
@@ -44,29 +47,33 @@ class Peripheral:
 
     def advertise(self):
         """ Start advertising the posts. """
-        asyncio.run(self.__run())
+        # asyncio.set_event_loop(asyncio.new_event_loop())
+        # loop = asyncio.get_event_loop()
+        # coroutine = self.__run()
+        # loop.run_until_complete(coroutine)
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(self.__run())
+        print("peripheral done" + " " + datetime.now().strftime("%H:%M:%S"))
 
     async def __run(self):
         bus = await get_message_bus()
-
-        service = MessageService()
-        await service.register(bus)
+        await self.service.register(bus)
 
         adapter = await Adapter.get_first(bus)
 
         # Start an advert.
-        advert = Advertisement(self.hub_name, [UUID], APPEARANCE, ADVERTISEMENT_TIME)
+        advert = Advertisement(self.hub_name, [UUID], APPEARANCE, 15)
         await advert.register(bus, adapter)
-        while True:
+        start = time.time()
+        while time.time() - start < 20:
+            print("peripheral" + " " + datetime.now().strftime("%H:%M:%S"))
             index = 0 if not self.posts else random.randrange(0, len(self.posts))    # start broadcast at random post
-            while not self.quit_event.is_set():             # exit outer loop to end thread if quit event
+            while time.time() - start < 20:             # exit outer loop to end thread if quit event
                 if not self.posts:
                     continue
-                service.send_message(self.posts[index])     # broadcast post
+                self.service.send_message(self.posts[index])     # broadcast post
                 index = (index + 1) if (index < len(self.posts)-1) else 0  # increment index within range
                 await asyncio.sleep(DOWN_TIME)
-                if self.quit_event.is_set():         # break out of post loop if quit event
-                    break
                 if self.new_posts_event.is_set():
                     self.new_posts_event.clear()     # clear new post event when handled
                     break                            # break out of post loop if new posts
