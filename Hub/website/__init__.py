@@ -8,7 +8,7 @@ sys.path.insert(0, '..')
 def get_config():
     return read_config()
 
-def create_app(update_posts):
+def create_app(update_posts, restart_threads):
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'potato'
     database = post_database.PostDatabase()
@@ -32,7 +32,7 @@ def create_app(update_posts):
     app.jinja_env.globals.update(get_posts=get_posts)
     app.jinja_env.globals.update(delete_post=delete_post)
 
-    views = define_views(add_post, delete_post)
+    views = define_views(add_post, delete_post, restart_threads)
     app.register_blueprint(views, url_prfefix='/')
     
     return app

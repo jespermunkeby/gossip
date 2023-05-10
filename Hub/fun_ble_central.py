@@ -12,9 +12,6 @@ import sys
 sys.path.insert(0, '.')
 
 
-def start_central(store_message_cb, quit_event):
-    return lambda: run(store_message_cb, quit_event)
-
 def run(store_message_cb, quit_event):
     props = {'store_message_cb': store_message_cb,
              'quit_event': quit_event}
