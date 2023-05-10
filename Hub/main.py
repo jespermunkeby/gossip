@@ -9,6 +9,7 @@ from logging.handlers import RotatingFileHandler
 from website import create_app
 from util import WEB_APP_IP, WEB_APP_PORT
 from website.settings.settings import read_config
+import os
 
 
 def init_log():  # adapted from https://stackoverflow.com/a/56369583
@@ -104,7 +105,7 @@ class Main:
                     self.peripheral_thread.join()  # wait for peripheral thread to finish
                 if self.central_thread:
                     self.central_thread.join()
-                break
+                os._exit(1)
             elif user_input == 'c':  # temporary (?), user enters c to clear database
                 print("* cleared database")
                 self.database.clear()
