@@ -23,8 +23,9 @@ class MessageService(Service):
 
     def send_message(self, new_message):
         """ Send the specified message. """
+        new_message = new_message if type(new_message) is bytes else new_message.encode()
         length = len(new_message)
-        message = struct.pack("<" + str(length) + "s", new_message.encode())
+        message = struct.pack("<" + str(length) + "s", new_message)
         self.post.changed(message)
 
 
@@ -57,8 +58,10 @@ class Peripheral:
         advert = Advertisement(self.hub_name, [UUID], APPEARANCE, ADVERTISEMENT_TIME)
         await advert.register(bus, adapter)
         while True:
-            index = random.randrange(0, len(self.posts))    # start broadcast at random post
-            while True:
+            index = 0 if not self.posts else random.randrange(0, len(self.posts))    # start broadcast at random post
+            while not self.quit_event.is_set():             # exit outer loop to end thread if quit event
+                if not self.posts:
+                    continue
                 service.send_message(self.posts[index])     # broadcast post
                 index = (index + 1) if (index < len(self.posts)-1) else 0  # increment index within range
                 await asyncio.sleep(DOWN_TIME)
@@ -67,6 +70,3 @@ class Peripheral:
                 if self.new_posts_event.is_set():
                     self.new_posts_event.clear()     # clear new post event when handled
                     break                            # break out of post loop if new posts
-            if self.quit_event.is_set():             # exit outer loop to end thread if quit event
-                os.system("sudo systemctl restart bluetooth")
-                break

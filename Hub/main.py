@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import ble_peripheral
 import ble_central
+import fun_ble_central
 import logging
 import post_database
 import threading
@@ -22,7 +23,7 @@ def init_log():  # adapted from https://stackoverflow.com/a/56369583
 
 def update_posts():
     """ Reads posts from the database, and updates peripheral to broadcast those posts. """
-    posts = database.get_posts(content_only=True)
+    posts = database.get_decoded_posts(content_only=True)
     print("* broadcasting: " + str(posts))
     peripheral.set_posts(posts)
     new_posts_event.set()
@@ -49,14 +50,15 @@ settings = read_config()
 
 """Initialize peripheral and central with current settings"""
 peripheral = ble_peripheral.Peripheral(quit_event, new_posts_event, hub_name = settings["hub_name"]["value"])
-central = ble_central.Central(add_post, central_active = settings["rcv_posts"]["value"])
+#central = ble_central.Central(add_post, quit_event)
+central_run = fun_ble_central.start_central(add_post, quit_event)
 
 update_posts()              # add posts to peripheral to broadcast
 new_posts_event.clear()     # clear event, no need for it at start
 
 # create and run thread for peripheral
 peripheral_thread = threading.Thread(target=peripheral.advertise, args=())
-central_thread = threading.Thread(target=central.run, args=())
+central_thread = threading.Thread(target=central_run, args=())
 web_thread = threading.Thread(target=run_web_config, args=())
 
 peripheral_thread.start()
@@ -71,9 +73,10 @@ while True:
         quit_event.set()            # set quit event, should get threads to finish
         peripheral_thread.join()    # wait for peripheral thread to finish
         central_thread.join()
+        os.system("sudo systemctl restart bluetooth")
         break
     elif user_input == 'c':         # temporary (?), user enters c to clear database
         print("* cleared database")
         database.clear()
     elif user_input != '':          # temporary (?), user enters post to add
-        add_post(user_input)
+        add_post(user_input.encode())

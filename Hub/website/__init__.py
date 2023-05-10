@@ -22,7 +22,7 @@ def create_app(update_posts):
     def get_posts():
         """ Returns all the posts in the database as an array of dictionaries
             in the format {'key': 1, 'content': 'post'} """
-        return database.get_posts()
+        return database.get_decoded_posts()
 
     def add_post(post):
         database.add_post(post)

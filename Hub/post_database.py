@@ -66,6 +66,9 @@ class PostDatabase:
             return list(map(lambda row: row['content'], posts))
         return posts
 
+    def get_decoded_posts(self, content_only=False):
+        return [post if type(post) is str else post.decode() for post in self.get_posts(content_only=content_only)]
+
     def delete_post(self, post_id):
         """ Delete the post with the given id. """
         self.cursor.execute("DELETE FROM post WHERE key=?", (str(post_id),))
