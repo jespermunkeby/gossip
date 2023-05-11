@@ -12,7 +12,6 @@ let messageInterval: TimeInterval = 1
 let cycleDuration: TimeInterval = 15
 let maxRandomDurationDeviation: TimeInterval = 5
 
-
 //TODO: refactor to model with both these?
 class CoreDataHandler {
     private let persistentContainer: NSPersistentContainer
@@ -33,7 +32,6 @@ class CoreDataHandler {
         }
     }
 }
-
 
 //Singleton class to manage bluetooth stuff
 class BluetoothManager: NSObject, ObservableObject {
@@ -219,11 +217,16 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                let message = Message(data: data)
-                if !savedMessages.contains(message) && !messages.contains(message){
-                    messages.insert(Message(data: data))
-                }
-                print(data)
+                do {
+                    
+                    
+                    let message = try Message(data: data)
+                    if !savedMessages.contains(message) && !messages.contains(message){
+                        messages.insert(message)
+                    }
+                } catch{print("failed to create message from peripheral data")}
+                
+                
             }
         }
     }
