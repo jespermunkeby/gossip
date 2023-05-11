@@ -5,16 +5,50 @@
 //  Created by Jesper Munkeby on 2023-05-03.
 //
 import Foundation
+<<<<<<< HEAD
 import CoreLocation
+=======
+import CryptoKit
+
+let keyString = "xoxoGossip"
+
+// Derive a 256-bit key from the predefined key string
+let keyData = keyString.data(using: .utf8)!
+let key = SymmetricKey(data: SHA256.hash(data: keyData))
+
+func encryptAES(data: Data, key: SymmetricKey) -> Data? {
+    do {
+        let sealedBox = try AES.GCM.seal(data, using: key)
+        return sealedBox.combined
+    } catch {
+        print("Encryption error: \(error.localizedDescription)")
+        return nil
+    }
+}
+
+func decryptAES(encryptedData: Data, key: SymmetricKey) -> Data? {
+    do {
+        let sealedBox = try AES.GCM.SealedBox(combined: encryptedData)
+        let decryptedData = try AES.GCM.open(sealedBox, using: key)
+        return decryptedData
+    } catch {
+        print("Decryption error: \(error.localizedDescription)")
+        return nil
+    }
+}
+>>>>>>> app2app-crypto
 
 struct Message {
     let content: Data
     let pickupTime: Date
     let location: CLLocationCoordinate2D
     
-    init(data: Data){
+    init(data: Data) throws {
         //deserialize
-        self.content = data
+        guard let decryptedData = decryptAES(encryptedData: data, key: key) else {
+            throw NSError(domain: "Decryption failed", code: 1, userInfo: nil)
+        }
+        self.content = decryptedData
         self.pickupTime = Date()
         self.location = MapManager.shared.getCurrentLocation()
     }
@@ -31,7 +65,7 @@ struct Message {
 
 extension Message {
     func serialize() -> Data{
-        return self.content
+        return encryptAES(data: self.content, key: key)!
     }
 }
 
