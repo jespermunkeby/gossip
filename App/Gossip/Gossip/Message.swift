@@ -42,10 +42,12 @@ struct Message {
     
     init(data: Data) throws {
         //deserialize
+        /*
         guard let decryptedData = decryptAES(encryptedData: data, key: key) else {
             throw NSError(domain: "Decryption failed", code: 1, userInfo: nil)
         }
-        self.content = decryptedData
+         */
+        self.content = data
         self.pickupTime = Date()
         self.location = MapManager.shared.getCurrentLocation()
     }
@@ -60,7 +62,7 @@ struct Message {
 
 extension Message {
     func serialize() -> Data{
-        return encryptAES(data: self.content, key: key)!
+        return self.content
     }
 }
 
