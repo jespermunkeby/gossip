@@ -47,7 +47,7 @@ struct Message {
         }
         self.content = decryptedData
         self.pickupTime = Date()
-        self.location = MapManager.shared.getCurrentLocation()
+        self.location = MapManager.shared.getDeviceCurrentLocation() ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
     }
     
     init(messageModel: MessageModel){

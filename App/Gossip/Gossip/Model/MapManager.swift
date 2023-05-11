@@ -9,14 +9,17 @@ import CoreLocation
 import MapKit
 
 
-enum MapDetails {
-    static let startingLocation = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-}
+
 
 // CLLocationManagerDelegate makes it possible to listen for changes in auth settings
 class MapManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    struct MapDetails {
+        static let startingLocation = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    }
     // @Published makes the UI connected to it update as soon as is updates
+    @Published var userLocation: CLLocationCoordinate2D?
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
     static let shared = MapManager()
 
@@ -66,18 +69,25 @@ class MapManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        region.center = location.coordinate
+        userLocation = location.coordinate
     }
 
-    func getCurrentLocation() -> CLLocationCoordinate2D {
-        let originalLat = region.center.latitude
-        let originalLon = region.center.longitude
+    
+    func getDeviceCurrentLocation() -> CLLocationCoordinate2D? {
+        guard let location = locationManager?.location else {
+            return nil
+        }
+        let originalLat = location.coordinate.latitude
+        let originalLon = location.coordinate.longitude
 
-        let roundedLat = Double(round(10000*originalLat)/10000)
-        let roundedLon = Double(round(10000*originalLon)/10000)
+        let truncatedLat = Double(Int(originalLat*10000))/10000
+        let truncatedLon = Double(Int(originalLon*10000))/10000
 
-        return CLLocationCoordinate2D(latitude: roundedLat, longitude: roundedLon)
+        return CLLocationCoordinate2D(latitude: originalLat, longitude: originalLon)
     }
+
+
+
 
 }
 
