@@ -5,9 +5,7 @@
 //  Created by Jesper Munkeby on 2023-05-03.
 //
 import Foundation
-<<<<<<< HEAD
 import CoreLocation
-=======
 import CryptoKit
 
 let keyString = "xoxoGossip"
@@ -36,7 +34,6 @@ func decryptAES(encryptedData: Data, key: SymmetricKey) -> Data? {
         return nil
     }
 }
->>>>>>> app2app-crypto
 
 struct Message {
     let content: Data
@@ -59,8 +56,6 @@ struct Message {
         self.pickupTime = messageModel.timestamp!
         self.location = CLLocationCoordinate2D(latitude: messageModel.latitude, longitude: messageModel.longitude)
     }
-    
-    
 }
 
 extension Message {
