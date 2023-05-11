@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from aes_crypto import decrypt
 from gi.repository import GLib
 import bluetooth_constants as bc
 import bluetooth_utils as butil
@@ -335,9 +336,13 @@ class NotificationHandler:
         Callback to handle a revieced post notification.
         """
         if 'Value' in changed:
-            message = butil.dbus_to_string(changed['Value'])
-            print("Message: " + str(message))
-            self.store_message_cb(message)
+            #try:
+            #    message = decrypt(butil.dbus_to_string(changed['Value']))
+                message = butil.dbus_to_string(changed['Value'])
+                print("Message: " + str(message))
+                self.store_message_cb(message)
+            #except:
+            #    print("a packet was discarded due to integrity breach")
     # end post_rcvd
 
     def notifications_cleanup(self):

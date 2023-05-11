@@ -5,7 +5,7 @@ from bluez_peripheral.advert import Advertisement
 from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
 import os
-
+from aes_crypto import encrypt
 import asyncio
 import struct
 
@@ -23,8 +23,11 @@ class MessageService(Service):
 
     def send_message(self, new_message):
         """ Send the specified message. """
-        length = len(new_message)
-        message = struct.pack("<" + str(length) + "s", new_message.encode())
+        msg = encrypt(new_message)
+        #msg = new_message.encode('utf-8')
+        length = len(msg)
+        message = struct.pack("<" + str(length) + "s", msg)
+        
         self.post.changed(message)
 
 
