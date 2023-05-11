@@ -15,7 +15,7 @@ struct mapView: View {
 
     var groupedMessages: [GroupedMessageAnnotation] {
         let grouped = Dictionary(grouping: messages) {
-            CoordinateKey(latitude: $0.latitude, longitude: $0.longitude)
+            CoordinateKey(latitude: Double(Int($0.latitude*1000))/1000, longitude: Double(Int($0.longitude*1000))/1000)
         }
         return grouped.map { (key, messages) in
             GroupedMessageAnnotation(
@@ -29,9 +29,10 @@ struct mapView: View {
         ZStack {
             Map(coordinateRegion: $mapManager.region, showsUserLocation: true, annotationItems: groupedMessages) { annotation in
                 MapAnnotation(coordinate: annotation.coordinate) {
-                    Image(systemName: "mappin.circle.fill")
-                        .foregroundColor(.red)
-                        .scaleEffect(1.1)
+                    Image("logo_black") // Replace this with your logo's filename
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
                         .onTapGesture {
                             self.selectedAnnotation = annotation
                         }
@@ -40,6 +41,9 @@ struct mapView: View {
             .ignoresSafeArea()
             .onAppear {
                 mapManager.isLocationEnabled()
+                if let userLocation = mapManager.getDeviceCurrentLocation() {
+                    mapManager.region.center = userLocation
+                }
             }
             
             if let selectedAnnotation = selectedAnnotation {
