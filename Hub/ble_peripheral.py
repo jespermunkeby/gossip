@@ -1,5 +1,7 @@
 import random
-from util import CHARACTERISTIC_UUID, UUID, HUB_NAME, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME
+import time
+
+from util import CHARACTERISTIC_UUID, UUID, APPEARANCE, ADVERTISEMENT_TIME, DOWN_TIME, PERIPHERAL_TIME
 from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
 from bluez_peripheral.gatt.service import Service
@@ -23,11 +25,9 @@ class MessageService(Service):
 
     def send_message(self, new_message):
         """ Send the specified message. """
-        msg = encrypt(new_message)
-        #msg = new_message.encode('utf-8')
-        length = len(msg)
-        message = struct.pack("<" + str(length) + "s", msg)
-        
+        new_message = new_message if type(new_message) is bytes else new_message.encode()
+        length = len(new_message)
+        message = struct.pack("<" + str(length) + "s", new_message)
         self.post.changed(message)
 
 
@@ -39,6 +39,7 @@ class Peripheral:
         self.quit_event = quit_event
         self.new_posts_event = new_posts_event
         self.hub_name = hub_name
+        self.service = MessageService()
 
     def set_posts(self, posts):
         """ Set the posts being sent out over BLE. """
@@ -46,30 +47,31 @@ class Peripheral:
 
     def advertise(self):
         """ Start advertising the posts. """
-        asyncio.run(self.__run())
+        # asyncio.set_event_loop(asyncio.new_event_loop())
+        # loop = asyncio.get_event_loop()
+        # coroutine = self.__run()
+        # loop.run_until_complete(coroutine)
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(self.__run())
 
     async def __run(self):
         bus = await get_message_bus()
-
-        service = MessageService()
-        await service.register(bus)
+        await self.service.register(bus)
 
         adapter = await Adapter.get_first(bus)
 
         # Start an advert.
         advert = Advertisement(self.hub_name, [UUID], APPEARANCE, ADVERTISEMENT_TIME)
         await advert.register(bus, adapter)
-        while True:
-            index = random.randrange(0, len(self.posts))    # start broadcast at random post
-            while True:
-                service.send_message(self.posts[index])     # broadcast post
+        start = time.time()
+        while time.time() - start < PERIPHERAL_TIME and not self.quit_event.is_set():
+            index = 0 if not self.posts else random.randrange(0, len(self.posts))    # start broadcast at random post
+            while time.time() - start < PERIPHERAL_TIME and not self.quit_event.is_set():
+                if not self.posts:
+                    continue
+                self.service.send_message(self.posts[index])     # broadcast post
                 index = (index + 1) if (index < len(self.posts)-1) else 0  # increment index within range
                 await asyncio.sleep(DOWN_TIME)
-                if self.quit_event.is_set():         # break out of post loop if quit event
-                    break
                 if self.new_posts_event.is_set():
                     self.new_posts_event.clear()     # clear new post event when handled
                     break                            # break out of post loop if new posts
-            if self.quit_event.is_set():             # exit outer loop to end thread if quit event
-                os.system("sudo systemctl restart bluetooth")
-                break

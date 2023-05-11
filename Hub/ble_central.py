@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 from aes_crypto import decrypt
+from datetime import datetime
+
 from gi.repository import GLib
 import bluetooth_constants as bc
 import bluetooth_utils as butil
@@ -16,20 +18,17 @@ class Central:
     Handles BLE communication as central. 
     Discover, filter, connects and disconnects to devices 
     """
-    def __init__(self, store_message_cb, central_active):
+    def __init__(self, quit_event, store_message_cb):
         """
         Iniitialize class. Sets mainloop to Glib, 
         bus to SystemBus and sets event handler from argument
         """
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.bus = dbus.SystemBus()
+        self.quit_event = quit_event
         self.store_message_cb = store_message_cb
-        self.central_active = central_active
     # end __init__
 
-    def toggle_central_active(self, active):
-        self.central_active = active
-    
     def select_random_device(self, devices):
         """
         Selects a random device from the dictionary of found devices 
@@ -55,7 +54,8 @@ class Central:
 
     # -- loop for running the program -- #
     def run(self):
-        while self.central_active:
+        start = time.time()
+        while time.time() - start < util.CENTRAL_TIME and not self.quit_event.is_set():
             print("Scanning for devices...")
             devices = self.scan()
             if (devices):

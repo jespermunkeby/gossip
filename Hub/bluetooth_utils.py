@@ -14,7 +14,8 @@ def byteArrayToHexString(bytes):
 
 def dbus_to_string(data):
     if isinstance(data, dbus.Array):
-        return ''.join([chr(dbus_to_python(value)) for value in data])
+        return bytes(data)
+        #return ''.join([chr(dbus_to_python(value)) for value in data])
     return dbus_to_python(data)
 
 def dbus_to_python(data):
