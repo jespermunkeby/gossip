@@ -13,11 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 struct GossipApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let coreDataViewModel = CoreDataViewModel()
+    @StateObject var mapManager = MapManager.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(coreDataViewModel)
+                .preferredColorScheme(.light)
+                .onAppear {
+                    mapManager.isLocationEnabled()
+                }
         }
     }
 }
