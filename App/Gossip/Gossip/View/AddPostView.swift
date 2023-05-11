@@ -5,6 +5,8 @@ struct AddPostView: View {
     @EnvironmentObject var coreDataViewModel: CoreDataViewModel
     @State private var titleText: String = ""
     @State private var contentText: String = ""
+    @State private var latitude: Double = 0.0
+    @State private var longitude: Double = 0.0
 
     var body: some View {
         NavigationView {
@@ -32,9 +34,11 @@ struct AddPostView: View {
     }
 
     private func savePost() {
-        coreDataViewModel.saveMessage(title: titleText, content: contentText)
+        coreDataViewModel.saveMessage(title: titleText, content: contentText, time: Date(), latitude: latitude, longitude: longitude)
         titleText = ""
         contentText = ""
+        latitude = 0.0
+        longitude = 0.0
         presentationMode.wrappedValue.dismiss()
     }
 }

@@ -23,7 +23,16 @@ struct FeedCardView: View {
                     Text("Received: \(post.receivedDate.formatted(.dateTime.year().month().day().hour().minute()))") // Add this line to display the received date
                         .font(.footnote)
                         .foregroundColor(.gray)
+                    
+                    
+                    // Conditional rendering of the location
+                   if !(post.latitude == 0.0 && post.longitude == 0.0) {
+                       Text("Location: (\(post.latitude), \(post.longitude))")
+                           .font(.footnote)
+                           .foregroundColor(.gray)
+                   }
                 }
+            
 
 
             }

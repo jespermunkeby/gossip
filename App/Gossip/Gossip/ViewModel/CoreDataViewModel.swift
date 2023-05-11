@@ -14,13 +14,15 @@ class CoreDataViewModel: ObservableObject {
         }
     }
 
-    // Updated function to save a new message with title and content
-    func saveMessage(title: String, content: String) {
+
+    func saveMessage(title: String, content: String, time: Date, latitude: Double, longitude: Double) {
         let context = container.viewContext
         let message = MessageModel(context: context)
         message.title = title
         message.content = content
-        message.timestamp = Date()
+        message.timestamp = time
+        message.latitude = latitude
+        message.longitude = longitude
 
         do {
             try context.save()

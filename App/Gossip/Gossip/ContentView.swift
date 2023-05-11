@@ -11,7 +11,7 @@ struct ContentView: View {
             GeometryReader { geometry in
                 ZStack {
                     VStack{
-                        HeaderView(showSettings: .constant(true), isContentView: .constant(true))
+                        HeaderView(showSettings: .constant(true), isContentView: .constant(true), messages: messages)
 
                         ScrollView {
                             VStack() {
@@ -20,11 +20,13 @@ struct ContentView: View {
                                         title: "Message \(index + 1)",
                                         content: messages[index].content,
                                         receivedDate: messages[index].receivedDate,
+                                        latitude: messages[index].latitude,
+                                               longitude: messages[index].longitude,
                                         saveButtonViewModel: SaveButtonViewModel()
                                     )
                                     FeedCardView(post: post, onSaveAction: { isSaved in
                                         if isSaved {
-                                            coreDataViewModel.saveMessage(title: post.title, content: post.content)
+                                            coreDataViewModel.saveMessage(title: post.title, content: post.content, time: post.receivedDate, latitude: post.latitude, longitude: post.longitude)
                                         } else {
                                             // Find the corresponding saved message and remove it
                                             if let message = coreDataViewModel.fetchMessages().first(where: { $0.title == post.title && $0.content == post.content }) {
@@ -93,6 +95,8 @@ struct ContentView: View {
                             title: "Message \(index + 1) from hub",
                             content: content,
                             receivedDate: msg.pickupTime,
+                            latitude: msg.location.latitude,
+                            longitude: msg.location.longitude,
                             saveButtonViewModel: SaveButtonViewModel()
                         )
                     }

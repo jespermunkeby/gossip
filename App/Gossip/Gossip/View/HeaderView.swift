@@ -11,6 +11,7 @@ struct HeaderView: View {
     @Binding var showSettings: Bool
     @Binding var isContentView: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    var messages: [FeedCard]!
     
     var body: some View {
         ZStack {
@@ -35,6 +36,13 @@ struct HeaderView: View {
                             .frame(width: 35, height: 35)
                             .accentColor(.black)
                     }
+                    
+                    NavigationLink(destination: mapView(messages: messages)) {
+                    Image(systemName: "location.fill")
+                        .resizable()
+                        .frame(width: 35, height: 35)
+                        .accentColor(.black)
+                    }
                 }
             }
             .padding([.leading, .trailing, .bottom])
@@ -42,13 +50,5 @@ struct HeaderView: View {
             Spacer(minLength: 0)
         }
         .frame(height: 60)
-    }
-}
-
-
-struct HeaderView_Previews: PreviewProvider {
-    static var previews: some View {
-        HeaderView(showSettings: .constant(true), isContentView: .constant(true))
-
     }
 }

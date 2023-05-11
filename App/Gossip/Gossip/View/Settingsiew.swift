@@ -67,6 +67,6 @@ struct SettingsView: View {
                 .padding()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-        } .background() 
+        } .background()
     }
 }

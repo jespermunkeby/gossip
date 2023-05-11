@@ -16,6 +16,8 @@ extension MessageModel {
     @NSManaged public var content: String?
     @NSManaged public var timestamp: Date?
     @NSManaged public var title: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
 
 }
 

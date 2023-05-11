@@ -13,6 +13,8 @@ struct SavedMessagesView: View {
                         title: message.title ?? "",
                         content: message.content ?? "",
                         receivedDate: message.timestamp ?? Date(),
+                        latitude: message.latitude,
+                        longitude: message.longitude,
                         saveButtonViewModel: SaveButtonViewModel()
                     )
                     FeedCardView(post: post)

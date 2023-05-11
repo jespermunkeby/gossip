@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		055F00CE2A0D2BC0003AEB4B /* mapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055F00CD2A0D2BC0003AEB4B /* mapView.swift */; };
+		055F00D02A0D2BDD003AEB4B /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055F00CF2A0D2BDD003AEB4B /* MapManager.swift */; };
 		05DD95632A026BA2007E87BA /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DD95622A026BA2007E87BA /* HeaderView.swift */; };
 		05DD95652A026BF8007E87BA /* Settingsiew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DD95642A026BF8007E87BA /* Settingsiew.swift */; };
 		733A627429FAA58000EB7DE0 /* GossipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733A627329FAA58000EB7DE0 /* GossipApp.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		055F00CD2A0D2BC0003AEB4B /* mapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapView.swift; sourceTree = "<group>"; };
+		055F00CF2A0D2BDD003AEB4B /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		05DD95622A026BA2007E87BA /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		05DD95642A026BF8007E87BA /* Settingsiew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settingsiew.swift; sourceTree = "<group>"; };
 		733A627029FAA58000EB7DE0 /* Gossip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gossip.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +173,7 @@
 				733A62A129FAA74700EB7DE0 /* MessageModel.xcdatamodeld */,
 				733A62AD29FAAE0500EB7DE0 /* feedCard.swift */,
 				733A62BC2A00FC9D00EB7DE0 /* BluetoothManager.swift */,
+				055F00CF2A0D2BDD003AEB4B /* MapManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 				733A62BA2A00FAA700EB7DE0 /* AddPostView.swift */,
 				05DD95622A026BA2007E87BA /* HeaderView.swift */,
 				05DD95642A026BF8007E87BA /* Settingsiew.swift */,
+				055F00CD2A0D2BC0003AEB4B /* mapView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,7 +333,9 @@
 			files = (
 				733A627629FAA58000EB7DE0 /* ContentView.swift in Sources */,
 				733A62B729FFC6F400EB7DE0 /* saveButtonView.swift in Sources */,
+				055F00CE2A0D2BC0003AEB4B /* mapView.swift in Sources */,
 				733A62A929FAA91400EB7DE0 /* CoreDataViewModel.swift in Sources */,
+				055F00D02A0D2BDD003AEB4B /* MapManager.swift in Sources */,
 				05DD95652A026BF8007E87BA /* Settingsiew.swift in Sources */,
 				733A62A729FAA8AF00EB7DE0 /* MessageModel+CoreDataProperties.swift in Sources */,
 				733A62BD2A00FC9D00EB7DE0 /* BluetoothManager.swift in Sources */,
@@ -500,7 +508,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gossip/Preview Content\"";
-				DEVELOPMENT_TEAM = GZTF9UHU9X;
+				DEVELOPMENT_TEAM = G682378MDS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gossip/Info.plist;
@@ -519,7 +527,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.jesper;
+				PRODUCT_BUNDLE_IDENTIFIER = test.Gossip.AbbasAlubeid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
