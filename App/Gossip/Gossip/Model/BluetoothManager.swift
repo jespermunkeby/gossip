@@ -198,11 +198,12 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == characteristicUUID {
             if let data = characteristic.value {
-                let message = Message(data: data)
-                if !savedMessages.contains(message) && !messages.contains(message){
-                    messages.insert(Message(data: data))
-                }
-                print(data)
+                do {
+                    let message = try Message(data: data)
+                    if !savedMessages.contains(message) && !messages.contains(message){
+                        messages.insert(message)
+                    }
+                } catch{print("could not read peripheral value")}
             }
         }
     }

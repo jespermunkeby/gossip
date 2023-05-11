@@ -42,15 +42,21 @@ func decryptAES(encryptedData: Data, key: SymmetricKey) -> String? {
  
  */
 
+enum MessageError: Error {
+    case parsingError
+}
 
 struct Message {
     let content: Data
     let pickupTime: Date
     
-    init(data: Data){
-        //deserialize
-        self.content = data
-        self.pickupTime = Date()
+    init(data: Data) throws {
+            guard let content = String(data: data, encoding: .utf8) else {
+                throw MessageError.parsingError
+            }
+            
+            self.content = data
+            self.pickupTime = Date()
     }
     
     init(messageModel: MessageModel){

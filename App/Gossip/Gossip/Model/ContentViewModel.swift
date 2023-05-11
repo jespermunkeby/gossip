@@ -29,7 +29,7 @@ class ContentViewModel: ObservableObject{
             })
         }
         cancellableReady = bluetoothManager.$initialized_peripheral.sink { ready in
-            self.bluetoothManager.cycle()
+            if ready {self.bluetoothManager.cycle()}
         }
     }
     
