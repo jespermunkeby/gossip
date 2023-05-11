@@ -8,8 +8,8 @@ from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
 import os
 from aes_crypto import encrypt
-import asyncio
 import struct
+import asyncio
 
 
 class MessageService(Service):
@@ -26,8 +26,9 @@ class MessageService(Service):
     def send_message(self, new_message):
         """ Send the specified message. """
         new_message = new_message if type(new_message) is bytes else new_message.encode()
-        length = len(new_message)
-        message = struct.pack("<" + str(length) + "s", new_message)
+        encrypted_msg = encrypt(new_message)
+        length = len(encrypted_msg)
+        message = struct.pack("<" + str(length) + "s", encrypted_msg)
         self.post.changed(message)
 
 

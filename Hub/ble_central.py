@@ -336,13 +336,14 @@ class NotificationHandler:
         Callback to handle a revieced post notification.
         """
         if 'Value' in changed:
-            #try:
-            #    message = decrypt(butil.dbus_to_string(changed['Value']))
+            try:
                 message = butil.dbus_to_string(changed['Value'])
-                print("Message: " + str(message))
-                self.store_message_cb(message)
-            #except:
-            #    print("a packet was discarded due to integrity breach")
+                message = message if type(message) is bytes else message.encode('utf-8')
+                decrypted_msg = decrypt(message)
+                print("Message: " + str(decrypted_msg))
+                self.store_message_cb(decrypted_msg)
+            except:
+                print("a packet was discarded due to integrity breach")
     # end post_rcvd
 
     def notifications_cleanup(self):
