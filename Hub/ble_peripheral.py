@@ -6,7 +6,8 @@ from bluez_peripheral.util import *
 from bluez_peripheral.advert import Advertisement
 from bluez_peripheral.gatt.service import Service
 from bluez_peripheral.gatt.characteristic import characteristic, CharacteristicFlags as CharFlags
-
+import os
+from aes_crypto import encrypt
 import asyncio
 import struct
 
