@@ -5,13 +5,18 @@ struct ContentView: View {
     @State private var messages: [FeedCard] = []
     @State private var isShowingSavedMessages = false
     @State private var isShowingAddPostView = false
+    @State private var savedMessages: [FeedCard] = []
+
+    var allMessages: [FeedCard] {
+        return messages + savedMessages
+    }
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 ZStack {
                     VStack{
-                        HeaderView(showSettings: .constant(true), isContentView: .constant(true), messages: messages)
+                        HeaderView(showSettings: .constant(true), isContentView: .constant(true), messages: allMessages)
 
                         ScrollView {
                             VStack() {
@@ -87,6 +92,20 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onAppear {
+                               // Fetch saved messages from CoreData when the view appears
+                               let fetchedMessages = coreDataViewModel.fetchMessages()
+                               savedMessages = fetchedMessages.map { message in
+                                   FeedCard(
+                                       title: message.title ?? "",
+                                       content: message.content ?? "",
+                                       receivedDate: message.timestamp ?? Date(),
+                                       latitude: message.latitude,
+                                       longitude: message.longitude,
+                                       saveButtonViewModel: SaveButtonViewModel()
+                                   )
+                               }
+                           }
                 .onReceive(BluetoothManager.shared.$messages) { msgs in
                     let sortedArray = Array(msgs).sorted { $0.pickupTime > $1.pickupTime }
                     messages = sortedArray.enumerated().map { index, msg in
