@@ -63,13 +63,12 @@ class Central:
                 print("Connecting")
                 connection = Connection(path, interface)
 
-                if connection.connect() == bc.RESULT_OK:
+                if connection.connect() == bc.RESULT_OK and interface.Connected:
                     nh = NotificationHandler(self.bus, path, self.store_message_cb)
                     nh.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                 
                 print("Disconnecting")
                 connection.disconnect()
-            time.sleep(util.CENTRAL_IDLE_TIME)
     # end run
 
 
@@ -259,7 +258,7 @@ class NotificationHandler:
         self.mainloop = GLib.MainLoop()
 
         self.char_interface = None
-        self.signal_receiver = None
+        self.signal_receivers = []
         self.timer_id = None
         self.pc_path = self.get_char_address()
 
@@ -313,11 +312,11 @@ class NotificationHandler:
         print ("P2P Gossip characteristic path:", self.pc_path)
         char_proxy = self.bus.get_object(bc.BLUEZ_SERVICE_NAME, self.pc_path)
         self.char_interface = dbus.Interface(char_proxy, bc.GATT_CHARACTERISTIC_INTERFACE)
-        self.signal_receiver = self.bus.add_signal_receiver(self.post_rcvd,
+        self.signal_receivers.append(self.bus.add_signal_receiver(self.post_rcvd,
                 dbus_interface = bc.DBUS_PROPERTIES,
                 signal_name = "PropertiesChanged",
                 path = self.pc_path,
-                path_keyword = "path")
+                path_keyword = "path"))
         try:
             print("Start notifications")
             self.char_interface.StartNotify()
@@ -352,8 +351,8 @@ class NotificationHandler:
         """
         GLib.source_remove(self.timer_id)
         self.mainloop.quit()
-        if self.signal_receiver:
-            self.signal_receiver.remove()
+        for sr in self.signal_receivers:
+            sr.remove()
         if self.char_interface:
             self.char_interface.StopNotify()
     # end notifications_cleanup
