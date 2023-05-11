@@ -7,7 +7,7 @@
 import Foundation
 import CryptoKit
 
-let keyString = "myPredefinedKey"
+let keyString = "xoxoGossip"
 
 // Derive a 256-bit key from the predefined key string
 let keyData = keyString.data(using: .utf8)!
