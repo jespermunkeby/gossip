@@ -14,10 +14,10 @@ sleep 5
 
 sudo systemctl start hostapd
 
-sleep 5
+sleep 10
 
 # Uncomment this line to actually make the program run
-#python3 ~/Hub/main.py &&
+python3 ~/Hub/main.py
 
 # Uncomment this to power off the machine after exiting program
 #sleep 2 &&

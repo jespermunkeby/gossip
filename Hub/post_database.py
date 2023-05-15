@@ -67,7 +67,12 @@ class PostDatabase:
         return posts
 
     def get_decoded_posts(self, content_only=False):
-        return [post if type(post) is str else post.decode() for post in self.get_posts(content_only=content_only)]
+        posts = self.get_posts(content_only=content_only)
+        if content_only:
+            return [post.decode() if type(post) is bytes else post for post in posts]
+        else:
+            list(map(lambda x: x.update({'content': x['content'].decode()}), posts))
+            return posts
 
     def delete_post(self, post_id):
         """ Delete the post with the given id. """

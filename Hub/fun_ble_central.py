@@ -12,21 +12,23 @@ import sys
 sys.path.insert(0, '.')
 
 
-def run(store_message_cb, quit_event):
-    props = {'store_message_cb': store_message_cb,
-             'quit_event': quit_event}
+def initialize():
+    #clear_device_cache()
+    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
-    initialize(props)
+    props = {}
+    props['mainloop'] = GLib.MainLoop()
+    props['bus'] = dbus.SystemBus()
+    return lambda x,y: run(x, y, props)
+# end init_state
+
+def run(store_message_cb, quit_event, props):
+    props['store_message_cb'] = store_message_cb
+    props['quit_event'] = quit_event
+
     scan(props)
     props['mainloop'].run()
 # end run
-
-def initialize(props):
-    clear_device_cache()
-    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    props['mainloop'] = GLib.MainLoop()
-    props['bus'] = dbus.SystemBus()
-# end init_state
 
 def clear_device_cache():
     for device in os.popen("bluetoothctl devices").read().split('\n')[0:-1]:
