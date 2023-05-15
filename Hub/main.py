@@ -12,6 +12,7 @@ from logging.handlers import RotatingFileHandler
 from website import create_app
 from util import WEB_APP_IP, WEB_APP_PORT
 from website.settings.settings import read_config
+import time
 import os
 
 
@@ -30,6 +31,8 @@ class Main:
         print("q: quit, c: clear database, write anything else to add message")
         init_log()
         os.system("sudo systemctl restart bluetooth")
+        time.sleep(1)
+        fun_ble_central.clear_device_cache()
         self.quit_event = threading.Event()          # event telling threads to finish up to exit program
         self.new_posts_event = threading.Event()     # event telling peripheral to load new posts to advertise
         self.database = post_database.PostDatabase()
@@ -38,6 +41,7 @@ class Main:
         self.central = None
         self.ble_thread = None
         self.webb_app = None
+        self.run_central = None
 
     def update_posts(self):
         """ Reads posts from the database, and updates peripheral to broadcast those posts. """
@@ -63,6 +67,7 @@ class Main:
         self.update_posts()  # add posts to peripheral to broadcast
         self.new_posts_event.clear()  # clear event, no need for it at start
         self.central = ble_central.Central(self.quit_event, self.add_post)
+        #self.run_central = fun_ble_central.initialize()
 
         while not self.quit_event.is_set():
             print("starting peripheral: " + datetime.now().strftime("%H:%M:%S"))
@@ -70,6 +75,7 @@ class Main:
             if self.settings["rcv_posts"]["value"] and not self.quit_event.is_set():
                 print("starting central: " + datetime.now().strftime("%H:%M:%S"))
                 self.central.run()
+                #self.run_central(self.add_post, self.quit_event)
 
     def input_loop(self):
         while True:
@@ -79,12 +85,13 @@ class Main:
                 self.quit_event.set()  # set quit event, should get threads to finish
                 if self.ble_thread:
                     self.ble_thread.join()  # wait for peripheral thread to finish
+                os.system("sudo systemctl restart bluetooth")
                 os._exit(1)
             elif user_input == 'c':  # temporary (?), user enters c to clear database
                 print("* cleared database")
                 self.database.clear()
             elif user_input != '':  # temporary (?), user enters post to add
-                self.add_post(user_input)
+                self.add_post(user_input.encode())
 
     def settings_updated(self):
         self.settings = read_config()

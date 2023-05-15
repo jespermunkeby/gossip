@@ -27,6 +27,7 @@ class Central:
         self.bus = dbus.SystemBus()
         self.quit_event = quit_event
         self.store_message_cb = store_message_cb
+        self.mainloop = GLib.MainLoop()
     # end __init__
 
     def select_random_device(self, devices):
@@ -45,7 +46,7 @@ class Central:
         """
         Scanning for devices with UUID filter. 
         """
-        scan = Scan(self.bus)
+        scan = Scan(self.bus, self.mainloop)
         scan.get_known_devices() # Is needed because bluez remembers found devices for an amount of time.
         scan.discover_devices(util.DEFAULT_SCANTIME_MS) 
         print("Devices found:")
@@ -63,8 +64,8 @@ class Central:
                 print("Connecting")
                 connection = Connection(path, interface)
 
-                if connection.connect() == bc.RESULT_OK and interface.Connected:
-                    nh = NotificationHandler(self.bus, path, self.store_message_cb)
+                if connection.connect() == bc.RESULT_OK:
+                    nh = NotificationHandler(self.bus, path, self.store_message_cb, self.mainloop)
                     nh.listen_for_notifications(util.CENTRAL_LISTEN_TIME)
                 
                 print("Disconnecting")
@@ -76,14 +77,14 @@ class Scan:
     """
     Contains methods for device discovery.
     """
-    def __init__(self, bus):
+    def __init__(self, bus, mainloop):
         """
         Creates an empty dictionary for found devices and class variables.
         """
         self.bus = bus
         self.devices = {}
         self.adapter_interface = None
-        self.mainloop = None
+        self.mainloop = mainloop
 
     def get_devices(self):
         """
@@ -186,10 +187,15 @@ class Scan:
                                 signal_name = "PropertiesChanged",
                                 path_keyword = "path")
     
-        self.mainloop = GLib.MainLoop()
         self.timer_id = GLib.timeout_add(timeout, self.discovery_cleanup)
         self.adapter_interface.SetDiscoveryFilter({"UUIDs" : [util.UUID]})
-        self.adapter_interface.StartDiscovery(byte_arrays=True)
+
+        try:
+            self.adapter_interface.StartDiscovery(byte_arrays=True)
+        except Exception as e:
+            print("Failed to start scan")
+            print(e.get_dbus_name())
+            print(e.get_dbus_message())
     
         self.mainloop.run()
     # end discover_devices
@@ -251,11 +257,11 @@ class NotificationHandler:
     """
     Methods for receiving notifications
     """
-    def __init__(self, bus, device_path, store_message_cb):
+    def __init__(self, bus, device_path, store_message_cb, mainloop):
         self.bus = bus
         self.device_path = device_path
         self.store_message_cb = store_message_cb
-        self.mainloop = GLib.MainLoop()
+        self.mainloop = mainloop
 
         self.char_interface = None
         self.signal_receivers = []
@@ -351,7 +357,7 @@ class NotificationHandler:
         """
         GLib.source_remove(self.timer_id)
         self.mainloop.quit()
-        for i in len(self.signal_receivers):
+        for i in range(len(self.signal_receivers)):
             sr = self.signal_receivers.pop()
             sr.remove()
         if self.char_interface:
